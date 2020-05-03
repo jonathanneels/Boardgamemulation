@@ -1,0 +1,25 @@
+{
+  "name": "Boardgamemulation",
+  "version": "0.2.0",
+  "description": "Boardgamemulation - 3D boardgames simulations",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "engines": {
+    "node": "4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-sample"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+  ],
+  "author": "Jonathan F.M. Neels",
+  "license": "MIT"
+}
