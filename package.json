@@ -4,10 +4,10 @@
   "description": "Boardgamemulation - 3D boardgames simulations",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index_HEROKU.js"
   },
   "engines": {
-    "node": "4.0.0"
+    "node": "14.1.0"
   },
   "repository": {
     "type": "git",
