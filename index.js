@@ -34,7 +34,7 @@ var Meshesdict = {
  
 const directoryPath = path.join(__dirname, 'static');
 
- var port = 8002;
+ var port = 8408;
  var ip= "127.0.0.1";
  require('dns').lookup(require('os').hostname(), function (err, add, fam) {
  // console.log('addr: '+add);
