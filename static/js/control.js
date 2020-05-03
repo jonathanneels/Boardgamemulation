@@ -86,8 +86,17 @@ camera.position =  new BABYLON.Vector3(-1, 0, -5);
     		 	console.log(pickResult.pickedMesh.name);
 				$("#lblclickedMeshName").text(pickResult.pickedMesh.id);
 						  		  		  lastTouchedObj= pickResult.pickedMesh;
+										  
+										   camera.setTarget(  new BABYLON.Vector3(pickResult.pickedMesh.position.x, 2, pickResult.pickedMesh.position.z)); 
 
- camera.setTarget(  new BABYLON.Vector3(pickResult.pickedMesh.position.x, 2, pickResult.pickedMesh.position.z)); 
+ if(lastTouchedObj.name=="board" || lastTouchedObj.name.indexOf("Torus_")>-1||lastTouchedObj.name.indexOf("Box_")>-1)
+		 {
+			  gizmoManager.rotationGizmoEnabled = false;
+  gizmoManager.scaleGizmoEnabled = false;
+  gizmoManager.positionGizmoEnabled = false;
+
+			 return;} 
+
  gizmoManager.rotationGizmoEnabled = true;
   gizmoManager.scaleGizmoEnabled = isAdmin;
   gizmoManager.positionGizmoEnabled = isAdmin;
@@ -102,6 +111,13 @@ camera.position =  new BABYLON.Vector3(-1, 0, -5);
 						  		  		  lastTouchedObj= pickResult.pickedMesh;
 }else{
  				$("#lblclickedMeshName").text("Select Object");}
+ if(lastTouchedObj.name=="board" || lastTouchedObj.name.indexOf("Torus_")>-1||lastTouchedObj.name.indexOf("Box_")>-1)
+		 {
+			 			  gizmoManager.rotationGizmoEnabled = false;
+  gizmoManager.scaleGizmoEnabled = false;
+  gizmoManager.positionGizmoEnabled = false;
+
+			 return;} 
 
  gizmoManager.rotationGizmoEnabled = false; gizmoManager.scaleGizmoEnabled = false; gizmoManager.positionGizmoEnabled = isAdmin;//left click
  }}

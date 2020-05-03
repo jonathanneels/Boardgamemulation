@@ -1,11 +1,6 @@
 	//	if(isWithPhysics){
 	        scene.enablePhysics(); //} for walls
  
-var allowedgizmoMeshes =[];
-	  		 scene.meshes.forEach(function(m) { 
-			 if(m.id === "board"){return true;}else{allowedgizmoMeshes.push(m);}
-});
-gizmoManager.attachableMeshes = allowedgizmoMeshes;
 
 /////////////////////:///important running and starting: //////
 	$( document ).ready(function() {
@@ -123,4 +118,6 @@ $("#lblisAdmin").remove();
 
  // added player to list
 });
+
+isUpdateMeshesInteractableList=true;
 });

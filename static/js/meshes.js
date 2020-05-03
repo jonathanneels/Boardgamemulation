@@ -1,3 +1,5 @@
+        var   groundObj; 
+
  function skyBox()
  {
 	 	// Skybox
@@ -398,7 +400,7 @@ coinsideB.position.y =0+0.02;
 ////////////////////////////////////////GRAVITY/////////////////	   
 	   
 	   function createShape(val, isWithSideB)
-{console.log($("#selShape").val());
+{ 
 var shape;
 switch(val) {
   case "dice": 
@@ -706,7 +708,7 @@ handleJSONsaveFileByNewObjects(sceneString);
  
  ///////////////////OTHER////////////////////////////////////////////////////////// 
 	  function setMeshesInteractable(){
-	  	  var allowedgizmoObjList= []; 
+	  	    allowedgizmoObjList= []; 
 		 scene.meshes.forEach(function(m) {
  		 if(m.name=="board" || m.name.indexOf("Torus_")>-1|| m.name.indexOf("Box_")>-1)
 		 {

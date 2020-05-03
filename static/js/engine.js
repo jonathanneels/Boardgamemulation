@@ -26,12 +26,12 @@ var BABYLON = babylonDependency;
   var engine = new BABYLON.Engine(canvas, true, {stencil: true});
   var scene = new BABYLON.Scene(engine);
   		var gizmoManager = new BABYLON.GizmoManager(scene);
-gizmoManager.positionGizmoEnabled = isAdmin;
+ gizmoManager.positionGizmoEnabled =false;// isAdmin;
 gizmoManager.rotationGizmoEnabled = false;//right click show
-gizmoManager.scaleGizmoEnabled = isAdmin;
-gizmoManager.boundingBoxGizmoEnabled = false;
+gizmoManager.scaleGizmoEnabled = false;//isAdmin;
+gizmoManager.boundingBoxGizmoEnabled = false; 
+var allowedgizmoMeshes =[];
 
-       var   groundObj; 
  var isWithPhysics= true;
  var isMeshesGetAllowed= true;
 var isMeshesPostAllowed=true; 
@@ -124,14 +124,7 @@ var boxObjD=generateWallObject(scene,  -35,0, 0, 35,35,"BD");
        let diceThrow = false;
       let diceStabileCnt = 0;
 
-
-	  
-	  //interval method req. when renderloop is not in front (active webpage). Gets/Posts needs to be received! (no chat update in front, no worries!)
-	  setInterval(function(){   
-  if  ($('#chLaunchServer').is(':checked')){
-	  
-	    }
-	  }, 10);
+ 
 
 
        /** unused:  var rot = 0.0   **/ 
