@@ -1,0 +1,166 @@
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/> <!-- ref: https://codepen.io/tero_koodia/pen/MONRvw-->
+    <title>  Boardgamemulation</title>
+   <script src="static/lib/babylon_4.1.js"> 	</script>  
+      <script src="static/lib/babylon.inspector.bundle.js"> 	</script>  
+   <script src="static/lib/cannon.js"> 	</script>  
+   <script src="static/lib/jquery-3.5.0.min.js"> 	</script>  
+
+    <style>
+      html, body {
+          overflow: hidden;
+          width   : 100%;
+          height  : 100%;
+          margin  : 0;
+          padding : 0;
+      }
+  
+  #renderCanvas, #divBabylonControl {
+          width   : 100%;
+          height  : 100%;
+          touch-action: none;
+      }
+	    #divButtons{position:absolute; width:100%;}
+
+	  .noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+   </style>
+  </head>
+<body class="noselect">
+	<div style="position: relative;" id="divBabylonControl">
+
+	<div style="background-color:grey; opacity:0.6;" id="divButtons">
+	<span  class="admincontrol">
+<span style="float:right;"> 
+ <abbr title="Toggle on to launch the game, so others can enter through your Connection-code."><label for="chLaunchServer" id="lblOnOffStatus"><span style="color:red"> Offline</span> </label> <input type="checkbox" id="chLaunchServer" name="chLaunchServer" value="0" onchange="setScenePublic();"></abbr>
+  <br>
+ <abbr title="Invite strangers in your game (at your own responsibility!). The game will be visible in the lobby."><label for="chPublicServer" id="lblPublicServer">Public server?</label> <input type="checkbox" id="chPublicServer" name="chPublicServer" value="0" onchange=""></abbr>
+  <br>
+  <abbr title="How many players, including the admin, are allowed to enter/play the game."><label for="txtPlayerCount">Players</label> 
+ <input type="number" min="1" max="12" id="txtPLayerCount" name="txtPLayerCount" style="width:35px; text-align:center;" value="2"> </abbr>
+
+
+</span>
+ <label for="selShape">Shape:</label>
+
+<select id="selShape" style="width:50px;"> ><!-- ref: https://www.fileformat.info/info/unicode/char/2b23/index.htm -->
+  <option value="dice">&#x25a0;</option>
+    <option value="card">[-]</option>
+  <option value="disc"  hidden>&#x2b23;</option>
+    <option value="coin">:)</option>
+  <option value="sphere">O</option>
+  <option value="pawn">&#x265f;</option>
+</select> 
+ Color <label for="iObjColor">F</label><input type="color" id="iObjColor" value="#ffffff"> <!-- https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_color_get -->
+<label for="iObjColorsideB">B</label><input type="color" id="iObjColorsideB" value="#ffffff">
+ Texture <label for="selObjTexture">  F </label><select id="selObjTexture" style="width:50px;">  <option value="blanco.png"></option></select>
+<label for="selObjTexturesideB" >  B</label><select style="width:50px;" id="selObjTexturesideB">  <option value="blanco.png"></option></select>
+<span hidden> script    <textarea id="txtaMeshScript" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 20px; width:50px; "  > </textarea> </span> <button type="button" id="btnCreateShape" onclick="">Create</button>
+
+<br><br><label for="selBoard">  Board</label>
+
+<select id="selBoard" style="width:60px;">
+  <option value="blanco.png"></option>
+</select>
+<label for="iBoardColor">Color</label><input type="color" id="iBoardColor" value="#ffffff">
+ <abbr title="Set the startup (load) script. This can be custom babylon js code or javascript/jquery methods."><label for="txtaBoardScript" id="lblaBoardScript">Script</label>  </abbr>  <textarea id="txtaBoardScript" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 20px; width:120px; "  > console.log('board script executed');</textarea> 
+<abbr title="Test your script."><button type="button" id="btnDebugScript" onclick="try{eval($('#txtaBoardScript').val());}catch(err){console.log(err);}" >|></button> </abbr>
+
+<br><abbr title="Has the game gravity or is it a 2D world? Note: Can't change mid-game & works on newly created objects."><label for="chGravity" id="">  Gravity? </label> <input checked type="checkbox" id="chGravity" name="chGravity" value="0" onchange="setGravity();"></abbr>
+<abbr title="Show the babylon js engine debug-mode. Note: Only changes on meshes will be viewed by players."><label for="chbabylondebug" id="">  Debug </label> <input  type="checkbox" id="chbabylondebug" name="chbabylondebug" value="0" onchange="setBabylondebug();"></abbr>
+ 
+ <abbr title="Clone all objects on game load. Lowers load-times and file-size. Note: Drawings are not included."><label for="chCloneOnLoad" id="lblCloneOnLoad">load Duplicate</label> <input type="checkbox" id="chCloneOnLoad" name="chCloneOnLoad" value="0" onchange="setCloneLoad()"></abbr>
+  <abbr title="Set the amount of 'boot' clones made. Note: If you save the file, set amount on 0 (or uncheck the field)."><label for="txtCloneOnLoad">Amount</label> 
+ <input type="number" min="0" max="100" id="txtCloneOnLoad" name="txtCloneOnLoad" style="width:30px; text-align:center;" value="0"> </abbr>
+
+
+
+
+<br><br>
+<abbr title="Play a sound when player turns change.">
+<label for="selEndTurn">&#119136; Turn change:</label>
+<select id="selEndTurn" style="margin-right:10px; width:50px;" onchange="setSoundEndTurn()">
+  <option value=""></option>
+</select></abbr>
+
+<abbr title="When releasing a piece, play a sound.">
+<label for="selPieceRelease">&#119136;  Piece Release:</label>
+<select id="selPieceRelease"  style="margin-right:10px; width:50px;" onchange="setSoundPieceRelease()">
+  <option value=""></option>
+</select></abbr>
+<abbr title="Set up the background soundtrack.">
+<label for="selBackgroundMusic">&#119136;  Background music:</label>
+<select id="selBackgroundMusic"  style="margin-right:10px; width:50px;" onchange="setMusicTurn()">
+  <option value=""></option>
+</select></abbr>
+   <br><br>
+
+ <label for="txtProjectName">Projectname: </label><input type="text" id="txtProjectName" name="txtProjectName" style="width:80px; text-align:center;" value="2" ondblclick="$(this).val('');"> </abbr> | Load:<input type="file" id="btnLoadProject"  onchange="uploadScene()" accept=".bgem"> | 
+<button type="button" id="btnSaveProject" onclick="downloadScene()">Save Project</button></span> 
+<button type="button" id="btnAdminToggle" onclick="$('.admincontrol').toggle()" style="float:right;">Av^</button></span> 
+<button type="button" id="btnOptionsToggle" onclick="$('#spanSelObj').toggle()" style="float:right;">Pv^</button></span> 
+<button type="button" id="btnFullScreen" onclick="openFullscreen(); /*engine.enterFullscreen()*/" style="float:right;">[-]</button></span> 
+
+
+<hr>
+<span style="display:table;margin:0 auto;" id="spanSelObj">
+ <label id="lblclickedMeshName"  style="margin-right:2px;" onclick="promptShowDevObjName()">Select Object</label><br>
+ <span><button type="button" id="btnCopyObject" onclick="CopyObject()"><abbr title="Clone selected mesh">+</abbr> </button>
+<button type="button" id="btnDeleteObject" onclick="DeleteObject()"><abbr title="Destroy selected mesh">x </abbr></button>
+<button type="button" id="btnReset" onclick="ResetProject()" style="background:red;'"><abbr title="Restore project to its start position (from loaded or online set project)">Reset game </abbr></button>
+<hr>
+		<abbr title="Use this code (set the game online - toggle top right on) and invite others to this creation.">	<label id="lbladmincode" onclick="opencopycode()">Connection code: xxxx</label></abbr><br>
+					<span>	<abbr title="The active player can manipulate objects for all players."><label id="lblPlayerTurn">Player turn: xxxx</label></abbr>
+			<button style="width:60px;padding:0%;display:absolute;" id='btnEndTurn' class='buttonDesign' onclick="endTurn()"><abbr title="End your turn">End turn</abbr></button></span>  
+			<button style="width:60px;padding:0%;display:absolute;" id='btnRemovePlayer' class='buttonDesign admincontrol' onclick="RemovePlayer()"><abbr title="Kick player"><span style="color:red"><b>X</b></span></abbr></button></span> 
+          <span class="admincontrol"> <abbr title="Take over turn-control."><label for="chTurnControl" id=""> Override Turns </label> <input type="checkbox" id="chTurnControl" name="chTurnControl" value="0" onchange=""></abbr></span><br>
+
+</span></span>
+
+<hr>
+
+	</div>
+
+    <canvas id="renderCanvas"></canvas>
+	<div id="dom_container" style=" opacity:0.5; position: absolute; right: -1;bottom: 0;margin-bottom:5%; margin-left:0.5%;  ">
+<span  style="position:absolute;color:black;background:#ac9687;">
+<label for="chDrawMode" style="color:black;"> Draw mode:</label>
+<input type="checkbox" id="chDrawMode" name="chDrawMode" value="0"><br>   
+<label for="chDrawMode" style="color:black;"> Rand. colors:</label>
+<input type="checkbox" id="chRandomColors" name="chRandomColors" value="0"> 
+<input type="color" id="iColorPencil" name="iColorPencil" value="#ff0000">
+<input type="button" value="&#9114;" onclick="clearDrawing()"  >
+</span>
+  <br>  <br>   
+  <br>  <br>   
+
+            <textarea id="chatboxdata" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 150px; width:180px;display:absolute;color:black;background:#ac9687;" disabled> </textarea>   <br>
+
+            <input onclick="allowItemMobileFocus = true;" id="chatboxrespons" style="height: 20px; color:black; width:120px; background: #ac9687;" class="" /> 
+			<button style="width:60px;padding:0%;" id='btnconfirmchatmessage' class='buttonDesign' onclick="SendchatMessage()"><abbr title="Send message">OK</abbr></button>
+	  </div>   
+	</div>
+		<div id="dom_container_info" style=" opacity:0.5; position: absolute; left: -1;bottom: 0;margin-bottom:5%; margin-left:0.5%;  ">
+
+		  <textarea id="projectinfo" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 150px; width:180px; color:black;background:#ac9687;" >
+			<b> projectinfo set here </b></textarea>  
+	</div>
+		   <script src="static/js/lines.js"> 	</script>  
+	   <script src="static/js/meshes.js"> 	</script>  
+	   <script src="static/js/serveraction.js"> 	</script>  
+	   <script src="static/js/helpers.js"> 	</script>  
+	   <script src="static/js/control.js"> 	</script>  
+	   <script src="static/js/engine.js"> 	</script>   
+ 	   <script src="static/js/LAUNCH.js"> 	</script>   
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+ <h3>Boardgamemulation - Portal</h3>  
+   <p>Design or join | Ontwerp of toetreden  </p>
+
+ <a href="" onclick="handleClient()">Are you a player | Ben jij een speler?</a><br>
+ <a href="/adminpage" target='_blank'>Are you a game master | Ben jij een spelleider?</a>
+ <br>  <br>
+
+  	<span style="float:left;">Add your project to the fan-made games:<input accept=".bgem" type="file" id="btnLoadCustomProject"  onchange="uploadCustomProject()"></span>
+  <br>
+  <br>
+<hr>
+  <p>Play game | speel spel  </p> 
+  <a  target='_blank' href="/adminpage?static/examples/Backgammon.bgem">Backgammon </a><br>
+   <a  target='_blank' href="/adminpage?static/examples/JohnYianni_Hive.bgem">John Yianni - Hive  </a><br>
+   <a  target='_blank' href="/adminpage?static/examples/European_Chess.bgem">European Chess  </a><br>
+   <a  target='_blank' href="/adminpage?static/examples/Go_Gomoku_2D.bgem">Go - Gomoku  </a><br>
+   <a  target='_blank' href="/adminpage?static/examples/D&D_Totemic.bgem">D&D - Totemic  </a>
+
+ <br>
+ 
+    <p id="pFanGames">Play fan-made game | speel fangemaakt spel </p><br>
+	
+	    <p id="pLobby">Join public games | Bezoek publieke spelen</p><br>
+
+	   <script src="static/lib/jquery-3.5.0.min.js"> 	</script>  
+</body>
+<script>
+	setInterval(lobbyList, 20000);
+	
+	function lobbyList()
+	{$("#pLobby").html("Join public games | Bezoek publieke spelen<br>");
+
+		$.get("/PublicGamesList", function( data ) {// get to server required, no respons, is offine nevertheless.
+			var gameNameList= data.split("\n");
+ 
+			if(gameNameList.length >0) {
+			$.get("/PublicGamesListByAdmincode", function( dataB ) {
+			var ProjectList= dataB.split("\n");
+							for (i = 0; i < ProjectList.length; i++) {  
+							  	 $("#pLobby").append("<a  target='_blank' href='/project"+ProjectList[i] +"'>"+gameNameList[i]+ "</a><br>");
+
+							  } 
+
+			
+	});}	});
+
+	}
+
+function handleClient()
+{
+var playfield = prompt("Please give in the Connection-code.", "bl@-123fourfive-six");
+
+if (playfield == null || playfield == "") {
+  console.log("User cancelled the prompt.");
+} else {
+ window.open(window.location.href+"project"+playfield, '_blank');
+}
+
+}
+
+function loadCustomProjects()
+{
+
+$("#pFanGames").html("Play fan-made game | speel fangemaakt spel<br>");
+
+			$.get("/directoryitems/custom_fan_examples", function( data ) {
+var projects = data.split("<br>");
+for (i = 0; i < projects.length; i++) { 
+$("#pFanGames").append(  '<br><a  target="_blank" href="/adminpage?static/custom_fan_examples/'+projects[i]+'">'+projects[i]+' </a>');
+
+}
+ 
+	 
+});
+}
+function sendCustomProjectToServer(projname, yourproj)
+{ 
+ 
+  var xhttp = new XMLHttpRequest(); //REF:https://www.w3schools.com/xml/tryit.asp?filename=tryajax_post &  https://stackoverflow.com/questions/39519246/make-xmlhttprequest-post-using-json
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+alert(this.responseText);
+loadCustomProjects();
+    }
+  };
+ 
+  xhttp.open("POST", "getCustomProjectForShare", true);
+  
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+xhttp.send( projname+"?"+yourproj);
+
+
+}
+
+function  uploadCustomProject() {//REF:https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_fileupload_files
+   var x = document.getElementById("btnLoadCustomProject");
+   if ('files' in x) {
+    if (x.files.length == 0) {
+      txt = "Select one or more files.";
+    } else {
+  x.files[0].text().then(t => sendCustomProjectToServer(x.files[0].name,t))//https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
+	  
+	  
+	  
+    }
+  } 
+  else {
+    if (x.value == "") {
+      txt += "Select a file.";
+    } else {
+      txt += "The files property is not supported by your browser!";
+      txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+    }
+  }
+
+ }
+ 
+ 
+ 	$( document ).ready(function() {
+ 
+	loadCustomProjects();
+ 
+}); 
+</script>
+
+</html>
