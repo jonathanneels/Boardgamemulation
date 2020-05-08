@@ -21,7 +21,7 @@
           height  : 100%;
           touch-action: none;
       }
-	    #divButtons{position:absolute; width:100%;}
+	    #divButtons{position:absolute; width:100%; z-index:9999;}
 
 	  .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
@@ -32,13 +32,21 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Opera and Firefox */
 }
+input[type=range][orient=vertical]
+{
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 8px;
+    height: 175px;
+    padding: 0 5px;
+}
 
    </style>
   </head>
 <body class="noselect">
 	<div style="position: relative;" id="divBabylonControl">
 
-	<div style="background-color:grey; opacity:0.6;" id="divButtons">
+	<div style="background-color:grey; opacity:0.8;" id="divButtons">
 	<span  class="admincontrol">
 <span style="float:right;"> 
  <abbr title="Toggle on to launch the game, so others can enter through your Connection-code."><label for="chLaunchServer" id="lblOnOffStatus"><span style="color:red"> Offline</span> </label> <input type="checkbox" id="chLaunchServer" name="chLaunchServer" value="0" onchange="setScenePublic();"></abbr>
@@ -108,7 +116,8 @@
 <button type="button" id="btnSaveProject" onclick="downloadScene()">Save Project</button></span> 
 <button type="button" id="btnAdminToggle" onclick="$('.admincontrol').toggle()" style="float:right;">Av^</button></span> 
 <button type="button" id="btnOptionsToggle" onclick="$('#spanSelObj').toggle()" style="float:right;">Pv^</button></span> 
-<button type="button" id="btnFullScreen" onclick="openFullscreen(); /*engine.enterFullscreen()*/" style="float:right;">[-]</button></span> 
+<button type="button" id="btnFullScreen" onclick="openFullscreen(); /*engine.enterFullscreen()*/" style="float:right;">[-]</button>
+<a href="/static/images/help.png" target="_blank" class="admincontrol" style="margin-right:5px;float:right;">HELP</a></span> 
 
 
 <hr>
@@ -132,6 +141,7 @@
 
     <canvas id="renderCanvas"></canvas>
 	<div id="dom_container" style=" opacity:0.5; position: absolute; right: -1;bottom: 0;margin-bottom:5%; margin-left:0.5%;  ">
+
 <span  style="position:absolute;color:black;background:#ac9687;">
 <label for="chDrawMode" style="color:black;"> Draw mode:</label>
 <input type="checkbox" id="chDrawMode" name="chDrawMode" value="0"><br>   
@@ -150,8 +160,11 @@
 	  </div>   
 	</div>
 		<div id="dom_container_info" style=" opacity:0.5; position: absolute; left: -1;bottom: 0;margin-bottom:5%; margin-left:0.5%;  ">
+ 
 
 		  <textarea id="projectinfo" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 150px; width:180px; color:black;background:#ac9687;" >projectinfo set here &#13;&#13;Boardgamemulation & project made by Jonathan F.M. Neels&#13;mail: jonathanneels@hotmail.com&#13;site:https://fumetsujo.pythonanywhere.com/&#13;&#13;Never forget; ideas are bulletproof! </textarea>  
+	<span id="spanBottomControls" style=""><input type="range" orient="horizontal" id="slZoom" onchange="setZoom()" step="10" min="-100" max="100"  value="0" />
+</span>
 	</div>
 		   <script src="static/js/lines.js"> 	</script>  
 	   <script src="static/js/meshes.js"> 	</script>  
@@ -159,7 +172,7 @@
 	   <script src="static/js/helpers.js"> 	</script>  
 	   <script src="static/js/control.js"> 	</script>  
 	   <script src="static/js/engine.js"> 	</script>   
- 	   <script src="static/js/LAUNCH.js"> 	</script>   
+ 	   <script src="static/js/LAUNCH.js"> 	</script>  
 
-</body>
+ </body>
 </html>
