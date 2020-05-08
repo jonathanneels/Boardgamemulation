@@ -15,6 +15,11 @@
 $( "#btnCreateShape" ).click(function() {
 createShape($("#selShape").val(),true); isUpdateMeshesInteractableList=true; updateProjectOnServer();});
 
+function setZoom()
+{
+		camera.radius=parseInt( document.getElementById("slZoom").value);
+
+}
  $(document).keydown(function(e) { // requires jQuery
     console.log(e.keyCode);
     if (e.keyCode === 189 || e.keyCode === 109) { // minus
