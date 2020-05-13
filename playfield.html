@@ -125,6 +125,8 @@ input[type=range][orient=vertical]
  <label id="lblclickedMeshName"  style="margin-right:2px;" onclick="promptShowDevObjName()">Select Object</label><br>
  <span><button type="button" id="btnCopyObject" onclick="CopyObject()"><abbr title="Clone selected mesh">+</abbr> </button>
 <button type="button" id="btnDeleteObject" onclick="DeleteObject()"><abbr title="Destroy selected mesh">x </abbr></button>
+<button type="button" id="btnDeleteObject" onclick="gizmoOptions(lastTouchedObj)"><abbr title="Show - available - GizmoManager (parts)">Gizmo </abbr></button>
+
 <button type="button" id="btnReset" onclick="ResetProject()" style="background:red;'"><abbr title="Restore project to its start position (from loaded or online set project)">Reset game </abbr></button>
 <hr>
 		<abbr title="Use this code (set the game online - toggle top right on) and invite others to this creation.">	<label id="lbladmincode" onclick="opencopycode()">Connection code: xxxx</label></abbr><br>
@@ -163,7 +165,7 @@ input[type=range][orient=vertical]
  
 
 		  <textarea id="projectinfo" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 150px; width:180px; color:black;background:#ac9687;" >projectinfo set here &#13;&#13;Boardgamemulation & project made by Jonathan F.M. Neels&#13;mail: jonathanneels@hotmail.com&#13;site:https://fumetsujo.pythonanywhere.com/&#13;&#13;Never forget; ideas are bulletproof! </textarea>  
-	<span id="spanBottomControls" style=""><input type="range" orient="horizontal" id="slZoom" onchange="setZoom()" step="10" min="-100" max="100"  value="0" />
+	<span id="spanBottomControls" style=""><input type="range" orient="horizontal" id="slZoom" onchange="setZoom()" step="1" min="-50" max="50"  value="25" /><input type="range" orient="horizontal" id="slUpDown" onchange="setUpDown()" step="10" min="-100" max="100"  value="0" />
 </span>
 	</div>
 		   <script src="static/js/lines.js"> 	</script>  
