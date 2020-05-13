@@ -1,0 +1,97 @@
+Scrumble Stones
+
+DOEL: als eerste al jouw dobbelstenen in het veld leggen. 
+
+SPELERS: 2 - 4 spelers
+Dobbelstenen: 20 stuks; 5x paars, 5x grijs, 5x geel, 5x groen
+
+START: 
+Schud de 20 dobbelstenen en geef er dan 10 per persoon bij een 2-speler spel, 
+bij 3 spelers 6 dobbels (2 dobbels leg je gedurende het spel aan kant), 
+bij 4 spelers 5 dobbels.
+
+De spelers rollen nu hun dobbelstenen (nogmaals) en leggen die voor zich ZICHTBAAR VOOR ANDEREN.
+De jongste speler (of de speler die het laatst uit was de vorige ronde) legt een steen naar keuze op het veld.
+De speler rechts kan hier nu op inspelen, het spel is gestart!
+
+SPELVERLOOP: 
+Na het verplicht leggen van de startsteen, mag een speler een van onderstaande drie acties doen (beurtelings); 
+* Passen
+OF
+* 1 of meerdere dobbelstenen rollen
+OF
+* Een steen in het veld leggen (horizontaal of verticaal, aan een andere steen);
+	- Voorwaarden:
+		° Een dobbelsteen mag naast een andere dobbelsteen indien de waarde dezelfde is (al dan niet een ander kleur).
+		° Een waarde één hoger of één lager van hetzelfde kleur van de steen in het veld.
+		° Aan een joker mag elke waarde van hetzelfde kleur gelegd worden (ook een 5/joker van een ander kleur) (fmi; alt. oogwaarde nr. 5 - niet 6!)
+		° Niet conflicteert met een waarde uit een andere rij (niet voldoet aan voorwaarden hierboven) 
+		  (bv. rij 1 heeft nr 1, nr 2 gele stenen (2 staat rechts van nr 1). 
+		  De rij eronder bevindt steen 1 in het kleur grijs. 
+		  De speler kan in de rij van de grijze steen 1 geen nieuwe grijze 1 plaatsen onder de gele 2 van rij 1, 
+		  maar wél onder de aanwezige grijze 1 of links naast de reeds aanwezige grijze 1). 
+			  [1][2]  => lijn met uitsluitend gele tegels
+		  [OK][1][x]  => grijze lijn met nr. 1 aanwezig ( x = nieuwe steen, tevens nr 1 grijs, mààr mag daar niet worden gelegd)
+			 [OK]
+
+EINDE:
+De eerste speler die al zijn/haar dobbelstenen in het veld heeft kunnen plaatsen is de winnaar (GOUD!). 
+Er wordt verder gespeeld tot er een speler overblijft met ongelegde dobbelstenen. 
+
+
+///////////FMI:///////////////////////////////////////////////////
+EXTRA (speelvarianten): 
+* Max. aantal bewegingen en/of beperkte tijd;
+* Maak een bepaalde vorm (als winst/bonuspunten). 
+* Verhinder dat de tegenstander kan leggen/ verplicht de tegenstander tot rollen,...
+
+HARD-MODE: 
+Een spel met de Multicube  brengt diagonale legwaarden met zich mee (bepaal de speeldobbel max. waarde vooraf). 
+
+Referentie:
+Testspel met dobbelstenen van Rummikub Turbo (18 dobbels ipv 20). Verdeel de dobbels evenredig.
+Fijne hiervan is dat dat de waarde niet lopen tem 6, maar tem 13. Dit maakt het spel ergens moeilijker/anders.
+///////////////////////////////////////////////////////////////////////
+--------------------------------------------------------------------------------------------------------------------------
+Scrumble Stones
+
+GOAL: Place as first all your dice on the field. 
+
+PLAYERS: 2 - 4 PLAYERS
+Dice: 20 pieces; 5x purple, 5x grey, 5x yellow, 5x green
+
+START: 
+Shake the 20 dice and give 10 to each player in a 2 player game, 
+3 players receive 6 dice (put 2 dice back in the box for the remainder of the game), 
+4 players receive 5 dice.
+
+All players roll their dice (again) and place them in front VISIBLE FOR OTHER PLAYERS.
+The youngest player (or the player who got last place previous round) places a stone at his/her choice on the field.
+The player on the right side can now anticipate, the game has commenced!
+
+GAMEPLAY: 
+Afer the obligated placement of the start die, a placer can do one of three actions (turn-based);
+* Pass
+OR
+* Reroll 1 or more dice
+OR
+* Place a tile on the field (horizontal or vertical linked to another stone);
+	- Terms:
+		° a die can be placed next to another die when it has the same value (same or different color).
+		° a value one higher or one lower from the same color of the already present die.
+		° On a joker tile every value of the joker color can be placed (also another 5/joker from another color).
+		° Not conflicting with a tile from another row (check for the terms above)
+		  (ex. row 1 has nr 1, nr 2 yellow stones (2 is on the right side of nr 1). 
+		  The row bellow contains stone 1 in grey. 
+		  On the row with the grey die the player cannot place a new grey stone 1 right next to the first grey stone with value 1,
+		  because on the row above the yellow 2 causes a rule conflict. 
+		  Underneath or left of the present grey 1 a new grey piece 1 is allowed).
+			  [1][2] => line with yellow tiles
+		  [OK][1][x] => line with a grey nr. 1 present (x = new tile nr. 1 grey and cannot be placed there).
+			 [OK]
+
+END:
+The player who places all his/her dice in the field as the first in the party is the winner (GOLD!). 
+The game continues until only one player remains with dice not in the field.
+
+ 
