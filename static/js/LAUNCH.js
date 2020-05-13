@@ -56,12 +56,26 @@ pname=userId=playerturn="Game Master";$("#txtProjectName").val(admincode); $("#l
 if((window.location.href).indexOf("?") > -1)//Ex.:https://stackoverflow.com/questions/13669472/window-location-indexof-not-working-in-javascript &  https://192.168.1.2:8002/adminpage?static/examples/Project_3d8bdbec-5482-4bdf-a4e1-f7eecd644b0d.bgem
 { 
 var prepropjLink ="/"+window.location.href.split("?")[1];
+            if (confirm('Public game (people can join the game)?')) {
+                document.getElementById("chPublicServer").checked = true;
+            }  
+else{document.getElementById("chPublicServer").checked = false;}
+
+$("#txtProjectName").val(          window.location.href.split("?")[1].replace("static/examples/","").replace(".bgem","") +"_"+currentDateTime());
+
     $.get(prepropjLink, function(contents) {//Ex (same domain): https://192.168.1.2:8002/adminpage?static/examples/Project_7fdf1794-b80e-4953-9ac9-4852aa0cff52.bgem
  //console.log(contents);
 var convertedProjectToJson=JSON.parse(contents);
  //console.log( convertedProjectToJson);
  	  	var strScene = JSON.stringify(convertedProjectToJson);  
 handleJSONsaveFileByNewObjects(strScene); 
+
+setTimeout(function(){ //eval(JSONfeedbackdata.script);
+document.getElementById("chLaunchServer").checked = true;
+setScenePublic();}, 10000); //=> timeout after script
+
+$(".admincontrol").toggle();
+opencopycode();
     },'text');
 
 }

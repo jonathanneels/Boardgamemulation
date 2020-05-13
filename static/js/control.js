@@ -15,6 +15,11 @@
 $( "#btnCreateShape" ).click(function() {
 createShape($("#selShape").val(),true); isUpdateMeshesInteractableList=true; updateProjectOnServer();});
 
+function setUpDown()
+{
+  camera.alpha -= parseInt( document.getElementById("slUpDown").value);
+  //THIS is cool: https://www.babylonjs-playground.com/#6FBD14#38
+}
 function setZoom()
 {
 		camera.radius=parseInt( document.getElementById("slZoom").value);
@@ -91,23 +96,8 @@ camera.position =  new BABYLON.Vector3(-1, 0, -5);
     		 	console.log(pickResult.pickedMesh.name);
 				$("#lblclickedMeshName").text(pickResult.pickedMesh.id);
 						  		  		  lastTouchedObj= pickResult.pickedMesh;
-										  
-										   camera.setTarget(  new BABYLON.Vector3(pickResult.pickedMesh.position.x, 2, pickResult.pickedMesh.position.z)); 
-
- if(lastTouchedObj.name=="board" || lastTouchedObj.name.indexOf("Torus_")>-1||lastTouchedObj.name.indexOf("Box_")>-1)
-		 {
-			  gizmoManager.rotationGizmoEnabled = false;
-  gizmoManager.scaleGizmoEnabled = false;
-  gizmoManager.positionGizmoEnabled = false;
-
-			 return;} 
-
- gizmoManager.rotationGizmoEnabled = true;
-  gizmoManager.scaleGizmoEnabled = isAdmin;
-  gizmoManager.positionGizmoEnabled = isAdmin;
-
-} 
-
+										gizmoOptions(lastTouchedObj); 
+}
    
  } else{ 
    if (pickResult.hit   ) {
@@ -116,7 +106,7 @@ camera.position =  new BABYLON.Vector3(-1, 0, -5);
 						  		  		  lastTouchedObj= pickResult.pickedMesh;
 }else{
  				$("#lblclickedMeshName").text("Select Object");}
- if(lastTouchedObj.name=="board" || lastTouchedObj.name.indexOf("Torus_")>-1||lastTouchedObj.name.indexOf("Box_")>-1)
+ if(lastTouchedObj === undefined || lastTouchedObj.name=="board" || lastTouchedObj.name.indexOf("Torus_")>-1||lastTouchedObj.name.indexOf("Box_")>-1)
 		 {
 			 			  gizmoManager.rotationGizmoEnabled = false;
   gizmoManager.scaleGizmoEnabled = false;
@@ -124,7 +114,8 @@ camera.position =  new BABYLON.Vector3(-1, 0, -5);
 
 			 return;} 
 
- gizmoManager.rotationGizmoEnabled = false; gizmoManager.scaleGizmoEnabled = false; gizmoManager.positionGizmoEnabled = isAdmin;//left click
+ gizmoManager.rotationGizmoEnabled = false; gizmoManager.scaleGizmoEnabled = false; 
+ gizmoManager.positionGizmoEnabled = false;//isAdmin;                                 //left click
  }}
             break; 
         case BABYLON.PointerEventTypes.POINTERUP:
@@ -219,74 +210,7 @@ camera.position =  new BABYLON.Vector3(-1, 0, -5);
             obj = (obj.parent);
           };
           pickedObj = obj;
-  //  pickedObj.material.diffuseColor = BABYLON.Color3.Random();
-
-		// commented out, when working with clones, stranger things are happening.
-		/*  var d = (pickedObj).data; 
-          if ( (typeof(d) !== "undefined" && d != null )  ) {
-            if( typeof(d) === 'string' ) //union case for string  
-			{
-              var str = d;
-              console.log(str);
-            };
-          }*/
-		  console.log(obj.name);
-        /*  var meta = obj.data;
-          if ( (typeof(meta) !== "undefined" && meta != null )  ) {
-            if( meta instanceof ObjMeta ) //union case  
-			{
-              var data = meta;
-              if ( (typeof(data.physics) !== "undefined" && data.physics != null )  ) {
-			  */
-			  
-			  
-              //  if ( obj == dice ) {
-			//		   confirmSound = new BABYLON.Sound("confirmSoundAudio", confirmSoundFile, scene, null, { loop: false, autoplay: true });
-			//confirmSound.play();
-
-if(!isWithPhysics){return;}
-                  diceThrow = true;
-                  diceStabileCnt =  getRndInteger(4,11);//10 default
-              //  }
-
-	/* UNUSED FILEHANDLER (with the reset of the entire scene, but not that good, as mentioned above the method.
-	if(obj.data === undefined){// THIS: https://stackoverflow.com/questions/53050721/cannon-js-how-to-prevent-objects-clipping-floor-on-update
-			  if(obj.name.indexOf("stone") >-1 ||obj.name == ("stone")){
-      var dData = new ObjMeta();
-      obj.data = dData;
-      obj.name = "stone";
-
- setPhysicsByMeshSortName( "stone",obj);
-}else{ 	  
-
-      var dData = new ObjMeta();
-      obj.data = dData;
-      dData.name =  obj.name.substr(0, 4);
-
- setPhysicsByMeshSortName( obj.name.substr(0, 4),obj);//all current meshes, except stone, are 4 of length as name object.
-}}*/
-
-
-obj.physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
-obj.physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
-
-				if(obj.name.indexOf("dice") < 0 && obj.name.indexOf("coin") < 0 )// ==="card")
-				{  //  obj.material.diffuseColor = BABYLON.Color3.Random();
-
-				// data.physics.applyImpulse(new BABYLON.Vector3(0,5,0), p ) ;
-				// obj.applyImpulse(new BABYLON.Vector3(0,5,0), p ) ;
-obj.applyImpulse(new BABYLON.Vector3(0,3,0),0 ) ;
-				return;
-				}
-				
-                 obj.applyImpulse(new BABYLON.Vector3(0, getRndInteger(10,20),0), p ) ;
-                 var randB = getRndInteger(0,2);
-				 if(randB==0){				 obj.applyImpulse(new BABYLON.Vector3(getRndInteger(5,10), 0,0), p ) ;}
-				 else if(randB==1){				 obj.applyImpulse(new BABYLON.Vector3(0,0,getRndInteger(5,10) ), p ) ;}
-
-           //   }
-           // };
-        //  }
+ MeshRoller(p,pickedObj)
 		  
         }
 
@@ -370,10 +294,14 @@ updateProjectOnServer()
 	}
 	function ResetProject()
 	{ 
+	if(!isResetProjectAllowed){return;}
+	isResetProjectAllowed=false;
 	$("#chatboxrespons").val("I've reset the game."); 
 SendchatMessage(); 
 	handleJSONsaveFileByNewObjects(restoreDefaultScene);
 	updateProjectOnServer();
+	setTimeout(function(){ 	isResetProjectAllowed=true;}, 3000);// prevent resetspam
+
 	}
 	function DeleteObject()
 	{

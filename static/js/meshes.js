@@ -707,26 +707,35 @@ handleJSONsaveFileByNewObjects(sceneString);
 }
  
  ///////////////////OTHER////////////////////////////////////////////////////////// 
+
 	  function setMeshesInteractable(){
 	  	    allowedgizmoObjList= []; 
+					  if(!isDraggingAllowed){return; }
+
 		 scene.meshes.forEach(function(m) {
  		 if(m.name=="board" || m.name.indexOf("Torus_")>-1|| m.name.indexOf("Box_")>-1)
 		 {
 		 return true;
 		 }
 	  allowedgizmoObjList.push(m)//s1);
-     let pointerDragBehavior = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0,1,0)});
+      let pointerDragBehavior = new BABYLON.PointerDragBehavior({dragPlaneNormal: new BABYLON.Vector3(0,1,0)});
+
   pointerDragBehavior.useObjectOrienationForDragging = false;//required to prenvent (minimize) floorfalling. https://doc.babylonjs.com/how_to/meshbehavior
 
   // 
  // Listen to drag events
     pointerDragBehavior.onDragStartObservable.add((event)=> {
+		  if(!isDraggingAllowed && m.name.indexOf("dice") > -1){   
+ //pointerDragBehavior.startAndReleaseDragOnPointerEvents=false;		  
+		//  pointerDragBehavior.releaseDrag();//detach();//
+		  } 
      //       m.visibility = 0.5;
    //if(postMeshes()){countPostGetMeshesAction=0;} via RenderLoop
       });
     pointerDragBehavior.onDragObservable.add((event)=> {
+ 
 	    //        m.visibility = 0.1;
-i  
+   
    //if(postMeshes()){countPostGetMeshesAction=0;} via RenderLoop
     });
     pointerDragBehavior.onDragEndObservable.add((event)=> {
@@ -735,7 +744,7 @@ i
 				  piecedropSound.play(); 
 				   }
       });
-      m.addBehavior(pointerDragBehavior);
+	   m.addBehavior(pointerDragBehavior);
 
     scene.onKeyboardObservable.add((e) => { 
         if (e.event.key === " "&& m.name ==lastTouchedObj.name) { 
@@ -744,3 +753,101 @@ i
     });
 	
 }); 	 }  
+
+  function gizmoOptions(lastTouchedObj)
+{	if( lastTouchedObj === undefined){return;}
+
+										   camera.setTarget(  new
+BABYLON.Vector3(lastTouchedObj.position.x, 2, lastTouchedObj.position.z)); 
+
+ if(lastTouchedObj.name=="board" || lastTouchedObj.name.indexOf("Torus_")>-1||lastTouchedObj.name.indexOf("Box_")>-1)
+		 {
+			  gizmoManager.rotationGizmoEnabled = false;
+  gizmoManager.scaleGizmoEnabled = false;
+  gizmoManager.positionGizmoEnabled = false;
+
+			 return;} 
+
+ gizmoManager.rotationGizmoEnabled = true;
+  gizmoManager.scaleGizmoEnabled = isAdmin;
+  gizmoManager.positionGizmoEnabled = isAdmin;
+
+}
+function MeshRoller(p,obj)
+{
+	if( obj === undefined){return;}
+	
+	  //  pickedObj.material.diffuseColor = BABYLON.Color3.Random();
+
+		// commented out, when working with clones, stranger things are happening.
+		/*  var d = (pickedObj).data; 
+          if ( (typeof(d) !== "undefined" && d != null )  ) {
+            if( typeof(d) === 'string' ) //union case for string  
+			{
+              var str = d;
+              console.log(str);
+            };
+          }*/
+		  console.log(obj.name);
+        /*  var meta = obj.data;
+          if ( (typeof(meta) !== "undefined" && meta != null )  ) {
+            if( meta instanceof ObjMeta ) //union case  
+			{
+              var data = meta;
+              if ( (typeof(data.physics) !== "undefined" && data.physics != null )  ) {
+			  */
+			  
+			  
+              //  if ( obj == dice ) {
+			//		   confirmSound = new BABYLON.Sound("confirmSoundAudio", confirmSoundFile, scene, null, { loop: false, autoplay: true });
+			//confirmSound.play();
+
+if(!isWithPhysics){
+	
+	
+	return;
+	}
+                  diceThrow = true;
+                  diceStabileCnt =  getRndInteger(4,11);//10 default
+              //  }
+
+	/* UNUSED FILEHANDLER (with the reset of the entire scene, but not that good, as mentioned above the method.
+	if(obj.data === undefined){// THIS: https://stackoverflow.com/questions/53050721/cannon-js-how-to-prevent-objects-clipping-floor-on-update
+			  if(obj.name.indexOf("stone") >-1 ||obj.name == ("stone")){
+      var dData = new ObjMeta();
+      obj.data = dData;
+      obj.name = "stone";
+
+ setPhysicsByMeshSortName( "stone",obj);
+}else{ 	  
+
+      var dData = new ObjMeta();
+      obj.data = dData;
+      dData.name =  obj.name.substr(0, 4);
+
+ setPhysicsByMeshSortName( obj.name.substr(0, 4),obj);//all current meshes, except stone, are 4 of length as name object.
+}}*/
+
+
+obj.physicsImpostor.setLinearVelocity(BABYLON.Vector3.Zero());
+obj.physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());
+
+				if(obj.name.indexOf("dice") < 0 && obj.name.indexOf("coin") < 0 )// ==="card")
+				{  //  obj.material.diffuseColor = BABYLON.Color3.Random();
+
+				// data.physics.applyImpulse(new BABYLON.Vector3(0,5,0), p ) ;
+				// obj.applyImpulse(new BABYLON.Vector3(0,5,0), p ) ;
+obj.applyImpulse(new BABYLON.Vector3(0,3,0),0 ) ;
+				return;
+				}
+				
+                 obj.applyImpulse(new BABYLON.Vector3(0, getRndInteger(10,20),0), p ) ;
+                 var randB = getRndInteger(0,2);
+				 if(randB==0){				 obj.applyImpulse(new BABYLON.Vector3(getRndInteger(5,10), 0,0), p ) ;}
+				 else if(randB==1){				 obj.applyImpulse(new BABYLON.Vector3(0,0,getRndInteger(5,10) ), p ) ;}
+
+           //   }
+           // };
+        //  }
+	
+}

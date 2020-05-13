@@ -32,6 +32,8 @@ gizmoManager.scaleGizmoEnabled = false;//isAdmin;
 gizmoManager.boundingBoxGizmoEnabled = false; 
 var allowedgizmoMeshes =[];
 
+var isResetProjectAllowed=true;
+var isDraggingAllowed= true;
  var isWithPhysics= true;
  var isMeshesGetAllowed= true;
 var isMeshesPostAllowed=true; 

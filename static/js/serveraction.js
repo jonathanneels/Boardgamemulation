@@ -1,6 +1,9 @@
 	function SendchatMessage()
 		{   
-		$.get((" /chat"+admincode+"?"+ pname+": "+document.getElementById("chatboxrespons").value).trim(), function( data ) {
+		var dateSend= currentDateTime().toString();
+	//	var residuDate = dateSend.split(":"); > .replace(":"+residuDate[residuDate.length-1],"") 
+
+		$.get((" /chat"+admincode+"?["+dateSend.replace(dateSend.substring(0,2),"")+ "] "+ pname+": "+document.getElementById("chatboxrespons").value).trim(), function( data ) {
    document.getElementById("chatboxrespons").value = "";
    var convData = decodeURI(data);
  $( "#chatboxdata" ).html( convData );
@@ -183,11 +186,16 @@ if(mesh.position ===items[i].position){continue;}
 //console.log(mesh.position +"-"+items[i].position);
 //  console.log(mesh.rotationQuaternion +"-"+items[i].rotationQuaternion);
           mesh.position = (new BABYLON.Vector3(items[i].position[0], items[i].position[1],items[i].position[2]));//, 1, BABYLON.Space.local ) ;
+		  if(items[i].rotationQuaternion !== undefined  && items[i].position  !== "undefined" && items[i].position  !== null){
   mesh.rotationQuaternion = new BABYLON.Quaternion(items[i].rotationQuaternion[0], items[i].rotationQuaternion[1],items[i].rotationQuaternion[2],items[i].rotationQuaternion[3]);
-///mesh.material.diffuseColor = scene.getMeshByID(items[i].material.id).diffuseColor;
-
-
- }
+}
+if(items[i].rotation !== undefined && items[i].position  !== "undefined" && items[i].position  !== null) {
+  mesh.rotation = new BABYLON.Vector3(items[i].rotation[0], items[i].rotation[1],items[i].rotation[2]);
+}
+if( items[i].materialId !== undefined){
+ mesh.material = scene.getMaterialByID(items[i].materialId);
+}
+  }
 
  
 
