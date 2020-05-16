@@ -1,28 +1,26 @@
 //gizmoManager= null;    
 isDraggingAllowed= false;
-if(!isAdmin)
-{
-  isActivePlayer= false;
-	  //isMeshesPostAllowed=false; 
- isResetProjectAllowed=false;
-}else{
-ResetProject();}
 
-setInterval(function(){
+ResetProject();
+  isResetProjectAllowed=false;
+
+function checkRoutineActions(){
  gizmoManager.positionGizmoEnabled =false;// isAdmin;
 gizmoManager.rotationGizmoEnabled = false;//right click show
 gizmoManager.scaleGizmoEnabled = false;//isAdmin;
 gizmoManager.boundingBoxGizmoEnabled = false; 
 
-if(!isActivePlayer && !isAdmin)
+  isResetProjectAllowed=false;
+
+} 
+
+
+if(!isAdmin)
 {
-isResetProjectAllowed=false;
+	
+	$("#btnReset").hide();
+	
 }
-
-}, 5); // not cleanest..
-
-
-
 if(isAdmin){
 for (i = 0; i < scene.materials.length; i++) { 
 if(scene.materials[i].id =="skyBox" || scene.materials[i].id =="default material"|| scene.materials[i].id =="default" || scene.materials[i].id =="ground"){continue;}
@@ -147,27 +145,24 @@ var isAllowedToReroll= true;
 
     switch (pointerInfo.type) {
         case BABYLON.PointerEventTypes.POINTERDOWN:
-        if ( (typeof(point) !== "undefined" && point != null )  ) {
- if( localLastobj !== undefined  && localLastobj  !== pickResult.pickedMesh && pickResult.pickedMesh.material !== undefined && pickResult.pickedMesh.material.id === "dMaterialClickMat"   && pickResult.pickedMesh.name.indexOf("dice") >-1 && !pickResult.pickedMesh.id.startsWith("D") ){ // pickResult.pickedMesh.name.indexOf("board") >-1 ){
+checkRoutineActions()
+        if ( (typeof(point) !== "undefined" && point != null )   ) {
+ if( localLastobj !== undefined && localLastobj.id.startsWith("D") &&  pickResult.pickedMesh!==undefined && localLastobj  !== pickResult.pickedMesh && pickResult.pickedMesh.material !== undefined && pickResult.pickedMesh.material.id === "dMaterialClickMat"   && pickResult.pickedMesh.name !== undefined && pickResult.pickedMesh.name.indexOf("dice") >-1 && !pickResult.pickedMesh.id.startsWith("D") ){ // pickResult.pickedMesh.name.indexOf("board") >-1 ){
               //   var  groundP= getGroundPosition(pointerInfo.event);
 //console.log(groundP)
-if(localLastobj !== undefined){
-localLastobj.position.x = pickResult.pickedMesh.x;//groundP;
-localLastobj.position.z = pickResult.pickedMesh.z 
-localLastobj.position.y= 1.5;
-
+  
 pickResult.pickedMesh.material = localLastobj.material
 pickResult.pickedMesh.rotation  = localLastobj.rotation 
 pickResult.pickedMesh.scaling  = localLastobj.scaling 
+
+ pickResult.pickedMesh= localLastobj;
  localLastobj.dispose();
  localLastobj= undefined;
+//endTurn();=> frisky
+
 
 }
-
-           return;
-
-}
-else        if(pickResult.pickedMesh !== undefined  && pickResult.pickedMesh.id.startsWith("D") && !pickResult.pickedMesh.name.indexOf("board")> -1 &&  !pickResult.pickedMesh.name.indexOf("skyBox")> -1){
+else        if(pickResult !== undefined   && pickResult.pickedMesh !== undefined   && pickResult.pickedMesh.id !== undefined && pickResult.pickedMesh.id.startsWith("D") && pickResult.pickedMesh.name.indexOf("dice") >-1 && !pickResult.pickedMesh.name.indexOf("board")> -1 &&  !pickResult.pickedMesh.name.indexOf("skyBox")> -1){
 localLastobj=pickRes.pickedMesh;
 }
 
@@ -178,7 +173,8 @@ localLastobj=pickRes.pickedMesh;
 
         case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
 
-if(!isAllowedToReroll){return; }
+if(!isAllowedToReroll || !isActivePlayer){break; }
+checkRoutineActions()
         if ( (typeof(point) !== "undefined" && point != null )  ) {
           var p = point;
          var  pickedObj = (pickRes.pickedMesh);
@@ -193,10 +189,19 @@ scene.getMeshByID( pickedObj.id).position.y= 1.5;
 
  	$("#chatboxrespons").val("%0AI've rolled die " +localLastobj.id.toString()  ); 
 SendchatMessage(); 
-setTimeout(function(){ isAllowedToReroll=true;}, 1000);}
+//setTimeout(function(){ isAllowedToReroll=true;}, 1000);
+}
 }
 break;
 }
+});
+
+$(function() {
+      $("#btnReset").click( function()
+           {isResetProjectAllowed=true;// in default button handler is this not available.
+ResetProject();
+           }
+      );
 });
 
 
