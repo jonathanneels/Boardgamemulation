@@ -1,26 +1,29 @@
 //gizmoManager= null;    
 isDraggingAllowed= false;
-
-ResetProject();
-  isResetProjectAllowed=false;
-
-function checkRoutineActions(){
- gizmoManager.positionGizmoEnabled =false;// isAdmin;
-gizmoManager.rotationGizmoEnabled = false;//right click show
-gizmoManager.scaleGizmoEnabled = false;//isAdmin;
-gizmoManager.boundingBoxGizmoEnabled = false; 
-
-  isResetProjectAllowed=false;
-
-} 
-
-
+isMeshesPostAllowed=false;
 if(!isAdmin)
 {
 	isActivePlayer=false;
 	$("#btnReset").hide();
 	
 }
+ResetProject();
+  isResetProjectAllowed=false;
+ 
+function checkRoutineActions(){
+ gizmoManager.positionGizmoEnabled =false;// isAdmin;
+gizmoManager.rotationGizmoEnabled = false;//right click show
+gizmoManager.scaleGizmoEnabled = false;//isAdmin;
+gizmoManager.boundingBoxGizmoEnabled = false; 
+
+} 
+setInterval(function(){
+isResetProjectAllowed=false;
+	if(!isActivePlayer){  isMeshesPostAllowed=false;} else{isMeshesPostAllowed=true;}
+}, 5);// not the cleanest way...
+
+
+
 if(isAdmin){
 for (i = 0; i < scene.materials.length; i++) { 
 if(scene.materials[i].id =="skyBox" || scene.materials[i].id =="default material"|| scene.materials[i].id =="default" || scene.materials[i].id =="ground"){continue;}
@@ -198,8 +201,8 @@ break;
 
 $(function() {
       $("#btnReset").click( function()
-           {isResetProjectAllowed=true;// in default button handler is this not available.
-ResetProject();
+           { isResetProjectAllowed=true;// in default button handler is this not available.
+ResetProject(); 
            }
       );
 });
