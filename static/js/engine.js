@@ -52,6 +52,7 @@ var isActivePlayer= false;
  
  var restoreDefaultScene="";//Reset in uploadscene. Gets loaded in handleJSONsaveFileByNewObjects enters  (first time) and in postproject();
  
+ var skippBoardLaunchScript=false;
 class ObjMeta  {
   constructor() {
     this.name = "";

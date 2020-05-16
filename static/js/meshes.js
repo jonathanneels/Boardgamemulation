@@ -617,10 +617,10 @@ m.parent.dispose();}else{
     $("#txtCloneOnLoad").val(JSONfeedbackdata.timesCloneOnLoad);
 	     document.getElementById("chCloneOnLoad").checked = JSONfeedbackdata.isCloneOnLoad;
 
- 
   try{
 	  
-	 setTimeout(function(){ eval(JSONfeedbackdata.script);}, 3000);
+ if(!skippBoardLaunchScript){
+	 setTimeout(function(){ eval(JSONfeedbackdata.script);}, 3000);}
   }catch(err){console.log(err);}
 finally{
 			 if(JSONfeedbackdata.ambientMusicFile !== undefined && JSONfeedbackdata.ambientMusicFile !== "undefined"&& JSONfeedbackdata.ambientMusicFile !== null && JSONfeedbackdata.ambientMusicFile.trim() != ""){
