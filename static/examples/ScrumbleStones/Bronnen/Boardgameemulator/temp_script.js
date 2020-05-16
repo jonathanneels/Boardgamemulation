@@ -150,18 +150,18 @@ var isAllowedToReroll= true;
         case BABYLON.PointerEventTypes.POINTERDOWN:
 checkRoutineActions()
         if ( (typeof(point) !== "undefined" && point != null )   ) {
- if( localLastobj !== undefined && localLastobj.id.startsWith("D") &&  pickResult.pickedMesh!==undefined && localLastobj  !== pickResult.pickedMesh && pickResult.pickedMesh.material !== undefined && pickResult.pickedMesh.material.id === "dMaterialClickMat"   && pickResult.pickedMesh.name !== undefined && pickResult.pickedMesh.name.indexOf("dice") >-1 && !pickResult.pickedMesh.id.startsWith("D") ){ // pickResult.pickedMesh.name.indexOf("board") >-1 ){
+ if( localLastobj !== undefined && localLastobj.id.startsWith("D") &&  pickRes.pickedMesh!==undefined && localLastobj  !== pickRes.pickedMesh && pickRes.pickedMesh.material !== undefined && pickRes.pickedMesh.material.id === "dMaterialClickMat"   && pickRes.pickedMesh.name !== undefined && pickRes.pickedMesh.name.indexOf("dice") >-1 && !pickRes.pickedMesh.id.startsWith("D") ){ // pickRes.pickedMesh.name.indexOf("board") >-1 ){
               //   var  groundP= getGroundPosition(pointerInfo.event);
 //console.log(groundP)
   
- localLastobj.position=pickResult.pickedMesh.position;
- pickResult= undefined;
+ localLastobj.position=pickRes.pickedMesh.position;
+ pickRes= undefined;
 
 //endTurn();=> frisky
 
 
 }
-else        if(pickResult !== undefined   && pickResult.pickedMesh !== undefined   && pickResult.pickedMesh.id !== undefined && pickResult.pickedMesh.id.startsWith("D") && pickResult.pickedMesh.name.indexOf("dice") >-1 && !pickResult.pickedMesh.name.indexOf("board")> -1 &&  !pickResult.pickedMesh.name.indexOf("skyBox")> -1){
+else        if(pickRes !== undefined   && pickRes.pickedMesh !== undefined   && pickRes.pickedMesh.id !== undefined && pickRes.pickedMesh.id.startsWith("D") && pickRes.pickedMesh.name.indexOf("dice") >-1 && !pickRes.pickedMesh.name.indexOf("board")> -1 &&  !pickRes.pickedMesh.name.indexOf("skyBox")> -1){
 localLastobj=pickRes.pickedMesh;
 }else{localLastobj=undefined;
 }
@@ -179,7 +179,7 @@ if(!isAllowedToReroll || !isActivePlayer){break; }
           var p = point;
          var  pickedObj = (pickRes.pickedMesh);
 if(pickedObj !== undefined  && pickedObj.id.startsWith("D") && !pickedObj.name.indexOf("board")> -1 &&  !pickedObj.name.indexOf("skyBox")> -1){
-          //  if(   pickResult.pickedMesh.name.indexOf("board")>-1 || scene.getMeshByID( pickedObj.id).name.indexOf("Dice") < 0){return;}
+          //  if(   pickRes.pickedMesh.name.indexOf("board")>-1 || scene.getMeshByID( pickedObj.id).name.indexOf("Dice") < 0){return;}
 
 scene.getMeshByID( pickedObj.id).rotation  = new BABYLON.Vector3(BABYLON.Tools.ToRadians(rotationArray[ getRndInteger(0,3)]), scene.getMeshByID( pickedObj.id).rotation.y, BABYLON.Tools.ToRadians(rotationArray[ getRndInteger(0,3)]))
 
