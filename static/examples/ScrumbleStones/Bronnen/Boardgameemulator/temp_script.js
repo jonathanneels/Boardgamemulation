@@ -141,7 +141,6 @@ $("#txtPLayerCount").val(playerCount) }
 }*/
 
 var localLastobj;
-var isAllowedToReroll= true;
 	  scene.onPointerObservable.add((pointerInfo) => { 
  				     var pickRes = scene.pick(pointerInfo.event.clientX, pointerInfo.event.clientY);
         var point = pickRes.pickedPoint;
@@ -173,7 +172,6 @@ localLastobj=pickRes.pickedMesh;
 
         case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
 
-if(!isAllowedToReroll || !isActivePlayer){break; }
 //checkRoutineActions();
         if ( (typeof(point) !== "undefined" && point != null )  ) {
           var p = point;
@@ -189,7 +187,7 @@ scene.getMeshByID( pickedObj.id).position.y= 1.5;
 
  	$("#chatboxrespons").val("%0AI've rolled die " +localLastobj.id.toString()  ); 
 SendchatMessage(); 
-pickedObj=undefined;
+
 //setTimeout(function(){ isAllowedToReroll=true;}, 1000);
 }
 }
