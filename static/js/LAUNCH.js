@@ -61,7 +61,7 @@ var prepropjLink ="/"+window.location.href.split("?")[1];
             }  
 else{document.getElementById("chPublicServer").checked = false;}
 
-$("#txtProjectName").val(          window.location.href.split("?")[1].replace("static/examples/","").replace(".bgem","") +"_"+currentDateTime());
+$("#txtProjectName").val(          window.location.href.split("?")[1].replace("static/examples/","").replace(".bgem","").replace("ScrumbleStones/Bronnen/Boardgameemulator/","") +"_"+currentDateTime());
 
     $.get(prepropjLink, function(contents) {//Ex (same domain): https://192.168.1.2:8002/adminpage?static/examples/Project_7fdf1794-b80e-4953-9ac9-4852aa0cff52.bgem
  //console.log(contents);
