@@ -17,7 +17,7 @@ gizmoManager.boundingBoxGizmoEnabled = false;
 
 if(!isAdmin)
 {
-	
+	isActivePlayer=false;
 	$("#btnReset").hide();
 	
 }
