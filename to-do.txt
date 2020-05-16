@@ -3,5 +3,11 @@ To-do's:
 
 * in multi-player physics onder controle krijgen. 
 * kijken waarom dubbelklik invloed op alle items van dezelfde objecttype slaat.
-* board update tijdens meshesget (matertial).
+* board update tijdens meshesget (material).
 * Script param per object toegevoegen.
+
+EN: 
+* Arbitrate physics in multiplayer. 
+* Why doubleclick has an influence on all items of the same objecttype.
+* board update while meshesget (material).
+* Script param for each object.
