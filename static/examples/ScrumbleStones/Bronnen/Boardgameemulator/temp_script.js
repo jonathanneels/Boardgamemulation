@@ -154,19 +154,16 @@ checkRoutineActions()
               //   var  groundP= getGroundPosition(pointerInfo.event);
 //console.log(groundP)
   
-pickResult.pickedMesh.material = localLastobj.material
-pickResult.pickedMesh.rotation  = localLastobj.rotation 
-pickResult.pickedMesh.scaling  = localLastobj.scaling 
+ localLastobj.position=pickResult.pickedMesh.position;
+ pickResult= undefined;
 
- pickResult.pickedMesh= localLastobj;
- localLastobj.dispose();
- localLastobj= undefined;
 //endTurn();=> frisky
 
 
 }
 else        if(pickResult !== undefined   && pickResult.pickedMesh !== undefined   && pickResult.pickedMesh.id !== undefined && pickResult.pickedMesh.id.startsWith("D") && pickResult.pickedMesh.name.indexOf("dice") >-1 && !pickResult.pickedMesh.name.indexOf("board")> -1 &&  !pickResult.pickedMesh.name.indexOf("skyBox")> -1){
 localLastobj=pickRes.pickedMesh;
+}else{localLastobj=undefined;
 }
 
 
@@ -177,7 +174,7 @@ localLastobj=pickRes.pickedMesh;
         case BABYLON.PointerEventTypes.POINTERDOUBLETAP:
 
 if(!isAllowedToReroll || !isActivePlayer){break; }
-checkRoutineActions()
+//checkRoutineActions();
         if ( (typeof(point) !== "undefined" && point != null )  ) {
           var p = point;
          var  pickedObj = (pickRes.pickedMesh);
@@ -192,6 +189,7 @@ scene.getMeshByID( pickedObj.id).position.y= 1.5;
 
  	$("#chatboxrespons").val("%0AI've rolled die " +localLastobj.id.toString()  ); 
 SendchatMessage(); 
+pickedObj=undefined;
 //setTimeout(function(){ isAllowedToReroll=true;}, 1000);
 }
 }
