@@ -5,10 +5,7 @@ const path = require('path');
 
 const { parse } = require('querystring');
 
-const options = {
-  key: fs.readFileSync('testkey.pem'),
-  cert: fs.readFileSync('test.crt')//cert.pem
-};
+ 
 
  var Chatdict = {
   "guid-unique1Test" :  ["bla","ble"],
@@ -34,7 +31,7 @@ var Meshesdict = {
  
 const directoryPath = path.join(__dirname, 'static');
 
- var port = 8408;
+ var port = 8002;
  var ip= "127.0.0.1";
  require('dns').lookup(require('os').hostname(), function (err, add, fam) {
  // console.log('addr: '+add);
@@ -352,7 +349,9 @@ gameAlivedict[admincode] = dateTimeNow();
 			var array=[];
 			 if(Chatdict[admincode]===undefined){Chatdict[admincode]=[];}
 				else{			  array = Chatdict[admincode];}
-			array.push(chatcontentwithoutcode);
+				
+				if(chatcontentwithoutcode !== array[array.length-1]){ 
+			array.push(chatcontentwithoutcode);} else{console.log("Potential spamchat detected!");}
 			Chatdict[admincode]=array;
         }
 		res.writeHead(200);  console.log("chat:"+admincode+"----"+chatcontentwithoutcode);

@@ -354,7 +354,8 @@ gameAlivedict[admincode] = dateTimeNow();
 			var array=[];
 			 if(Chatdict[admincode]===undefined){Chatdict[admincode]=[];}
 				else{			  array = Chatdict[admincode];}
-			array.push(chatcontentwithoutcode);
+				if(chatcontentwithoutcode !== array[array.length-1]){ 
+			array.push(chatcontentwithoutcode);} else{console.log("Potential spamchat detected!");}
 			Chatdict[admincode]=array;
         }
 		res.writeHead(200);  console.log("chat:"+admincode+"----"+chatcontentwithoutcode);
