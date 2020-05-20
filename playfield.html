@@ -1,7 +1,7 @@
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/> <!-- ref: https://codepen.io/tero_koodia/pen/MONRvw-->
-    <title>  Boardgamemulation</title>
+    <meta name="viewport" content ="width=device-width,initial-scale=1,user-scalable=no" charset="utf-8" /><!-- ref: https://codepen.io/tero_koodia/pen/MONRvw-->
+	<title>  Boardgamemulation</title>
    <script src="static/lib/babylon_4.1.js"> 	</script>  
       <script src="static/lib/babylon.inspector.bundle.js"> 	</script>  
    <script src="static/lib/cannon.js"> 	</script>  
@@ -123,7 +123,7 @@ input[type=range][orient=vertical]
 
 <hr>
 <span style="display:table;margin:0 auto;" id="spanSelObj">
- <label id="lblclickedMeshName"  style="margin-right:2px;" onclick="promptShowDevObjName()">Select Object</label><br>
+ <label id="lblclickedMeshName"  style="margin-right:2px;" onclick="promptShowDevObjName()">Select Object</label> 
  <span><button type="button" id="btnCopyObject" onclick="CopyObject()"><abbr title="Clone selected mesh">+</abbr> </button>
 <button type="button" id="btnDeleteObject" onclick="DeleteObject()"><abbr title="Destroy selected mesh">x </abbr></button>
 <button type="button" id="btnDeleteObject" onclick="gizmoOptions(lastTouchedObj)"><abbr title="Show - available - GizmoManager (parts)">Gizmo </abbr></button>
@@ -144,29 +144,24 @@ input[type=range][orient=vertical]
 
     <canvas id="renderCanvas"></canvas>
 	<div id="dom_container" style=" opacity:0.5; position: absolute; right: -1;bottom: 0;margin-bottom:5%; margin-left:0.5%;  ">
-
-<span  style="position:absolute;color:black;background:#ac9687;">
+	<span  style="position:absolute;color:black;background:#ac9687;">
 <label for="chDrawMode" style="color:black;"> Draw mode:</label>
 <input type="checkbox" id="chDrawMode" name="chDrawMode" value="0"><br>   
 <label for="chDrawMode" style="color:black;"> Rand. colors:</label>
 <input type="checkbox" id="chRandomColors" name="chRandomColors" value="0"> 
 <input type="color" id="iColorPencil" name="iColorPencil" value="#ff0000">
 <input type="button" value="&#9114;" onclick="clearDrawing()"  >
-</span>
-  <br>  <br>   
-  <br>  <br>   
-
-            <textarea id="chatboxdata" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 150px; width:180px;display:absolute;color:black;background:#ac9687;" disabled> </textarea>   <br>
+</span>         <br>  <br><br>
+		<textarea id="chatboxdata" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 150px; width:180px;display:absolute;color:black;background:#ac9687;" disabled> </textarea>   <br>
 
             <input onclick="allowItemMobileFocus = true;" id="chatboxrespons" style="height: 20px; color:black; width:120px; background: #ac9687;" class="" /> 
-			<button style="width:60px;padding:0%;" id='btnconfirmchatmessage' class='buttonDesign' onclick="SendchatMessage()"><abbr title="Send message">OK</abbr></button>
+			<button style="width:60px;padding:0%;" id='btnconfirmchatmessage' class='buttonDesign' onclick="SendchatMessage()"><abbr title="Send message">OK</abbr></button><br> 
+		
 	  </div>   
-	</div>
-		<div id="dom_container_info" style=" opacity:0.5; position: absolute; left: -1;bottom: 0;margin-bottom:5%; margin-left:0.5%;  ">
+ 		<div id="dom_container_info" style=" opacity:0.5; position: absolute; left: -1;bottom: 0;margin-bottom:5%; margin-left:0.5%;  ">
  
-
-		  <textarea id="projectinfo" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 150px; width:180px; color:black;background:#ac9687;" >projectinfo set here &#13;&#13;Boardgamemulation & project made by Jonathan F.M. Neels&#13;mail: jonathanneels@hotmail.com&#13;site:https://fumetsujo.pythonanywhere.com/&#13;&#13;Never forget; ideas are bulletproof! </textarea>  
-	<span id="spanBottomControls" style=""><input type="range" orient="horizontal" id="slZoom" onchange="setZoom()" step="1" min="-50" max="50"  value="25" /><input type="range" orient="horizontal" id="slUpDown" onchange="setUpDown()" step="10" min="-100" max="100"  value="0" />
+<span id="spanBottomControls" style=""><input type="range" orient="horizontal" id="slZoom" onchange="setZoom()" step="1" min="-50" max="50"  value="25" /><br><input type="range" orient="horizontal" id="slUpDown" onchange="setUpDown()" step="10" min="-100" max="100"  value="0" />
+		<br><br>  <textarea id="projectinfo" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 170px; width:180px; color:black;background:#ac9687;" >projectinfo set here &#13;&#13;Boardgamemulation & project made by Jonathan F.M. Neels&#13;mail: jonathanneels@hotmail.com&#13;site:https://fumetsujo.pythonanywhere.com/&#13;&#13;Never forget; ideas are bulletproof! </textarea>  
 </span>
 	</div>
 		   <script src="static/js/lines.js"> 	</script>  
