@@ -123,12 +123,12 @@ input[type=range][orient=vertical]
 
 <hr>
 <span style="display:table;margin:0 auto;" id="spanSelObj">
- <label id="lblclickedMeshName"  style="margin-right:2px;" onclick="promptShowDevObjName()">Select Object</label> 
  <span><button type="button" id="btnCopyObject" onclick="CopyObject()"><abbr title="Clone selected mesh">+</abbr> </button>
 <button type="button" id="btnDeleteObject" onclick="DeleteObject()"><abbr title="Destroy selected mesh">x </abbr></button>
 <button type="button" id="btnDeleteObject" onclick="gizmoOptions(lastTouchedObj)"><abbr title="Show - available - GizmoManager (parts)">Gizmo </abbr></button>
-
 <button type="button" id="btnReset" onclick="ResetProject()" style="background:red;'"><abbr title="Restore project to its start position (from loaded or online set project)">Reset game </abbr></button>
+ <label id="lblclickedMeshName"  style="margin-right:2px;" onclick="promptShowDevObjName()">Select Object</label> 
+
 <hr>
 		<abbr title="Use this code (set the game online - toggle top right on) and invite others to this creation.">	<label id="lbladmincode" onclick="opencopycode()">Connection code: xxxx</label></abbr><br>
 					<span>	<abbr title="The active player can manipulate objects for all players."><label id="lblPlayerTurn">Player turn: xxxx</label></abbr>
