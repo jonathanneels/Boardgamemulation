@@ -1,0 +1,249 @@
+DOEL: 
+* Voer als eerste x-aantal succesvolle vuuraanvallen uit. 
+OF
+* Wees de enige speler met watermunt (levens). 
+
+
+ELEMENTEN
+            - Vuur: aanval (vuurmunt - rode munt)
+            - Water: levens (watermunt - blauwe munt)
+            - Lucht: verdubbelen (maal 2) (luchtmunt - witte munt)
+            - Aarde: Schild (aardemunt - groene munt)
+            
+            - Oerkracht: een rolwaarde met nummer 4,6,8,10,12,14,16,18 of 20 telt als een joker (roodgekleurde nummers op de Tobbel), 
+                         kan ingezet worden direct als het betreffend element of gespaard worden voor een later moment
+                         of kan ingezet worden direct/later als een extra Tobbelrol, overschrijven van de huidige rol (behalve bij een wind element).
+                         Nota: Als 'later' bedoelen we wanneer je wenst als uitvoerder of verdediger (je actief meespeelt). 
+                                               
+
+START:
+* Iedere speler krijgt x aantal watermunten, de zogenaamde 'Levens'. 
+2 spelers: 5 watermunten 
+3 spelers: 4 watermunten
+4 spelers: 3 watermunten
+[5 spelers: 2 watermunten]
+
+VERLOOP: 
+1.         Beurtelings kiest een speler een actie.
+            ACTIES:
+            - Iemand naar keuze 'aanvallen'.
+            OF
+            - Een spreuk naar jezelf richten. 
+
+2.         Daarna draait de actieve speler aan de Tice (engels voor Tobbel).
+            Bij een 'aanval' draait de verdedigende speler ook aan de Tice.
+            
+            De actieve speler heeft nu twee mogelijke keuzes; Een spreuk uitvoeren of een Joker tot zich nemen.
+            KEUZES:
+            - Spreuk uitvoeren
+            OF
+            - Oerelement sparen (kleurmunt bij zich leggen, behalve het elemement Lucht!)
+            
+            Bij een aanval mag de verdediger ook bovenstaande keuzes maken. 
+            Indien de verdediger kiest voor Oerelement sparen, kan hij zich niet meer weren (een speler kan kiezen voor een spreuk of het verzamelen van een oerelement, nooit beide). 
+            
+            Bij het uitvoeren van een spreuk en de actieve/passieve speler legt een oerelement mag die persoon een nieuwe 'rol' maken. Dit moet gebeuren voor de uitvoer van de spreuk.
+            De nieuwe rol dient als de nieuwe spreuk (starten vanaf 0). 
+			Nota: Het oerelement mag ook ingezet worden als overschrijdend gerold element (windmunten worden toegepast).
+            ELEMENTCOMBINATIES:
+            - Vuur = 1 vuuraanval 
+            - Water = 1 watergenezing(zichzelf genezen!)
+            - Lucht = Element maal X. Eerste luchtmunt is maal 2, dan maal 4, dan maal 8, dan maal 16, ...
+            - Aarde = 1 schild tegen vuuraanval      
+            - speciale combinaties:
+				=> wanneer de speler een Lucht element rolt, mag hij een tweede keer rollen (naast de Tobbel - dicht bij de betr. speler)  leg je een witte munt (luchtmunt) als indicatie van maal X.
+				- Lucht + Vuur = 2 vuuraanval (bij maal 4 dan 4 vuuraanval, ...)
+				- Lucht + Water = 2 watergenezing(zichzelf genezen!) (bij maal 4 dan 4 watergenezing, ..., maar nooit meer dan 5 levens!)
+				- Lucht + Lucht = nieuwe rol, een nieuwe witte munt wordt op de huidige gelegd (maal 2 wordt maal 4,  maal 4 wordt maal 8, maal 8 wordt maal 16, ....)
+				- Lucht + Aarde = 2 schild tegen vuuraanval (bij maal 4 dan 4 schild, ...)
+
+            Hoe werken bovenstaande spreuken?
+            Bijvoorbeeld; 
+                        De aanvaller rolt een vuuraanval
+                        De verdediger rolt een schild. 
+                        Als actie kiest de aanvaller om de vuuraanval (geen 'oerelement' vuurschild) te gebruiken en de verdediger kiest het schild (geen oerelement muntschild) (zie combinaties hoger!). 
+                        1 aanval tegen 1 verdediging = 0. De verdediger verliest deze ronde geen watermunt (leven) en de aanvaller krijgt geen vuurmunt. 
+            Voorbeeld 2 (zie case hierboven);
+                        Indien de verdediger een vuurelement rolde, mag hij/zij ook de aanval inzetten. 
+                        De uitvoerder van een succesvolle vuuraanval (geen aardeschild), mag een vuurmunt (indien met de luchtmunt(en) - bij x gelukte schade - dan beide met de waarde 1maalx) bij zich leggen als een vuuraanval teller. 
+                        In dit voorbeeld legt de verdediger en de aanvaller een vuurmunt bij zich en kijken nu hoeveel keer ze een vuuraanval in het spel uitvoerden. 
+                        Als de som van de vuurmunten 5 is, dan is hij/zij gewonnen (of gelijkstand).
+            Voorbeeld 3 (zie case hierboven);
+                        De verdediger heeft een windmunt gerold. De uitvoerder heeft gekozen voor 1 vuuraanval.
+                        De verdediger krijgt 2 levens erbij, want de opvolgende rol was het waterelement (max. 'levens' is 5) en voert zijn spreuk uit na de aanvaller (dus verliest 1 leven). 
+                        De aanvaller legt een vuurmunt bij zich, de verdediger verwijdert eerst een watermunt (schade), mààr mag er 2 nieuwe leggen omdat hij voor 2 waarde geneest (of 1 water & 1 lucht).
+						Genezen kan er nooit voor zorgen dat de gebruiker meer dan 5 watermunten heeft.
+            Voorbeeld 4;
+                        In dit voorbeeld beslist de actieve speler om niet aan te vallen, maar een spreuk naar zichzelf te doen. 
+                        Belangrijk hier is dat een speler zichzelf niet kan beschadigen (een vuuraanval kan niet op zichzelf). 
+                        Een spreuk op jezelf kan je doen als je geen risico wilt nemen om schade te ondergaan, jezelf risicovrij wenst te genezen of een oerelement tracht te bemachtigen.
+                        Nota: een watermunt (of oerelement) mag gebruikt worden als je niet aanvalt. Ook in een duel als aanvaller/verdediger (een waterspreuk kun je alleen op jezelf uitspreken!).
+            
+            
+3.B Een speelveld ziet er zo uit (2 personen tegenover elkaar);      
+            [V   L]
+            [    O]
+            [**   ] => Windmunten en/of Oerelementen aanvaller/uitvoerder
+			   #
+            [**   ] => Windmunten en/of Oerelementen, indien deelnemend, van de verdediger
+            [O    ]
+            [L   V]   
+            L = watermunten (leven), V = vuurmunten (aantal "gewonnen"), O = Oerkracht (locatie oerkrachtmunten; rood, blauw of groen), ** = open gelegde jokers/oerelementen, # => Tobbel
+
+EIND:
+Niemand of één iemand heeft watermunt over
+OF
+de speler die als eerste x-aantal succesvolle vuuraanvallen heeft uitgevoerd; 
+2 spelers: 5 vuurmunten
+3 spelers: 4 vuurmunten
+4 spelers: 3 vuurmunten
+[5 spelers: 2 vuurmunten]
+
+Wanneer je de enige bent die na de "beurt" voldoet aan bovenstaande omstandigheden,
+dan ben je de overwinnaar. Gelijkstand na een finale beurt is perfect mogelijk, de harmonie is bereikt. 
+
+EXTRA: 
+* Jezelf genezen kan, mààr je kunt nooit meer dan 5 watermunten bij je hebben. 
+* Bij wind + vuur/water  moet de combinatie in z'n geheel bij de betrokkene liggen indien beide een succes zijn.
+  Bijvoorbeeld; 1x wind + vuur telt als twee punten, leg de beide munten samen bij de actieve speler. 
+  Indien geblokkeerd door 1 schild, leg dan de windmunt af (en leg de vuurmunt bij de speler).
+* De speelvolgorde is rollen  (of opnieuw rollen indien wind!), gebruik joker(s) en indien nodig opnieuw - nu door joker - rollen   ( Gevolg hiervan is dat jouw reeds gelegde oermunten verdwijnen voor de nieuwe rol. Nieuwe oerelementen mogen gelegd worden na de rol. Geplaatste Wind elementen blijven aanwezig).  
+* Er is geen limiet van Oerelementen (Jokers) dat je in een beurt mag afleggen of bijhouden. 
+
+
+ 
+HARD-MODE:
+* Een mogelijke alternatieve modus, 
+  is het werken met 30 Levens (ipv 5 watermunten) en de nummerwaarde bij de kaart als krachtwaarde te gebruiken (Wind blijft maal X en oerelement heeft het max. van 20 waarde). 
+  De voorwaarde voor het behalen van het aantal vuurmunten blijft en het "genezen" op basis van de watermunt kan de 30 Levens niet overstijgen.     
+
+ALTERNATIEVE REGEL(S):
+*Alternatieve vermenigvuldiger - beperk de wind vermenigvuldiging tot twee. Wanneer een tweede wind element wordt gerold, blijf dan rollen totdat je een ander element uitkomt.
+ Deze speelwijze richt zich meer op strategie en minder op geluk.
+ 
+ -------------------------------------------
+EN
+ 
+ GOAL: 
+* Execute firstly x-amount succesful fire attacks.
+OR
+* Be the only player with water coins. 
+
+
+ELEMENTS
+            - Fire: attack (fire coin - red coin)
+            - Water: lives (water coin - blue coin)
+            - Air: multiplier (multiply by 2) (air coin - white coin)
+            - Earth: Shield (earth coin - green coin)
+            
+            - Primal element: a die value with the number 4,6,8,10,12,14,16,18 or 20 counts as a joker (red colored numbers on the Tice), 
+                         and can be utilised 'immediately' as the corresponding element or saved as the corresponding element on a later time,
+						 or can be used now/later as an extra Tice roll (overwriting your current roll, except when it's a wind element).
+                         Note: 'Later' means when it's your turn or you partake in another one's turn (defender).
+                                               
+
+START:
+* Every player receives x water coins, your 'lives'.
+2 players: 5 water coins
+3 players: 4 ater coins
+4 players: 3 ater coins
+[5 players: 2 ater coins]
+
+COURSE: 
+1.         In turns a player chooses an action.
+            ACTIONS:
+            - 'Attack' another player (free choice).
+            OR
+            - Cast a spell on yourself. 
+
+2.          The active player spins the Tice.
+            If attacking another player then the defender also spins the Tice.
+            
+            The active player can do two things; cast a spell on the defender or take the joker (primal element)
+            CHOICES:
+            - cast a spell
+            OR
+            - Primal element gathering (add a color of that element - except air - on the player bench)
+            
+            If choosing for attacking the defender can make the same - above - choices. If the defender chooses to collect a Primal element, 
+			then he/she is unable to block an attack (The person who collects cannot utilises a coin; it's collect or cast).
+
+            
+            If the active/defender casts a spell the caster can place a new primam element to invoke a new roll (resetting the current result) 
+			This can only happens before the 'casting', executing of the spell.
+			The new roll counts as a new spell (starting from 0, but applying wind element multiplier afterwards ).
+            Note: The primal element can also be placed as the dominating element (ignoring the roll). Wind coins as multiplier are calculated in this case.
+			
+            ELEMENTCOMBINATIES:
+            - Fire = 1 fire attack 
+            - Water = 1 water healing (heal yourself!)
+            - Air = Element multiply by X. First Air coin is mulitplying by 2, then mulitply by 4, then mulitply by 8, then mulitply by 16, ...
+            - Earth = 1 shield agains a fire attack    
+            - Special combinations:
+				=> When the player rolls the air element, he can cast a second time (roll a second time). Place close to the player who rolled Air a white coin (indicating the multiplier).
+				- Air + Fire = 2 Fire attack (mulitplying by 2 then fire attack value 2, then mulitply by 4 then fire value 4, ...)
+				- Air + Water = 2 water healing(self healing) (mulitplying by 2 then health restore value 2, then mulitply by 4 then health restore value 4, ..., but never more than 5 lives in total!)
+				- Air + Air = new roll,add a  white coin on the current one (mulitplying by 2, then mulitply by 4, then mulitply by 8, then mulitply by 16, ...)
+				- Air + Earth = 2 shield against fire attacks (mulitplying by 2 then shield value 2, then mulitply by 4 then shield value 4, ...)
+
+            How does the above spells work?
+            Example; 
+						The attacker rolls a fire attack.
+						The defender rolls a shield (earth).
+                        The attacker chooses to execute a fire attack (not a primal element fire coin) and the defender uses his/her shield (not a primal shield coin)  (check combinations higher if in doubt!). 
+                        1 attack versus 1 defense = 0. This round the defender doesn't lose any water coins (lives) and the offender doesn't gain a fire coin.
+            Example 2 (see case above);
+						If the defender rolls a fire element, he/she can also attack.
+						The execution of a succesful fire attack (not blocked by a earth shield) means that the caster can place a fire coin on his side (or 2x, 4x in case of boosted Air element).
+						In this example the attacker and the defender decide to attack the opponent. Both gain a fire coin. 
+						5 fire coins means endgame; if you are the only one after the spellcasting (round) with 5 fire coins then you are the winner, otherwise it's a draw.
+            Example 3 (see case above);
+						The defender rolls a wind element. The attacker chose a fire attack (of 1 damage). 
+						In this situation the defender lost a life but gains two lives; he rolled after the wind/air roll the element water (healing). 
+						The attacker gains a fire token. The defender first removes a water coin, and afterwards adds two new water coins (or 1 water and 1 air). 
+						The healing can never cause the user to have more than 5 water coins.
+            Example 4;
+						In this example the active player decides to cast a spell on himself (he does not attack). 
+						Important here is to know that the caster can't hurt himself (a fire attack cannot be cast on yourself). 
+						Casting on yourself is usefull for; preventing a (damage) risc, heal yourself or gather primal elements. 
+						Note: a watercoin (or primal element) can be used if you do not attack, but also in a duel (aimed at yourself).
+						            
+            
+3.B Your playfield (2 persons opposite);      
+            [F   W]
+            [    p]
+            [**   ] => Wind coins and or primal elements from attacker/defender/caster
+			   #
+            [**   ] => Wind coins and or primal elements, if there is a defender (a non-self cast).
+            [p    ]
+            [W   F]   
+            W = water coins (leven), F = fire coins (amount "gain"), P = Primal power (location Primal coins; red, blue of green), ** = placed jokers/primal elements, # => Tice
+
+END:
+Nobody or just one player has water tokens. 
+OR
+The player who is the first with 5 succesful fire attacks; 
+2 players: 5 fire coins
+3 players: 4 fire coins
+4 players: 3 fire coins
+[5 players: 2 fire coins]
+
+If you are the only one after a turn who satisfied the above requirements then you are the winner. 
+Draw after the final round is possible, harmony has been reached.
+
+EXTRA: 
+* You can heal yourself, but you can never have more than 5 water tokens.
+* With a succesful coin combination of (first) wind + fire/water then you place both coins close to the casting player.
+  Example; 1x wind + fire counts a two points. Place both near the caster.
+  If a shields blocks one of the attacks, then place only the fire token near the caster.
+* The round order is rolling (or rolling again if the outcome is wind), utilising a joker and - if necessary - rolling once more (all placed primal coins and non-wind coins are removed from the caster's field. New primal elements are placed after the roll.)
+* You can play as many (or take) joker cards  (primal element) in a turn as pleased.
+
+
+ 
+HARD-MODE:
+* A plausible alternative game-mode is gifting the player 30 lives (instead of 5 water coins) and selecting the numbervalue on the rolled Tice as power value (Wind remains a multiplier, a primal element has the max. value of 20).
+  The condition to gain 5 fire coins remains and healing cannot restore more than 30 lives.
+
+ALTERNATIVE RULE(S):
+*Alternative multiplier - limit the wind element multiplier to 2. If a second wind is rolled, then keep rolling untill another element appears. This gamestyle proves to be more about strategy and less about luck.
