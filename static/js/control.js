@@ -280,6 +280,10 @@ else{
       	  newInstancea.data = new ObjMeta();
          newInstancea.name =  scene.meshes[i].name  ; 
 		          newInstancea.id =scene.meshes[i].name+  uniqueInstance ;  
+				  
+				  if(  newInstancea.getChildren().length >0){ newInstancea.getChildren()[0].id= "sideB"+newInstancea.id+ +uniqueInstance;}
+				  
+			//	  if(scene.meshes[i].id=="card")				  {generateCardSideB(x, y, z,newInstancea);	 			  }
  	   			   newInstancea.makeGeometryUnique();  
   		  //note: clones have .name. in front?! tbc
 		  
