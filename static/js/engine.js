@@ -88,9 +88,13 @@ class ObjMeta  {
   m.onSuccess = (_task)=> {
     (((event) => { 
    var hemilight=   new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+   hemilight.specular = new BABYLON.Color3(0,0,0);//disable reflection https://stackoverflow.com/questions/42389207/how-to-remove-light-effect-on-babylon-lines
+
    //   hemilight.intensity=0.2;
-     var dirLight= new BABYLON.DirectionalLight("light2",new BABYLON.Vector3(-1, -1, -1),scene);
    
+      var dirLight= new BABYLON.DirectionalLight("light2",new BABYLON.Vector3(-1, -1, -1),scene);
+      dirLight.specular = new BABYLON.Color3(0,0,0);//disable reflection https://stackoverflow.com/questions/42389207/how-to-remove-light-effect-on-babylon-lines
+
 	 /* var torusObj=generateTorusObject(scene,  -48,10, 0, 10,30,"TA");
 	  var torusObjB=generateTorusObject(scene,   48,10, 0, 10,30,"TB");
 	  var torusObjC=generateTorusObject(scene,   0,10,48, 10,30,"TC");
