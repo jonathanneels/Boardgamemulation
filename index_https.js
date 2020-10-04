@@ -441,6 +441,92 @@ res.writeHead(200, {'Content-Type': 'text/html'});
   });
 	  
   }
+   else  if (req.url.includes( '/Post2D')) {
+	          res.writeHead(200, {'Content-Type': 'text/html'});
+			  if (req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => {
+        body += decodeURI( chunk).toString();
+    });
+    req.on('end', () => { 
+
+
+		 	var  feedback = body.trim(); 				
+ Projectsdict[JSON.parse(feedback).gameId] = body.trim();
+ 
+  res.end("Project posted. Thank you");
+
+         });
+
+}
+	 
+ 
+	  
+  }
+   else  if (req.url.includes( '/Get2D')) {
+ 	          res.writeHead(200, {'Content-Type': 'text/html'});
+			  var admincode = req.url.replace('/Get2D','').trim();
+			  		 if(Projectsdict[admincode]===undefined  ){res.end("NONE");}
+		else{ res.end(Projectsdict[admincode] );} }
+   
+  else  if (req.url.includes( '/Join2D')) {
+	          res.writeHead(200, {'Content-Type': 'text/html'});
+		var gameJoin = req.url.replace("/Join2D","").trim()	 
+		var splitParts= gameJoin.split("?");
+		if(splitParts.length >1){
+			var admincode=splitParts[0].trim();
+			      			console.log(admincode);
+
+			  		 if(Projectsdict[admincode]===undefined  ){res.end("NONE");}
+		else{
+			var array = playerdict[admincode];
+			if(array.includes(splitParts[1].toUpperCase())){ return res.end(array.indexOf(splitParts[1].toUpperCase()).toString()); }else{ 
+				if(array.length >3){
+					return res.end('Maximum users in the room has been reached.');
+					
+				}else{
+			
+		array.push(splitParts[1].toUpperCase());
+		playerdict[admincode]=array;
+					console.log(playerdict[admincode]);
+
+	 return res.end((array.length-1).toString()) // => Who ID res.end('Player ' + splitParts[1] + " registered.");
+	 }}}}else{
+	  return res.end('The request cannot be completed.');
+	
+}
+ 
+	  
+  }
+  else  if (req.url.includes( '/2D')) {//else  if (req.url === '/adminpage') { //ref: https://stackoverflow.com/questions/37991995/passing-a-variable-from-node-js-to-html
+        res.writeHead(200, {'Content-Type': 'text/html'});
+		var game = req.url.replace("/2D","").trim().toUpperCase();
+		var gameAdminCode= uuidv4();
+		gameAlivedict[gameAdminCode] = dateTimeNow();
+	 	playerdict[gameAdminCode]=["GAME_MASTER"];
+		//		playerturndict[gameAdminCode]="Game Master" ; => Handling in Projectsdict?
+	//	Chatdict[gameAdminCode] = ["Admin joined the game."]
+   Projectsdict[gameAdminCode] = "json content tbc"; 
+ 
+
+	  if(game.includes("GABBAC")){//  if(game =="GABBAC"){ => cliënt side actions possible with include
+		fs.readFile("static/examples/Gabbac/Gabbac.html", "utf8", function(err, data) { 
+              res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
+			  });			  }
+			  else if(game =="VROLL"){
+		fs.readFile("static/examples/V/V-Roll-2D.html", "utf8", function(err, data) { 
+              res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
+			  });			  }
+			   else if(game.includes("V")){
+		fs.readFile("static/examples/V/V-Game-2D.html", "utf8", function(err, data) { 
+              res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
+			  });			  }
+			  else{
+				  
+				  return res.end('The requested game has not been found on the server.');
+			  }
+			  
+			  }
   else{  
   fs.readFile(__dirname + req.url, function (err,data) {//REF:https://stackoverflow.com/questions/16333790/node-js-quick-file-server-static-files-over-http
     if (err) {
