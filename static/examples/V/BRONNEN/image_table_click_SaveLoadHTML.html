@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+table {//REF:https://stackoverflow.com/questions/30762478/responsive-table-with-equal-width-and-height-tds/30763190
+    border-collapse: collapse;
+ }
+
+td {
+    height: 7vw;
+    width: 7vw;
+    display: inline-block;
+	 border:  1;
+}
+.rotate-90 { //REF:https://stackoverflow.com/questions/30808984/jquery-rotate-div-onclick-90
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.rotate-180 {   
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.rotate-270 {   
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+.rotate-0 {   
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+</style>
+</head>
+<body class="noselect">
+
+<h1>This is a Heading</h1>
+
+<span id="spanUpperP"></span>
+<!--<img id="testId" onclick="selectedObject(this.id)" style="height:40px; width:40px;" src="https://store-images.s-microsoft.com/image/apps.14591.9a19b1cb-7ffc-4b32-bf97-25ef75ec69a3.753de052-0f07-4e5e-a20d-e4d5688136af.e2247862-7caa-44e8-8915-ca934ab9b663.png" alt="test">-->
+
+<p>This is a paragraph.</p>
+    <div id="tableDiv" style="margin-top: 40px">
+        Table will gentare here.
+    </div>
+<span id="spanLowerP"></span>
+
+<input type="button" id="btnSaveInfo" onclick="saveMatch()">Save Match</input>
+<input type="button" id="btnLoadInfo" onclick="loadMatch(loadInfo)">Load Match</input>
+<input type="file" id="file-input" accept="txt/*"/>
+<button id="read-button">Read File</button>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.2/dist/FileSaver.min.js"></script>
+
+
+<script >//REF: https://codebun.com/create-dynamic-table-using-jquery/
+var chosenObjId= "";
+var ObjDataList = [];//generateObj()
+var playerTurn= 0; // 1= p2, 2= p3, ...
+ var isOnceClicked= false;
+ var loadInfo= "";
+
+ const movements = {
+    u: 0,
+    d: 1,
+    l: 2,
+    r: 3,
+	ul: 4,
+    ur: 5,
+    dl: 6,
+    dr: 7, 
+}
+
+var VMovements0AngleList=[];
+// d1, d6
+// d3, d2
+const VMovements0Angle=[movements.l + "," + movements.r,movements.dl + "," + movements.u + "," + movements.d,movements.u + "," + movements.dr ,    movements.ur + "," + movements.ul + "," + movements.d ];
+// d3, d1
+// d2, d6
+const VMovements90Angle=[movements.ur + "," + movements.dr + "," + movements.l,    movements.u  + "," + movements.d , movements.ul + "," + movements.d + "," + movements.l  + "," + movements.r  , movements.dl  + "," + movements.r  ];
+// d2, d3
+// d6, d1
+const VMovements180Angle=[movements.ul + ","+movements.d, movements.u + "," + movements.dl + ","+ movements.dr ,movements.l + "," + movements.r, movements.u + ","+ movements.d + ","+ movements.l + ","+ movements.ur ];// def. top: 2, 3 - def. bottom: 6, 1
+// d6, d2
+// d1, d3
+const VMovements270Angle=[ movements.l + "," + movements.r + "," + movements.u + "," + movements.dr,  movements.l +"," + movements.ur, movements.r +","+ movements.ul +","+movements.dl,movements.d +","+movements.u ]; 
+
+VMovements0AngleList.push(VMovements0Angle);
+VMovements0AngleList.push(VMovements90Angle);
+VMovements0AngleList.push(VMovements180Angle);
+VMovements0AngleList.push(VMovements270Angle);
+
+
+var VMovements0AngleReverseList=[];
+ // d1, d6
+// d3, d2
+const VMovements0AngleReverse=[movements.r + "," + movements.l,movements.ur + "," + movements.d + "," + movements.u,movements.d + "," + movements.ul ,    movements.dl + "," + movements.dr + "," + movements.u ];
+// d3, d1
+// d2, d6
+const VMovements90AngleReverse=[movements.dl + "," + movements.dl + "," + movements.r,    movements.d  + "," + movements.u , movements.dr + "," + movements.u + "," + movements.r  + "," + movements.l  , movements.ur  + "," + movements.l  ];
+// d2, d3
+// d6, d1
+const VMovements180AngleReverse=[movements.dr + ","+movements.u, movements.d + "," + movements.ur + ","+ movements.ul ,movements.r + "," + movements.l, movements.d + ","+ movements.u + ","+ movements.r + ","+ movements.dl ];// def. top: 2, 3 - def. bottom: 6, 1
+// d6, d2
+// d1, d3
+const VMovements270AngleReverse=[ movements.r + "," + movements.l + "," + movements.d + "," + movements.ul,  movements.r +"," + movements.dl, movements.l +","+ movements.dr +","+movements.ur,movements.u +","+movements.d ]; 
+
+VMovements0AngleReverseList.push(VMovements0AngleReverseList);
+VMovements0AngleReverseList.push(VMovements90AngleReverse);
+VMovements0AngleReverseList.push(VMovements180AngleReverse);
+VMovements0AngleReverseList.push(VMovements270AngleReverse);
+
+ 
+ 
+ //console.log(VMovements0Angle);
+ 
+ function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+}
+
+
+function saveMatch()
+{console.log($("#tblPlayField").html())
+loadInfo=$("#tblPlayField").prop('outerHTML');//.html()
+ 
+  var blob = new Blob([loadInfo],   { type: "text/plain;charset=utf-8" });   //REF: https://www.websparrow.org/web/how-to-create-and-save-text-file-in-javascript
+  saveAs(blob, "matchSave.txt");
+
+}
+function loadMatch(test)
+{
+$("#tblPlayField").remove();
+// $('#tblPlayField tbody').empty();
+
+ $(".rotate-0").remove();
+  $(".rotate-90").remove();
+ $(".rotate-180").remove();
+ $(".rotate-270").remove();
+ //$("img").remove();
+
+    $("#tableDiv").html(test);
+ 
+}
+
+
+
+function loadFromFile(){
+
+if(document.querySelector("#file-input").files.length == 0) {
+		alert('Error : No file selected');
+		return;
+	} 
+	// first file selected by user
+	var file = document.querySelector("#file-input").files[0];
+
+	// perform validation on file type & size if required
+
+	// read the file
+	var reader = new FileReader();
+
+	// file reading started
+	reader.addEventListener('loadstart', function() {
+	    console.log('File reading started');
+	});
+
+	// file reading finished successfully
+	reader.addEventListener('load', function(e) {
+	   // contents of file in variable     
+	    var text = e.target.result;
+		loadInfo=text;
+loadMatch(text)
+	    console.log(text);
+	});
+
+	// file reading failed
+	reader.addEventListener('error', function() {
+	    alert('Error : Failed to read file');
+	});
+
+	// file read progress 
+	reader.addEventListener('progress', function(e) {
+	    if(e.lengthComputable == true) {
+	    	var percent_read = Math.floor((e.loaded/e.total)*100);
+	    	console.log(percent_read + '% read');
+	    }
+	});
+
+	// read as text file
+	reader.readAsText(file);
+}
+document.querySelector("#read-button").addEventListener('click', function() {//REF:https://usefulangle.com/post/193/javascript-read-local-files
+	loadFromFile()
+});
+
+function aIAction()
+
+{
+//randomicus
+ var actionId= getRandomIntInclusive(0, 1) ;
+  var objId= getRandomIntInclusive(0,ObjDataList.length-1) ; // Note: if link == 1 then always/higher chance to do a movement (rotation is long-term thinking).
+ chosenObjId=ObjDataList[objId].id; 
+
+ var isMovementComplete= false;
+ if(actionId==0)
+ {
+
+ 			 isOnceClicked=true;
+rotateObj( );
+ }
+ else{
+ 
+  $("#tblPlayField td").each(function(tdId) {
+  
+  if(isMovementComplete){return false;}
+      var id = $(this).attr("id");
+         $(this).find('img').each(function (img) {
+		 
+		   if(isMovementComplete){return false;}
+
+ 			          /*  var classState=($(this).attr('class') );
+
+						if ( classState  == "rotate-0"   ) 
+							 {
+							 console.log("neutral pos");
+							  }*/
+					if( chosenObjId==$(this).attr("id"))
+					{
+						var idP1= id[0];
+						var idP2 = id[1];
+						var NewIdPos= "";
+					/*	if (idP2.trim() == "9")
+						{
+						NewIdPos = (parseInt(idP1)+1).toString() +"0"
+						}
+						else
+						{
+						NewIdPos=idP1+ (parseInt(idP2)+1).toString()
+						}*/
+						
+						var  diractionId= getRandomIntInclusive(0,0);// tbc 1) ;
+												var movactionId= getRandomIntInclusive(0, 1) ;
+
+						if(diractionId==0){ 
+						if(movactionId==0){
+						if(parseInt(idP2) <= 7 &&  parseInt(idP2) >=1 ){
+						NewIdPos=(parseInt(id)-1 ).toString();
+						}
+						else if(parseInt(idP2)< 1){
+						NewIdPos=(parseInt(id)+1 ).toString();
+						}
+						} else if(movactionId==1){
+						if(parseInt(id) < 70){
+						NewIdPos=(parseInt(id)+10 ).toString();
+						}
+						else if(parseInt(id) >= 70){
+						NewIdPos=(parseInt(id)-10 ).toString();
+						}}
+						}
+						else if(diractionId==1){
+						 
+						}
+								console.log(NewIdPos + "---"+id);
+								
+								var fieldIsPopulated = false;
+								  $("#tblPlayField td").each(function(tdId) {
+								  								  if($(this).attr("id") == NewIdPos.trim()){
+								  $(this).find('img').each(function (img) {
+								  fieldIsPopulated = true; return false;
+												});
+															}
+										});
+										
+										if(!fieldIsPopulated){
+					 			setObject(  NewIdPos.trim()  );}else{aIAction()}
+
+						isMovementComplete=true;								
+								return false;
+					
+					}
+
+        });
+
+    // compare id to what you want
+});
+
+ 
+ }
+
+}
+ function placeObjectsRandom()
+ {
+ 	 var RowStart= getRandomIntInclusive(0, 5) ;
+	  	 var ColumnStart= getRandomIntInclusive(0, 3) ;
+var uOrd = getRandomIntInclusive(0, 1) ;
+var lOr = getRandomIntInclusive(0, 1) ;
+
+ for (var i = 0; i < ObjDataList.length; i++) {
+ chosenObjId=ObjDataList[i].id; 
+ console.log(chosenObjId);
+console.log(RowStart.toString() + ColumnStart.toString());
+			setObject( (RowStart.toString() + ColumnStart.toString()).trim()); 
+			ColumnStart+=1; 
+			var rowIncC= getRandomIntInclusive(0,1 ) ;
+			 if(rowIncC ==0 && ( RowStart < 3 ||  ColumnStart >3)  )
+			 {			ColumnStart-=1; 
+
+			 RowStart+=1;
+			 }
+			 isOnceClicked=true;
+			 
+			 			var rotateC= getRandomIntInclusive(0,1 ) ;
+switch(rotateC) {
+    case 0:	 
+if(uOrd==0){
+    						  rotateObj( );
+						  rotateObj( );}
+ 							  				break;
+											
+											    case 1:	 
+if(lOr==0){
+
+    						  rotateObj( );}
+							 else if(lOr==1){
+									rotateObj( );
+									rotateObj( );
+									 rotateObj( );
+									 }
+
+ 							  				break;
+
+}
+   
+
+}  }
+ 
+ 
+  
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString( 16);
+  });
+}
+ 
+
+    $(document).ready(function(){
+           var number_of_rows = 8;
+          var number_of_cols = 8;
+          var table_body = '<table id="tblPlayField"  border="1">';
+		  var indexId=0;
+          for(var i=0;i<number_of_rows;i++){
+            table_body+='<tr>';
+            for(var j=0;j<number_of_cols;j++){			
+     //	            table_body +='<td id="'+indexId.toString()+'" onclick="setObject(this.id)">';
+				table_body +='<td id="'+i.toString() + j.toString()+'" onclick="setObject(this.id)">';
+                table_body +='Table data';
+                table_body +='</td>';
+				indexId+=1;
+            }
+            table_body+='</tr>';
+          }
+            table_body+='</table>';
+           $('#tableDiv').html(table_body);
+		   
+		   
+		   	 
+	ObjDataList.push( generateObj());
+	ObjDataList.push( generateObj());
+		ObjDataList.push( generateObj());
+	ObjDataList.push( generateObj());
+	ObjDataList.push( generateObj());
+	ObjDataList.push( generateObj());
+
+		   placeObjectsRandom();
+     });
+	 
+	 function generateObj()
+	 {
+	 var id="obj_"+uuidv4().substr(0, 8);
+	 // Uncomment for lib:
+	$("#spanUpperP").append( '<img class="rotate-0" id="'+id+'" onclick="if(chosenObjId != this.id){isOnceClicked=false;} selectedObject(this.id); rotateObj();if(chosenObjId == this.id){isOnceClicked=true} " style="height:40px; width:40px;" src="https://store-images.s-microsoft.com/image/apps.14591.9a19b1cb-7ffc-4b32-bf97-25ef75ec69a3.753de052-0f07-4e5e-a20d-e4d5688136af.e2247862-7caa-44e8-8915-ca934ab9b663.png" alt="test">')
+	
+	return { "id":id, "rotationAngleId":-1, "isLinked":false };
+	 }
+	 function selectedObject(me)
+	 { 
+	 chosenObjId=me;
+	 }
+	 function setObject(me)
+	 {
+	 $("#"+me).html($("#"+chosenObjId));
+	 
+	 $("#"+chosenObjId).height($("#"+me).height());
+	 	 $("#"+chosenObjId).width($("#"+me).width());
+
+	 }
+	 function  rotateObj( )
+	 {
+	 if(!isOnceClicked){return;}
+	 
+	 var i;
+for (i = 0; i < ObjDataList.length; i++) {
+	//console.log(ObjDataList[i].id.trim()+"---"+chosenObjId.trim())
+
+  if(ObjDataList[i].id.trim().indexOf(chosenObjId.trim())> -1)
+  {   
+  break;
+  }
+}  
+	 
+	 if (typeof ObjDataList[i] != 'undefined' && ObjDataList[i] != null   ) {
+	     $("#"+chosenObjId).removeClass("rotate-90");
+	     $("#"+chosenObjId).removeClass("rotate-180");
+	     $("#"+chosenObjId).removeClass("rotate-270");
+	     $("#"+chosenObjId).removeClass("rotate-0");
+
+	 ObjDataList[i].rotationAngleId+=1
+		if(ObjDataList[i].rotationAngleId == 0)
+		{
+ 	     $("#"+chosenObjId).toggleClass('rotate-90');
+ 		 }
+		 else if(ObjDataList[i].rotationAngleId == 1)
+		{
+ 	     $("#"+chosenObjId).toggleClass('rotate-180');
+ 		 }
+		 else if(ObjDataList[i].rotationAngleId == 2)
+		{
+ 	     $("#"+chosenObjId).toggleClass('rotate-270');
+ 		 }
+		  else  if(ObjDataList[i].rotationAngleId ==3)
+		{
+ 	     $("#"+chosenObjId).toggleClass('rotate-0');
+		 		 ObjDataList[i].rotationAngleId=-1;
+		 }
+		 
+ }
+	 }
+	 
+	 function checkLinking()
+	 {
+	 $("#tblPlayField td").each(function() {
+      var id = $(this).attr("id");
+	//console.log(id);
+	//console.log($(this).html());
+        $(this).find('img').each(function (img) {
+           // console.log($(this).attr('src'));
+			            var classState=($(this).attr('class') );
+
+						if (typeof classState == 'undefined' || classState  == "rotate-0"   ) 
+							 {
+							// console.log("neutral pos");
+							  }
+
+
+        });
+
+    // compare id to what you want
+});
+
+	 }
+
+	 setInterval(function(){ checkLinking(); aIAction()}, 1000);
+
+
+</script>
+
+</body>
+</html>
