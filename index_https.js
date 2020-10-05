@@ -1,3 +1,5 @@
+var cluster = require('cluster');
+
 // zie package.json for header size https://github.com/cloudfoundry/nodejs-buildpack/issues/176 => atm unused
 const https = require('https');
 //const http = require('http');
@@ -43,7 +45,41 @@ const directoryPath = path.join(__dirname, 'static');
   ip = add; // if netwerk allows it - Windows  Firewall - https://stackoverflow.com/questions/5489956/how-could-others-on-a-local-network-access-my-nodejs-app-while-its-running-on/5490033
  	console.log("HTTPS server started at https://"+ip+":" + port.toString());
 	
-	launchServer();
+if(cluster.isMaster) {//REF: https://www.sitepoint.com/how-to-create-a-node-js-cluster-for-speeding-up-your-apps/ & https://stackoverflow.com/questions/5999373/how-do-i-prevent-node-js-from-crashing-try-catch-doesnt-work
+    var numWorkers = require('os').cpus().length;
+
+    console.log('Master cluster setting up ' + numWorkers + ' workers...');
+
+    for(var i = 0; i < numWorkers; i++) {
+        cluster.fork();
+    }
+
+    cluster.on('online', function(worker) {
+        console.log('Worker ' + worker.process.pid + ' is online');
+    });
+
+    cluster.on('exit', function(worker, code, signal) {
+        console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
+        console.log('Starting a new worker');
+        cluster.fork();
+    });
+	
+	
+} else {
+	launchServer();}
+	
+	process.on('uncaughtException',   function (req, res, route, err) {//https://shapeshed.com/uncaught-exceptions-in-node/
+  log.info('******* Begin Error *******\n%s\n*******\n%s\n******* End Error *******', route, err.stack);
+  if (!res.headersSent) {
+    return res.send(500, {ok: false});
+  }
+  res.write('\n');
+  res.end();
+
+  console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
+  console.error(err.stack)
+  process.exit(1)
+});
 	setInterval(serverTimerActions, 1000);
 
 });

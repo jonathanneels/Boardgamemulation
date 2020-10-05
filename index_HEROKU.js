@@ -1,3 +1,5 @@
+var cluster = require('cluster');
+
 const http = require('http');
  const fs = require('fs');
 var os = require( 'os' );
@@ -33,7 +35,41 @@ const directoryPath = path.join(__dirname, 'static');
 
  var port = process.env.PORT || 8000;;//REF:https://help.heroku.com/P1AVPANS/why-is-my-node-js-app-crashing-with-an-r10-error
   
-	launchServer();
+	if(cluster.isMaster) {//REF: https://www.sitepoint.com/how-to-create-a-node-js-cluster-for-speeding-up-your-apps/ & https://stackoverflow.com/questions/5999373/how-do-i-prevent-node-js-from-crashing-try-catch-doesnt-work
+    var numWorkers = require('os').cpus().length;
+
+    console.log('Master cluster setting up ' + numWorkers + ' workers...');
+
+    for(var i = 0; i < numWorkers; i++) {
+        cluster.fork();
+    }
+
+    cluster.on('online', function(worker) {
+        console.log('Worker ' + worker.process.pid + ' is online');
+    });
+
+    cluster.on('exit', function(worker, code, signal) {
+        console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
+        console.log('Starting a new worker');
+        cluster.fork();
+    });
+	
+	
+} else {
+	launchServer();}
+	
+	process.on('uncaughtException',   function (req, res, route, err) {//https://shapeshed.com/uncaught-exceptions-in-node/
+  log.info('******* Begin Error *******\n%s\n*******\n%s\n******* End Error *******', route, err.stack);
+  if (!res.headersSent) {
+    return res.send(500, {ok: false});
+  }
+  res.write('\n');
+  res.end();
+
+  console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
+  console.error(err.stack)
+  process.exit(1)
+});
 	setInterval(serverTimerActions, 1000);
 
 function uuidv4() {
