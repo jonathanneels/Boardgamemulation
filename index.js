@@ -64,12 +64,12 @@ const directoryPath = path.join(__dirname, 'static');
 	launchServer();}
 	
 	process.on('uncaughtException',   function (req, res, route, err) {//https://shapeshed.com/uncaught-exceptions-in-node/
-  log.info('******* Begin Error *******\n%s\n*******\n%s\n******* End Error *******', route, err.stack);
+  /*log.info('******* Begin Error *******\n%s\n*******\n%s\n******* End Error *******', route, err.stack);
   if (!res.headersSent) {
     return res.send(500, {ok: false});
   }
   res.write('\n');
-  res.end();
+  res.end();*/
 
   console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
   console.error(err.stack)
