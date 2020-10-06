@@ -185,7 +185,10 @@ const server = http.createServer((req, res) => {
 	else  if (req.url.includes( '/adminpage')) {//else  if (req.url === '/adminpage') { //ref: https://stackoverflow.com/questions/37991995/passing-a-variable-from-node-js-to-html
         res.writeHead(200, {'Content-Type': 'text/html'});
 		fs.readFile("playfield.html", "utf8", function(err, data) { 
-              res.end(data + "<label id='lblAdminCode'>"+uuidv4() +"</label><label id='lblisAdmin'>true</label>"); 
+		var adCode=uuidv4().toString();
+				gameAlivedict[adCode] = dateTimeNow();
+	 	playerdict[adCode]=[]; 
+              res.end(data + "<label id='lblAdminCode'>"+adCode  +"</label><label id='lblisAdmin'>true</label>"); 
 			  });			  }
 			  	  	else  if (req.url.includes( '/addorgetplayer')) {  
 		var playerandadminhandler= req.url.replace('/addorgetplayer','');
@@ -324,7 +327,7 @@ gameAlivedict[admincode] = dateTimeNow();
 	if (req.method === 'POST') {
     let body = '';
     req.on('data', chunk => {
-        body += chunk.toString();
+        body += decodeURI( chunk).toString();
     });
     req.on('end', () => {
       //  console.log(
@@ -348,7 +351,7 @@ gameAlivedict[admincode] = dateTimeNow();
 	if (req.method === 'POST') {
     let body = '';
     req.on('data', chunk => {
-        body += chunk.toString();
+        body += decodeURI( chunk).toString();
     });
     req.on('end', () => {
      //   console.log(
@@ -479,7 +482,7 @@ res.writeHead(200, {'Content-Type': 'text/html'});
 			  if (req.method === 'POST') {
     let body = '';
     req.on('data', chunk => {
-        body += decodeURI( chunk).toString();
+        body +=  ( chunk).toString();
     });
     req.on('end', () => { 
 
