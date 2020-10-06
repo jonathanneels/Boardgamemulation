@@ -58,18 +58,15 @@ const directoryPath = path.join(__dirname, 'static');
 } else {
 	launchServer();}
 	
-	process.on('uncaughtException',   function (req, res, route, err) {//https://shapeshed.com/uncaught-exceptions-in-node/
- // log.info('******* Begin Error *******\n%s\n*******\n%s\n******* End Error *******', route, err.stack);
-  if (!res.headersSent) {
-    return res.send(500, {ok: false});
-  }
-  res.write('\n');
-  res.end();
-
-  console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
-  console.error(err.stack)
-  process.exit(1)
-});
+	process
+  .on('unhandledRejection', (reason, p) => {//https://shapeshed.com/uncaught-exceptions-in-node/ & https://stackoverflow.com/questions/40867345/catch-all-uncaughtexception-for-node-js-app
+    console.error(reason, 'Unhandled Rejection at Promise', p);
+  })
+  .on('uncaughtException', err => {
+    console.error(err, 'Uncaught Exception thrown');
+    process.exit(1);
+  });
+  
 	setInterval(serverTimerActions, 1000);
 
 function uuidv4() {
@@ -185,11 +182,12 @@ const server = http.createServer((req, res) => {
 			  	else  if (req.url.includes( '/addorgetplayer')) {  
 		var playerandadminhandler= req.url.replace('/addorgetplayer','');
 		var admincode = playerandadminhandler.split("?")[0].trim();
-				var player = playerandadminhandler.split("?")[1].trim();
+	  	var player = playerandadminhandler.split("?")[1].trim();
 
-			var array=[];
-			 if(playerdict[admincode]===undefined){
-				 if(player.trim() ==""){
+ 			var array=[];
+			 if(player === undefined ||playerdict[admincode]===undefined   ){
+
+				 if(player === undefined || player.trim() ==""){
 					 					res.end("");	return;	
  					 
 				 }
