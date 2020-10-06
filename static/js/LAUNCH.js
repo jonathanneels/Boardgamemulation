@@ -91,7 +91,7 @@ $("#btnAdminToggle").hide();
 isAdmin=false;
 isActivePlayer= false;
 isMeshesGetAllowed= false;
-var randomname="player_" + getRndInteger(0,10000);
+var randomname="player_" + getRndInteger(0,10000).toString();
   pname = prompt("Your playername?\nP.S.:Choose the same name as last if you a rejoining a game.", randomname);
 
 if (pname == null || pname.trim() == "") {
