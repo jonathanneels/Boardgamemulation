@@ -179,21 +179,22 @@ const server = http.createServer((req, res) => {
 		fs.readFile("playfield.html", "utf8", function(err, data) { 
               res.end(data + "<label id='lblAdminCode'>"+uuidv4() +"</label><label id='lblisAdmin'>true</label>"); 
 			  });			  }
-			  	else  if (req.url.includes( '/addorgetplayer')) {  
+				else  if (req.url.includes( '/addorgetplayer')) {  
 		var playerandadminhandler= req.url.replace('/addorgetplayer','');
 		var admincode = playerandadminhandler.split("?")[0].trim();
-	  	var player = playerandadminhandler.split("?")[1].trim();
-
+ 
  			var array=[];
-			 if(player === undefined ||playerdict[admincode]===undefined   ){
-
-				 if(player === undefined || player.trim() ==""){
+			 if(playerandadminhandler.split("?")[1] === undefined ||playerdict[admincode]===undefined   ){
+	
+				 if(playerandadminhandler.split("?")[1] === undefined || playerandadminhandler.split("?")[1].trim() ==""){
 					 					res.end("");	return;	
  					 
 				 }
 				 playerdict[admincode]=[];
 				 }
-				else{			  array = playerdict[admincode];
+				else{			 
+			var player = playerandadminhandler.split("?")[1].trim();
+				array = playerdict[admincode];
 				if(array.includes(player) || player.trim() =="" ){ // player.trim() =="" => if it's just getting the list
 					res.writeHead(200);
 					res.end(playerdict[admincode].join("\n"));	return;	
