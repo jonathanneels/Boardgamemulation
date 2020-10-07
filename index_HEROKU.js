@@ -36,7 +36,7 @@ const directoryPath = path.join(__dirname, 'static');
  var port = process.env.PORT || 8000;;//REF:https://help.heroku.com/P1AVPANS/why-is-my-node-js-app-crashing-with-an-r10-error
   
 	if(cluster.isMaster) {//REF: https://www.sitepoint.com/how-to-create-a-node-js-cluster-for-speeding-up-your-apps/ & https://stackoverflow.com/questions/5999373/how-do-i-prevent-node-js-from-crashing-try-catch-doesnt-work
-    var numWorkers = require('os').cpus().length;
+    var numWorkers =process.env.WEB_CONCURRENCY;// require('os').cpus().length; https://stackoverflow.com/questions/28616813/how-to-properly-scale-nodejs-app-on-heroku-using-clusters
 
     console.log('Master cluster setting up ' + numWorkers + ' workers...');
 
@@ -569,4 +569,3 @@ res.writeHead(200, {'Content-Type': 'text/html'});
 }).listen(port, () => {
     console.log("Our app is running on port ${ PORT }. (Default = 8000)");
 });}
-
