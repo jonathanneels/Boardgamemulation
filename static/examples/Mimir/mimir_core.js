@@ -853,7 +853,7 @@ gameSettings. gameId=admincode;
 
 	  if(gameSettings.whosturn != gameSettings.WhoMe )
 		 {PostProject(); addTextToLog("<i>Player 2 is on the move.</i><br>"); allowGet=true;  allowPost=false;lastPostData="";}else{addTextToLog("<i>You are on the move.</i><br>");allowGet=false;  allowPost=true;lastPostData="";}
- 	 $("#spanConfig").prepend(" <small style='position:absolute;margin-left:5px;margin-top:5px;'>Share code: &nbsp;<input type='text' class='' readonly='true' id='txtShareCodeMain' name='txtShareCodeMain' value='"+admincode+"'/></small> ");
+ 	 $("#spanConfig").prepend(" <small style='position:absolute;margin-left:100px;   '>Share code: &nbsp;<input style='max-width:100px; overflow:scroll;' type='text' class='' readonly='true' id='txtShareCodeMain' name='txtShareCodeMain' value='"+admincode+"'/></small> ");
 
 }
 
