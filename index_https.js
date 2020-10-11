@@ -46,7 +46,7 @@ const directoryPath = path.join(__dirname, 'static');
  	console.log("HTTPS server started at https://"+ip+":" + port.toString());
 	
 if(cluster.isMaster) {//REF: https://www.sitepoint.com/how-to-create-a-node-js-cluster-for-speeding-up-your-apps/ & https://stackoverflow.com/questions/5999373/how-do-i-prevent-node-js-from-crashing-try-catch-doesnt-work
-    var numWorkers = require('os').cpus().length;
+    var numWorkers = 1;//require('os').cpus().length; ==> too heavy otherwise
 
     console.log('Master cluster setting up ' + numWorkers + ' workers...');
 
@@ -556,6 +556,10 @@ res.writeHead(200, {'Content-Type': 'text/html'});
 			  });			  }
 			   else if(game.includes("V")){
 		fs.readFile("static/examples/V/V-Game-2D.html", "utf8", function(err, data) { 
+              res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
+			  });			  }
+			    else   if(game.includes("MIMIR")){ 
+		fs.readFile("static/examples/Mimir/Mimir_Neo.html", "utf8", function(err, data) { 
               res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
 			  });			  }
 			  else{
