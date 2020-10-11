@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+   <head>
+      <meta http-equiv="Content-Type"  name="viewport" content="text/html; charset=utf-8,width=device-width,initial-scale=1.0  ,user-scalable=no"/>
+	  <link rel="shortcut icon" type="image/x-icon" href="static/examples/Mimir/static/images/icon/icon_game.ico">
+
+      <title>Mimir Neo</title>
+ 
+<style>
+#renderCanvas {
+				width:100%;
+				 height:100%; 
+				 max-height:500px;
+				
+  }
+ .buttonDesign {/* REF: https://www.bestcssbuttongenerator.com/#/11*/
+	box-shadow:inset 0px 1px 0px 0px #a6827e;
+	background:linear-gradient(to bottom, #7d5d3b 5%, #634b30 100%);
+	background-color:#7d5d3b;
+	border-radius:8px;
+	border:4px solid #54381e;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:13px;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 11px #4d3534;
+}
+.buttonDesign:hover {
+	background:linear-gradient(to bottom, #634b30 5%, #7d5d3b 100%);
+	background-color:#634b30;
+}
+.buttonDesign:active {
+	position:relative;
+	top:1px;
+}
+
+
+/* The Modal (background)  REF: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal2*/
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+#closeMdl1 {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#closeMdl1:hover,
+#closeMdl1:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #54381e;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #54381e;
+  color: white;
+}
+
+ .noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+</style>
+   </head>
+<body style="background:#ccc2a6;overflow:auto; margin:0;" class="noselect">  
+
+<div style="position: relative; "id="divBabylonControl">
+
+ <canvas id="renderCanvas" ></canvas>
+<div id="dom_container" style=" opacity:0.5; position: absolute; right: -1;bottom: 0;margin-bottom:5%; margin-left:5%;  ">
+
+            <textarea id="chatboxdata" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 90px; width:250px;display:absolute;color:black;background:#ccc2a6;" disabled> </textarea>   <br>
+
+            <input onclick="allowItemMobileFocus = true;" autocomplete="off" id="chatboxrespons" style="height: 20px; color:black; width:180px; background: #ccc2a6;" class=""   />  <button style="width:80px;padding:0%;" id='btnconfirmchatmessage' class='buttonDesign' onclick="SendchatMessage()"  >OK</button>
+        </div>        </div>
+
+<hr>
+
+ <span id="spanConfig" style= "">
+<input style="float:right;  "   class='buttonDesign'    type="button"       id="btnCustomGame" value="Custom game settings" onclick="$( '#divParameterField' ).toggle()"> 
+	<button class="buttonDesign" id="btnHelp"   style="  margin-left:5px; z-index:3;position:absolute;   " > HELP </button>
+<button class="buttonDesign" id="btn3DToggle" value="3D" onclick="ToggleDimensions()" style="float:right; margin-right:5px;   " >3D</button> 
+<button class="buttonDesign" id="btnMax" value="[*]" onclick="ToggleFullscreen()" style="float:right; margin-right:5px;   " >[*]</button>
+	   <input type="button"  style="float:right; margin-right:5px;   " class="buttonDesign " id="btnChatToggle" value="i" onclick="$('#dom_container').toggle();$('#divGameLog').toggle();">  
+<button class="buttonDesign" id="btnRestart" value="Restart" onclick="location.reload();" style="float:right; margin-right:5px;   " >Restart</button> 
+   <button class="buttonDesign" id="btnReset" value="Restart" onclick="ResetGame();" style="float:right; margin-right:5px;   " >Reset</button> 
+   <input type="button" class="buttonDesign " id="btnSettings" value="&#9881;" onclick="openSettings()"  style="float:right; margin-right:5px;   " > 
+
+</span>
+	<br><br>
+
+<div hidden id="divParameterField" style="border-color:black;   border-style: solid;  border-width:2px;width:50%;padding:1%;">
+  Non-AI Players:<small style="margin-left: 5px;">  <input type="number" id="txtPlayerCount" value="2" min="1" max="4">
+*First Id's are Human</small><br>
+     Player Number start:  <input type="number" id="txtPlayerIdStart" value="2" min="1" max="4">
+   <br>
+    max time:  <input type="number" id="txtTimeStart" value="9999" min="1" max="999999">
+   <br>
+
+  Max.Rounds:  <input type="number" id="txtRoundCount" value="999" min="1" max="999999">
+     <br><br>
+<u>  Dice setup &nbsp;</u> 
+<input id="btnAddDice"       type="button"     onclick="addDiceObjectToSandbox()"  value="+" class="buttonDesign"><input id="btnCreate" style="float:right;"     class="buttonDesign" type="button"     onclick="GenerateCustomGame()"  value="CREATE GAME"><br>
+  <br><div id="divHoldDiceData" style="max-height:200px; overflow-y:scroll; padding:1%;border-color:black;   border-style: solid; ">
+ 
+</div>
+</div>
+
+<hr>
+<div id="2DField" style="background:#ccc2a6; ">
+
+ <div style="width: 77%; float:left;  ">
+<div id="divGameField" style="">
+
+</div>
+
+</div>
+<div style="width: 20%; float:right; border:1px solid white;padding-left:3px;margin-right:5px;">
+
+<div id="divGameLog" style="height:250px; overflow-y:auto;">
+</div><hr>
+            <input autocomplete="off" onclick="allowItemMobileFocus = true;" id="chatboxresponsB" style="  color:black; width:55%; background: #ccc2a6;" class=""   />  <button style="width:40px;padding:0%;" id='btnconfirmchatmessageB' class='buttonDesign' onclick="SendchatMessageB()"  >OK</button>
+
+</div>
+</div>
+
+		
+<!-- The Modal -->
+<div id="divInfoModal" class="modal" style="  z-index:3;    ">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span id="closeMdl1">&times;</span>
+      <h2>Help</h2>
+    </div>
+    <div class="modal-body">
+<img src="/static/examples/Mimir/static/images/tutorial.PNG" alt="tutorial" style="width:80%;  display: block;  margin-left: auto;  margin-right: auto;" >  <hr>
+<img src="/static/examples/Mimir/static/images/gamefield_explain.PNG" alt="gamefield_explain" style="width:80%;  display: block;  margin-left: auto;  margin-right: auto;" >
+  </div>
+    <div class="modal-footer">
+      <h3> </h3>
+    </div>
+  </div>
+	<br><br><br> <br> <br> 
+
+</div>
+
+
+<!-- The Modal -->
+<div id="divGameStartModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span id="closeStartMdl1" hidden>&times;</span>
+      <h2>Mimir</h2>
+    </div>
+    <div class="modal-body">
+ 	<span id="sMultiplayer">
+   <u> Multiplayer</u>
+   <br>
+  <abbr title="Share this code as an invite."> Share code: &nbsp;<input type="text"  readonly="true" id="txtShareCode" name="txtShareCode" placeholder="id-from-game-to-share"></abbr>   <input id="txtSubmitMultiplayer" type="button"  style="width:150px;"  onclick="isMultiplayer=true;document.getElementById('divGameStartModal').style.display = 'none';LaunchNewMultiGame(); "   class="buttonDesign" value="Create room">    <br>
+  <abbr title="Insert the shared code to join the game."> Join a game:   <input type="text" autocomplete="off" id="txtJoinGame" name="txtJoinGame" placeholder="id-from-share-code"> </abbr> <input id="btnJoin" type="button"  style="width:150px;"   onclick="launchGuestMultiplayer();"  class="buttonDesign" value="Enter room&nbsp;&nbsp;">
+<br>
+<small> *Two humans combat to show who has the biggest brain.</small>
+<hr></span>
+	<u> Singleplayer & pass-and-play </u><br><br>
+<input id="btnCloseStartModal" style="width:100px;"     class="buttonDesign" type="button"     onclick=""  value="Launch"/>   
+	<hr>
+	<u> Settings</u><br>
+
+	<input id="radVSAI" type="radio" name="radVersus" checked /><label for="radVSAI" />VS AI</label><br>
+<input id="radVSPlayer" type="radio" name="radVersus"/><label for="radVSPlayer" />Pass & Play (2 players)</label><br>
+	<input id="radAIVSAI" type="radio" name="radVersus"/><label for="radAIVSAI" />Bot Match</label><br><br>
+		<label class="container"><br>
+  <input type="checkbox" id="chVice" checked="checked" >
+<abbr title="Alter the dice to the unique 'Vice' design. The default is a dice with (only) 4 eyes."> Vice design</abbr>
+  <span class="checkmark"></span>
+</label>	<label class="container"><br>
+  <input type="checkbox" id="chVice8"  onclick="isViceChecked()">
+<abbr title="Go wild and use the Vice's full potential; the maximum value is (only) 8 instead of the default 4."> Max. 8</abbr>
+  <span class="checkmark"></span>
+</label> <br><br>
+ Top items count &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="number" id="txtTopCount" name="txtTopCount" min=1 max=6  value=3 /><br> 
+ Bottom items count&nbsp;<input type="number" id="txtBottomCount" name="txtBottomCount"  min=1 max=6 value=3 /><br> 
+
+<br>
+   </div>
+
+<div class="modal-footer">
+<footer style="text-align:center">
+  <p>Jonathan F.M. Neels - Fumetsujo Studio <br>
+   Contact information: <a href="mailto:jonathanneels@hotmail.com">
+  jonathanneels@hotmail.com</a>. <br>
+     Site: <a href="https://fumetsujo.pythonanywhere.com">
+  https://fumetsujo.pythonanywhere.com/</a>.</p>
+
+</footer>    </div>
+ </div>
+
+ <script
+	           <script src="static/examples/Mimir/jquery-3.4.1.js"></script>
+  	           <script src="static/examples/Mimir/jquery-ui.min.js"></script>
+  <script src="static/examples/Mimir/babylon_4.0.3.js"></script>
+<script src="static/examples/Mimir/babylon.gui.js"></script>
+
+<script src="static/examples/Mimir/mimir_core.js"></script>
+<script src="static/examples/Mimir/engine.js"></script>
+<script src="static/examples/Mimir/game.js"></script>
+<script src="static/examples/Mimir/gui.js"></script>
+
+<script>
+
+$(function() {
+  	    $("#btnHelp").effect( "pulsate", {times:5}, 1500 );
+
+setTimeout(function(){    //extra load delay
+  itemsSetter(); // babylon js
+  
+
+  }, 3000);
+  
+   if(typeof $("#lblAdminCode").html() != "undefined") // let page load and then.
+{
+$("#txtShareCode").val($("#lblAdminCode").text());
+//admincode=$("#lblAdminCode").text();
+}
+
+if(window.location.href.includes("?"))
+{
+admincode = window.location.href.split("?")[1];
+console.log(admincode)
+$("#txtJoinGame").val(admincode);
+ launchGuestMultiplayer();
+}
+});
+
+var isCanvasHidden=true;
+$("#divBabylonControl").hide();
+//$("#btnMax").hide(); //note: bug with switching to 3d for btnMax, but required in production, the webbrowser of for example android will show it maxed anyway.
+$("#btnCustomGame").hide();
+//$("#btnconfirmchatmessage").hide();
+//$("#chatboxrespons").hide();
+
+
+function ToggleDimensions()
+{
+
+if(isCanvasHidden){isCanvasHidden=false;$("#divBabylonControl").show();$("#2DField").hide();$("#btn3DToggle").html("2D");//REF:https://www.tutorialrepublic.com/faq/how-to-change-the-text-of-a-button-using-jquery.php
+
+}
+else {isCanvasHidden=true;$("#divBabylonControl").hide();$("#2DField").show();   $("#btn3DToggle").html("3D"); 
+
+
+}
+
+}
+function ToggleFullscreen()
+{
+var elem = document.getElementById("2DField");
+
+if(!isCanvasHidden){elem = document.getElementById("divBabylonControl");}
+ 
+
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+
+}
+</script>
+
+<script>
+// Get the modal
+var modal = document.getElementById("divInfoModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("btnHelp");
+
+// Get the <span> element that closes the modal
+var span = document.getElementById("closeMdl1");
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+<script>
+$("#btnSettings").val($("<div>").html("&#128266;").text()); 
+
+ var modalStart = document.getElementById("divGameStartModal");
+ var spanStart = document.getElementById("closeStartMdl1");
+ var btnStart = document.getElementById("btnCloseStartModal");
+ spanStart.onclick = function() {
+  modalStart.style.display = "none";
+}
+ // window.onclick = function(event) {
+  // if (event.target == modalStart) {
+ //   modalStart.style.display = "none"; => MUST ACT
+ //  }
+ //}
+
+  modalStart.style.display = "block";//start game with modal
+
+btnStart.onclick = function() {startGame();
+modalStart.style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
