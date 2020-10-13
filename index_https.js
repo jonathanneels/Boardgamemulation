@@ -537,7 +537,7 @@ res.writeHead(200, {'Content-Type': 'text/html'});
   }
   else  if (req.url.includes( '/2D')) {//else  if (req.url === '/adminpage') { //ref: https://stackoverflow.com/questions/37991995/passing-a-variable-from-node-js-to-html
         res.writeHead(200, {'Content-Type': 'text/html'});
-		var game = req.url.replace("/2D","").trim().toUpperCase();
+		var game = (req.url.replace("/2D","")).trim().toUpperCase();
 		var gameAdminCode= uuidv4();
 		gameAlivedict[gameAdminCode] = dateTimeNow();
 	 	playerdict[gameAdminCode]=["GAME_MASTER"];
@@ -548,6 +548,10 @@ res.writeHead(200, {'Content-Type': 'text/html'});
 
 	  if(game.includes("GABBAC")){//  if(game =="GABBAC"){ => cliënt side actions possible with include
 		fs.readFile("static/examples/Gabbac/Gabbac.html", "utf8", function(err, data) { 
+              res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
+			  });			  }
+			  			    else if(game.includes("PAI")){ 
+		fs.readFile("static/examples/PaiJo2D/index.html", "utf8", function(err, data) { 
               res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
 			  });			  }
 			  else if(game =="VROLL"){
