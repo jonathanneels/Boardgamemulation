@@ -1013,8 +1013,13 @@ if(chatFeedTimer >= 1){chatFeedTimer=0;// ok 1x 3s atm => do note, longer wait, 
   }}
     
   }, 3000);}
+      
+		  var isNextMessageAllowed=true;
   	function SendchatMessage(isWithoutTimeInfo)
 		{   
+		if(!isNextMessageAllowed){return}
+		isNextMessageAllowed=false;
+		setTimeout(function(){ 	isNextMessageAllowed=true; }, 1000);
 		var dateSend= displayTime() ;
 	//	var residuDate = dateSend.split(":"); > .replace(":"+residuDate[residuDate.length-1],"") 
 	var sendString="";
