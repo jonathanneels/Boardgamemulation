@@ -71,6 +71,7 @@ camera.position =  new BABYLON.Vector3(-1, 0, -5);
                     return;
                 }
         
+
                 // check if we are under a mesh
                 var pickInfo = scene.pick(scene.pointerX, scene.pointerY, function (mesh) { return mesh !== groundObj; });
                lines =  BABYLON.Mesh.CreateLines("lines", linesed, scene);
@@ -79,6 +80,12 @@ camera.position =  new BABYLON.Vector3(-1, 0, -5);
 				  currentMesh = pickInfo.pickedMesh;
                     startingPoint = getGroundPosition(pointerInfo.event);
         
+		 				                    camera.detachControl(canvas);
+
+		if(isActivePlayer){
+					isMeshesPostAllowed=false;
+					isMeshesGetAllowed=false;
+}
                     if (startingPoint) { // we need to disconnect camera from canvas
                         setTimeout(function () {
                             camera.detachControl(canvas);
@@ -121,16 +128,21 @@ camera.position =  new BABYLON.Vector3(-1, 0, -5);
         case BABYLON.PointerEventTypes.POINTERUP:
             console.log("POINTER UP");
 //setTimeout(function(){   	   if(postMeshes()){countPostGetMeshesAction=0;} }, 600);
+		                                   //    if($('#chDrawMode').is(":checked")){
+
+						if(isActivePlayer){
+ 					isMeshesPostAllowed=true;}
+                     camera.attachControl(canvas, true);
+
  if (startingPoint) {
 
                                     linesListInfo.push({path: linesed, id:lines.id, color: lines.color});
                                     linesed = [];
                                    i = 0;
-                    camera.attachControl(canvas, true);
-                    startingPoint = null;
+                     startingPoint = null;
                     return;
                 }
-             
+           //  }
             break;
 	/*		        case BABYLON.PointerEventTypes.POINTERWHEEL:
             console.log("POINTER WHEEL");			 

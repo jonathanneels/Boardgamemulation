@@ -1,11 +1,16 @@
-	function SendchatMessage()
+	  var isNextMessageAllowed=true;
+  	function SendchatMessage()
 		{   
+		if(!isNextMessageAllowed){return}
+		isNextMessageAllowed=false;
+		setTimeout(function(){ 	isNextMessageAllowed=true; }, 1000);
+		
 		var dateSend= currentDateTime().toString();
 	//	var residuDate = dateSend.split(":"); > .replace(":"+residuDate[residuDate.length-1],"") 
 
-		$.get((" /chat"+admincode+"?["+dateSend.replace(dateSend.substring(0,2),"")+ "] "+ pname+": "+document.getElementById("chatboxrespons").value).trim(), function( data ) {
+		$.get((" /chat"+admincode+"?"+encodeURIComponent("["+dateSend.replace(dateSend.substring(0,2),"")+ "] "+ pname+": "+document.getElementById("chatboxrespons").value)).trim(), function( data ) {
    document.getElementById("chatboxrespons").value = "";
-   var convData = decodeURI(data);
+   var convData = decodeURIComponent(data);
  $( "#chatboxdata" ).html( convData );
   		 if(lastScrollHeightchat != $('#chatboxdata')[0].scrollHeight){
                  $('#chatboxdata').scrollTop($('#chatboxdata')[0].scrollHeight); 

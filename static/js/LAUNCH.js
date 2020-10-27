@@ -80,7 +80,7 @@ opencopycode();
 
 }
 
-$("#chatboxrespons").val("%0A=> Launch game; check top-right 'offline',%0Await 10 secs(green).%0A%0AShare the connection-code\n(click/see center page).%0A%0A");
+$("#chatboxrespons").val("\n=> Launch game; check top-right 'offline',\nwait 10 secs(green).\n\nShare the connection-code\n(click/see center page).\n\n");
 SendchatMessage();
 
 }
@@ -92,7 +92,7 @@ isAdmin=false;
 isActivePlayer= false;
 isMeshesGetAllowed= false;
 var randomname="player_" + getRndInteger(0,10000).toString();
-  pname = prompt("Your playername?\nP.S.:Choose the same name as last if you a rejoining a game.", randomname);
+  pname = prompt("Your playername?\nP.S.:Choose the same name as last if you a rejoining a game.", encodeURIComponent(randomname));
 
 if (pname == null || pname.trim() == "") {
  // console.log("User cancelled the prompt.");

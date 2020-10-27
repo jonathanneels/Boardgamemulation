@@ -155,7 +155,7 @@ var boxObjD=generateWallObject(scene,  -35,0, 0, 35,35,"BD");
 	   
 	   if(countChatAction>= timerBeforeChatAction && admincode !== ""){  
 	   jQuery.get( "/chat"+admincode+"?undefined", function( data ) {
-   var convData = decodeURI(data);
+   var convData = decodeURIComponent(data);
  $( "#chatboxdata" ).html( convData );
   		 if(lastScrollHeightchat != $('#chatboxdata')[0].scrollHeight){
                  $('#chatboxdata').scrollTop($('#chatboxdata')[0].scrollHeight); 
