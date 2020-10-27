@@ -1036,8 +1036,14 @@ if(chatFeedTimer >= 1){chatFeedTimer=0;// ok 1x 3s atm => do note, longer wait, 
    document.getElementById("chatboxrespons").value = "";
    //var convData = decodeURI(data);
    		   });}
-		   function SendchatMessageB(isWithoutTimeInfo)
+ 		
+				  var isNextMessageAllowed=true;
+  	function SendchatMessageB(isWithoutTimeInfo)
 		{   
+		if(!isNextMessageAllowed){return}
+		isNextMessageAllowed=false;
+		setTimeout(function(){ 	isNextMessageAllowed=true; }, 1000);
+
 		var dateSend= displayTime() ;
 	//	var residuDate = dateSend.split(":"); > .replace(":"+residuDate[residuDate.length-1],"") 
 
