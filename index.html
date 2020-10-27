@@ -3,6 +3,12 @@
 <head>
 <link rel="shortcut icon" href="/static/images/logo/logo.ico" />
 <meta name="viewport" content ="width=device-width,initial-scale=1,user-scalable=yes" />
+<style>
+body{color:white; background-color:black;}
+a{text-decoration: none; color:#bc8f8f;
+}
+u{color:rgb(255,255,0);}
+</style>
 </head>
 <body>
 <img src="/static/images/logo/logo_boardgamemulation_refined_trans.png" alt="logo" style="float:right;width:8%;">
@@ -14,11 +20,19 @@
  <a href="/adminpage" target='_blank'>Are you a game master | Ben jij een spelleider?</a>
  <br>  <br>
 
+<div id="dom_container" style=" opacity:0.5; position: absolute; right:  0; margin-top:8%; margin-left:1.5%;  ">
+ 		<textarea id="chatboxdata" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 150px; width:180px;display:absolute;color:black;background:#ac9687;" disabled> </textarea>   <br>
+
+            <input onclick="allowItemMobileFocus = true;" id="chatboxrespons" autocomplete="off" style="height: 20px; color:black; width:120px; background: #ac9687;" class="" /> 
+			<button style="width:60px;padding:0%;" id='btnconfirmchatmessage' class='buttonDesign' onclick="SendchatMessage()"><abbr title="Send message">OK</abbr></button><br> 
+		
+	  </div>   
+
   	<span style="float:left;">Add your project to the fan-made games:<input accept=".bgem" type="file" id="btnLoadCustomProject"  onchange="uploadCustomProject()"></span>
   <br>
   <br>
 <hr>
-  <p>Play game | speel spel  </p> 
+  <p><u>Play game | speel spel </u> </p> 
   <a  target='_blank' href="/adminpage?static/examples/Backgammon.bgem">Backgammon </a><br>
    <a  target='_blank' href="/adminpage?static/examples/JohnYianni_Hive.bgem">John Yianni - Hive  </a><br>
    <a  target='_blank' href="/adminpage?static/examples/European_Chess.bgem">European Chess  </a><br>
@@ -30,16 +44,17 @@
    <a  target='_blank' href="/adminpage?static/examples/Tice_Tobbel/CircleTice_Shamans.bgem">Shamans (Tice roll)  </a>
 
  <br>
-   <p>Play 2D games | speel 2D spellen  </p> 
+   <p><u>Play 2D games | speel 2D spellen </u> </p> 
   <a  target='_blank' href="/2DPaijo">PaiJo </a><br>
    <a  target='_blank' href="/2DGabbac"> Gabbac  </a><br>
    <a  target='_blank' href="/2DMimir">Mimir  </a><br>
    <a  target='_blank' href="/2DV"> V  </a><br>
+   <a  target='_blank' href="/2dShamans"> Shamans  </a> 
 
  <br>
-    <p id="pFanGames">Play fan-made game | speel fangemaakt spel </p><br>
+    <p id="pFanGames"><u>Play fan-made game | speel fangemaakt spel</u> </p><br>
 	
-	    <p id="pLobby">Join public games | Bezoek publieke spelen</p><br>
+	    <p id="pLobby"><u>Join public games | Bezoek publieke spelen</u></p><br>
 <hr>
 <footer style="text-align:center">
   <p>Jonathan F.M. Neels - Fumetsujo Studio <br>
@@ -51,12 +66,32 @@
 </footer>
 
 	   <script src="static/lib/jquery-3.5.0.min.js"> 	</script>  
+	   	   <script src="static/js/serveraction.js"> 	</script>  
+	   <script src="static/js/helpers.js"> 	</script>  
+
 </body>
 <script>
+var admincode= "general";
+var pname="visitor_"+uuidv4().toString().substring(0,4);
+ var lastScrollHeightchat=0; 
+ 
 	setInterval(lobbyList, 20000);
-	
+			setInterval(chatData, 5000);
+			
+function chatData()
+{
+	   jQuery.get( "/chat"+admincode+"? ", function( data ) {
+   var convData = decodeURIComponent(data);
+ $( "#chatboxdata" ).html( convData );
+  		 if(lastScrollHeightchat != $('#chatboxdata')[0].scrollHeight){
+                 $('#chatboxdata').scrollTop($('#chatboxdata')[0].scrollHeight); 
+				  lastScrollHeightchat= $('#chatboxdata')[0].scrollHeight;
+				}
+
+ });}
 	function lobbyList()
-	{$("#pLobby").html("Join public games | Bezoek publieke spelen<br>");
+	{
+	$("#pLobby").html("<u>Join public games | Bezoek publieke spelen</u><br>");
 
 		$.get("/PublicGamesList", function( data ) {// get to server required, no respons, is offine nevertheless.
 			var gameNameList= data.split("\n");
@@ -89,7 +124,7 @@ if (playfield == null || playfield == "") {
 function loadCustomProjects()
 {
 
-$("#pFanGames").html("Play fan-made game | speel fangemaakt spel<br>");
+$("#pFanGames").html("<u>Play fan-made game | speel fangemaakt spel</u><br>");
 
 			$.get("/directoryitems/custom_fan_examples", function( data ) {
 var projects = data.split("<br>");

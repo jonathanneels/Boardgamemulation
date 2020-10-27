@@ -113,7 +113,7 @@ input[type=range][orient=vertical]
 </select></abbr>
    <br><br>
 
- <label for="txtProjectName">Projectname: </label><input type="text" id="txtProjectName" name="txtProjectName" style="width:80px; text-align:center;" value="2" ondblclick="$(this).val('');"> </abbr> | Load:<input type="file" id="btnLoadProject"  onchange="uploadScene()" accept=".bgem"> | 
+ <label for="txtProjectName">Projectname: </label><input autocomplete="off" type="text" id="txtProjectName" name="txtProjectName" style="width:80px; text-align:center;" value="2" ondblclick="$(this).val('');"> </abbr> | Load:<input type="file" id="btnLoadProject"  onchange="uploadScene()" accept=".bgem"> | 
 <button type="button" id="btnSaveProject" onclick="downloadScene()">Save Project</button></span> 
 <button type="button" id="btnAdminToggle" onclick="$('.admincontrol').toggle()" style="float:right;">Av^</button></span> 
 <button type="button" id="btnOptionsToggle" onclick="$('#spanSelObj').toggle()" style="float:right;">Pv^</button></span> 
@@ -154,7 +154,7 @@ input[type=range][orient=vertical]
 </span>         <br>  <br><br>
 		<textarea id="chatboxdata" class='controltheme' onclick='allowItemMobileFocus = true;' style=" height: 150px; width:180px;display:absolute;color:black;background:#ac9687;" disabled> </textarea>   <br>
 
-            <input onclick="allowItemMobileFocus = true;" id="chatboxrespons" style="height: 20px; color:black; width:120px; background: #ac9687;" class="" /> 
+            <input onclick="allowItemMobileFocus = true;" id="chatboxrespons" autocomplete="off" style="height: 20px; color:black; width:120px; background: #ac9687;" class="" /> 
 			<button style="width:60px;padding:0%;" id='btnconfirmchatmessage' class='buttonDesign' onclick="SendchatMessage()"><abbr title="Send message">OK</abbr></button><br> 
 		
 	  </div>   

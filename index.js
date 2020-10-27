@@ -395,7 +395,12 @@ gameAlivedict[admincode] = dateTimeNow();
         }
 		res.writeHead(200);  console.log("chat:"+admincode+"----"+chatcontentwithoutcode);
 		 if(Chatdict[admincode]===undefined || Chatdict[admincode]===[] ){res.end("");}
-		else{ res.end(Chatdict[admincode].join("\n"));}
+		else{ 
+					if(Chatdict[admincode].length > 15){
+		Chatdict[admincode] =	Chatdict[admincode].slice(Math.max(Chatdict[admincode].length - 5, 1));}
+
+		res.end(Chatdict[admincode].join("\n"));
+		}
   } 
   
   else  if (req.url === ( '/getCustomProjectForShare')) {   
@@ -499,13 +504,13 @@ res.writeHead(200, {'Content-Type': 'text/html'});
  
 	  
   }
-   else  if (req.url.includes( '/Get2D')) {
+   else  if (req.url.toUpperCase().includes( '/GET2D')) {
  	          res.writeHead(200, {'Content-Type': 'text/html'});
 			  var admincode = req.url.replace('/Get2D','').trim();
 			  		 if(Projectsdict[admincode]===undefined  ){res.end("NONE");}
 		else{ res.end(Projectsdict[admincode] );} }
    
-  else  if (req.url.includes( '/Join2D')) {
+  else  if (req.url.toUpperCase().includes( '/JOIN2D')) {
 	          res.writeHead(200, {'Content-Type': 'text/html'});
 		var gameJoin = req.url.replace("/Join2D","").trim()	 
 		var splitParts= gameJoin.split("?");
@@ -534,7 +539,7 @@ res.writeHead(200, {'Content-Type': 'text/html'});
  
 	  
   }
-  else  if (req.url.includes( '/2D')) {//else  if (req.url === '/adminpage') { //ref: https://stackoverflow.com/questions/37991995/passing-a-variable-from-node-js-to-html
+  else  if (req.url.toUpperCase().includes( '/2D')) {//else  if (req.url === '/adminpage') { //ref: https://stackoverflow.com/questions/37991995/passing-a-variable-from-node-js-to-html
         res.writeHead(200, {'Content-Type': 'text/html'});
 		var game = (req.url.replace("/2D","")).trim().toUpperCase();
 		var gameAdminCode= uuidv4();
@@ -551,6 +556,10 @@ res.writeHead(200, {'Content-Type': 'text/html'});
 			  });			  }
 			  			    else if(game.includes("PAI")){ 
 		fs.readFile("static/examples/PaiJo2D/index.html", "utf8", function(err, data) { 
+              res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
+			  });			  }
+			  else if(game.includes("SHAMAN")){ 
+		fs.readFile("static/examples/Shamans_2D/Shamans_2D.html", "utf8", function(err, data) { 
               res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
 			  });			  }
 			  else if(game =="VROLL"){
