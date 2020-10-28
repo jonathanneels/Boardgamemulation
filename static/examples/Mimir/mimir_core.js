@@ -787,6 +787,13 @@ gameSettings.diceObjList.push(diceObject("ID"+document.getElementById("txtPlayer
 }
 
 function startGame(){
+	
+	$("#chatboxresponsB").hide();
+		$("#chatboxrespons").hide();
+				$("#btnconfirmchatmessage").hide();
+		$("#btnconfirmchatmessageB").hide();
+
+
 		     ambientSound = new BABYLON.Sound("ambientMusic", "static/examples/Mimir/static/audio/spacesound.wav", scene, null, { loop: true, autoplay: true,   spatialSound: true  });//REF: https://doc.babylonjs.com/how_to/playing_sounds_and_music
 			 		     confirmSound = new BABYLON.Sound("ambientMusic", "static/examples/Mimir/static/audio/spaceconfirm.wav", scene, null, { loop: false, autoplay: true });
 
@@ -1024,7 +1031,7 @@ if(chatFeedTimer >= 1){chatFeedTimer=0;// ok 1x 3s atm => do note, longer wait, 
 	//	var residuDate = dateSend.split(":"); > .replace(":"+residuDate[residuDate.length-1],"") 
 	var sendString="";
 	if(!isWithoutTimeInfo){
-			  sendString=(" /chat"+admincode+"?"+encodeURIComponent("["+dateSend.replace(dateSend.substring(0,2),"")+ "] "+ pname+": "+document.getElementById("chatboxrespons").value)).trim();
+			  sendString=(" /chat"+admincode+"?"+encodeURIComponent("["+dateSend+ "] "+ pname+": "+document.getElementById("chatboxrespons").value)).trim();
 
 	}
 	else{
@@ -1037,8 +1044,7 @@ if(chatFeedTimer >= 1){chatFeedTimer=0;// ok 1x 3s atm => do note, longer wait, 
    //var convData = decodeURI(data);
    		   });}
  		
-				  var isNextMessageAllowed=true;
-  	function SendchatMessageB(isWithoutTimeInfo)
+   	function SendchatMessageB(isWithoutTimeInfo)
 		{   
 		if(!isNextMessageAllowed){return}
 		isNextMessageAllowed=false;
@@ -1049,7 +1055,7 @@ if(chatFeedTimer >= 1){chatFeedTimer=0;// ok 1x 3s atm => do note, longer wait, 
 
 	var sendString="";
 	if(!isWithoutTimeInfo){
-			  sendString=(" /chat"+admincode+"?"+encodeURIComponent("["+dateSend.replace(dateSend.substring(0,2),"")+ "] "+ pname+": "+document.getElementById("chatboxresponsB").value)).trim();
+			  sendString=(" /chat"+admincode+"?"+encodeURIComponent("["+dateSend + "] "+ pname+": "+document.getElementById("chatboxresponsB").value)).trim();
 
 	}
 	else{

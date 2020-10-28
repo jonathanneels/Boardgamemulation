@@ -8,6 +8,7 @@
       <title>Mimir Neo</title>
  
 <style>
+html, body{background:#ccc2a6;}
 #renderCanvas {
 				width:100%;
 				 height:100%; 
@@ -119,9 +120,12 @@
                                   supported by Chrome, Opera and Firefox */
 }
 
+#divBabylonControl{background:#ccc2a6;}
+#divGameLog{height:25vw;  ;max-height:25vw;  overflow-y:auto;}
+#divLayoutGameLog{width: 20%;margin-top:8%; float:right; border:1px solid white;padding-left:3px;margin-right:5px; }
 </style>
    </head>
-<body style="background:#ccc2a6;overflow:auto; margin:0;" class="noselect">  
+<body style="background:#ccc2a6;overflow:auto; margin:0;" class="noselect" id="body">  
 
 <div style="position: relative; "id="divBabylonControl">
 
@@ -140,7 +144,7 @@
 	<button class="buttonDesign" id="btnHelp"   style="  margin-left:5px; z-index:3;position:absolute;   " > HELP </button>
 <button class="buttonDesign" id="btn3DToggle" value="3D" onclick="ToggleDimensions()" style="float:right; margin-right:5px;   " >3D</button> 
 <button class="buttonDesign" id="btnMax" value="[*]" onclick="ToggleFullscreen()" style="float:right; margin-right:5px;   " >[*]</button>
-	   <input type="button"  style="float:right; margin-right:5px;   " class="buttonDesign " id="btnChatToggle" value="i" onclick="$('#dom_container').toggle();$('#divGameLog').toggle();">  
+	   <input type="button"  style="float:right; margin-right:5px;   " class="buttonDesign " id="btnChatToggle" value="i" onclick="$('#divLayoutGameLog').toggle();$('#dom_container').toggle();$('#divGameLog').toggle();">  
 <button class="buttonDesign" id="btnRestart" value="Restart" onclick="location.reload();" style="float:right; margin-right:5px;   " >Restart</button> 
    <button class="buttonDesign" id="btnReset" value="Restart" onclick="ResetGame();" style="float:right; margin-right:5px;   " >Reset</button> 
    <input type="button" class="buttonDesign " id="btnSettings" value="&#9881;" onclick="openSettings()"  style="float:right; margin-right:5px;   " > 
@@ -168,17 +172,17 @@
 <hr>
 <div id="2DField" style="background:#ccc2a6; ">
 
- <div style="width: 77%; float:left;  ">
+ <div style="width: 77%; float:left; margin-top:10%;margin-left:5px; ">
 <div id="divGameField" style="">
 
 </div>
 
 </div>
-<div style="width: 20%; float:right; border:1px solid white;padding-left:3px;margin-right:5px;">
+<div id="divLayoutGameLog">
 
-<div id="divGameLog" style="height:250px; overflow-y:auto;">
+<div id="divGameLog"  >
 </div><hr>
-            <input autocomplete="off" onclick="allowItemMobileFocus = true;" id="chatboxresponsB" style="  color:black; width:55%; background: #ccc2a6;" class=""   />  <button style="width:40px;padding:0%;" id='btnconfirmchatmessageB' class='buttonDesign' onclick="SendchatMessageB()"  >OK</button>
+  <input autocomplete="off" onclick="allowItemMobileFocus = true;" id="chatboxresponsB" style="  color:black; width:55%; background: #ccc2a6;"    />  <button style="width:40px;padding:0%;" id='btnconfirmchatmessageB' class='buttonDesign' onclick="SendchatMessageB()"  >OK</button>
 
 </div>
 </div>
