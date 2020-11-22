@@ -566,11 +566,15 @@ res.writeHead(200, {'Content-Type': 'text/html'});
 			  else if(game =="VROLL"){
 		fs.readFile("static/examples/V/V-Roll-2D.html", "utf8", function(err, data) { 
               res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
+			  });			  } 
+			   else if(game.includes("VICEQUEST")){
+		fs.readFile("static/examples/vicequest/ViceQuest.html", "utf8", function(err, data) { 
+              res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
 			  });			  }
 			   else if(game.includes("V")){
 		fs.readFile("static/examples/V/V-Game-2D.html", "utf8", function(err, data) { 
               res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
-			  });			  }
+			  });			  }			  
 			    else   if(game.includes("MIMIR")){ 
 		fs.readFile("static/examples/Mimir/Mimir_Neo.html", "utf8", function(err, data) { 
               res.end(data + "<label hidden id='lblAdminCode'>"+gameAdminCode +"</label><label hidden id='lblisAdmin'>true</label>"); 
