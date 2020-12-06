@@ -583,7 +583,7 @@ res.writeHead(200, {'Content-Type': 'text/html'});
 				  return res.end('The requested game has not been found on the server.');
 			  }
 			  
-			  }
+			  }		  
   else{  
   fs.readFile(__dirname + req.url, function (err,data) {//REF:https://stackoverflow.com/questions/16333790/node-js-quick-file-server-static-files-over-http
     if (err) {
