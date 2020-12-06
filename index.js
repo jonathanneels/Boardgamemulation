@@ -542,6 +542,11 @@ res.writeHead(200, {'Content-Type': 'text/html'});
   else  if (req.url.toUpperCase().includes( '/2D')) {//else  if (req.url === '/adminpage') { //ref: https://stackoverflow.com/questions/37991995/passing-a-variable-from-node-js-to-html
         res.writeHead(200, {'Content-Type': 'text/html'});
 		var game = (req.url.replace("/2D","")).trim().toUpperCase();
+		
+  			game = game.replace(/(.*?) ?fbclid.*/i, "$1"); // handling facebook click id
+					if(game.slice(-1) =="?"){
+			game =game.substring(0, game.length - 1);}
+
 		var gameAdminCode= uuidv4();
 		gameAlivedict[gameAdminCode] = dateTimeNow();
 	 	playerdict[gameAdminCode]=["GAME_MASTER"];
@@ -585,7 +590,16 @@ res.writeHead(200, {'Content-Type': 'text/html'});
 			  
 			  }		  
   else{  
-  fs.readFile(__dirname + req.url, function (err,data) {//REF:https://stackoverflow.com/questions/16333790/node-js-quick-file-server-static-files-over-http
+  
+  var dir=__dirname + req.url;
+  
+  			dir = dir.replace(/(.*?) ?fbclid.*/i, "$1"); // handling fb click id
+					if(dir.slice(-1) =="?"){
+			dir =dir.substring(0, dir.length - 1);
+			}
+
+
+  fs.readFile(dir, function (err,data) {//REF:https://stackoverflow.com/questions/16333790/node-js-quick-file-server-static-files-over-http
     if (err) {
       res.writeHead(404);
       res.end(JSON.stringify(err));
