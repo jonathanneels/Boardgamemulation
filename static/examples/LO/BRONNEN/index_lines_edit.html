@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+
+        <!-- Babylon.js -->
+        <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/ammo.js"></script>
+        <script src="https://preview.babylonjs.com/cannon.js"></script>
+        <script src="https://preview.babylonjs.com/Oimo.js"></script>
+        <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+        <script src="https://preview.babylonjs.com/babylon.js"></script>
+        <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+        <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+		var isClassicStyle=true;
+		
+        var engine = null;
+        var scene = null;
+        var sceneToRender = null;
+        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
+        var createScene = function () {
+        
+		var Who=0;
+		        	var path = [];
+					
+var aiCount = 2;
+			var isAiGreenLight=true;
+
+ var isEndgame=false;	
+ 
+					function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+}
+ 
+
+            var scene = new BABYLON.Scene(engine);
+        
+        	// lights, cameras, action!
+            var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2, .8, 50, BABYLON.Vector3.Zero(), scene);
+            camera.attachControl(canvas, true);
+        
+        	var light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
+        	light.groundColor = new BABYLON.Color3(.5, .5, .5);
+        
+        	// make some toys
+         
+		 var nMat=  new BABYLON.StandardMaterial("bNeutralmat", scene);
+		         	nMat.diffuseColor = new BABYLON.Color3(0.7,0.7,0.6);//new BABYLON.Color3(1, .6, 0);
+if(!isClassicStyle){nMat.alpha = 0.2;}else{nMat.alpha = 0.5;}
+
+		 			 var sphere1 =new BABYLON.MeshBuilder.CreateSphere("sphere_"+ (Math.random() * 10000).toString(), {diameter: 5 }, scene);     
+        	sphere1.material = nMat
+         	sphere1.position = new BABYLON.Vector3(-10, 0, 0);
+			sphere1["pathIds"]=[0 ]//,4];
+
+		 			 var sphere2 =new BABYLON.MeshBuilder.CreateSphere("sphere_"+ (Math.random() * 10000).toString(), {diameter: 5 }, scene);     
+         	        	sphere2.material = nMat
+			sphere2.position = new BABYLON.Vector3(10, 0, 0);
+			sphere2["pathIds"]=[1];
+
+		 			 var sphere3 =new BABYLON.MeshBuilder.CreateSphere("sphere_"+ (Math.random() * 10000).toString(), {diameter: 5 }, scene);     
+        	sphere3.material = nMat
+        	sphere3.position = new BABYLON.Vector3(0, 0, 20);
+			sphere3["pathIds"]=[2];
+
+ 			 var sphere4 =new BABYLON.MeshBuilder.CreateSphere("sphere_"+ (Math.random() * 10000).toString(), {diameter: 5 }, scene);     
+         	        	sphere4.material = nMat
+			sphere4.position = new BABYLON.Vector3(0, 20, 0);
+			sphere4["pathIds"]=[3];
+		 
+        	// put positions into path 
+
+        	path.push(sphere1.position);
+        	path.push(sphere2.position);
+        	path.push(sphere3.position);
+        	path.push(sphere4.position);
+         //   path.push(sphere1.position);
+
+			 			
+			for (var i = 0; i < 25; i++) {
+			
+			 var spherex =new BABYLON.MeshBuilder.CreateSphere("sphere_"+ (Math.random() * 10000).toString(), {diameter: 5 }, scene);     
+         	        	spherex.material = nMat
+			spherex.position = new BABYLON.Vector3((Math.random() * 40) +path.length, (Math.random() * 40) +path.length, (Math.random() * 40) +path.length); 
+               path.push(spherex.position);
+			   spherex["pathIds"]=[path.length-1]; 
+			   
+		//	   	var filteredCaptures= scene.meshes.filter(function( g) {
+ // return g.id.indexOf("sphere_")  >-1;
+//});
+		//var retconPointMesh = filteredCaptures[getRandomIntInclusive(0,filteredCaptures.length-1)]
+             //   path.push(retconPointMesh.position);
+			//	retconPointMesh["pathIds"].push(  path.length-1 );  
+
+		}
+
+			 
+			 
+			 
+        	
+			var linesMesh;
+			if(isClassicStyle){
+          	  linesMesh = BABYLON.Mesh.CreateLines("lines", path, null, null, linesMesh);// http://doc.babylonjs.com/tutorials/How_to_dynamically_morph_a_mesh#lines-and-dashedlines
+				}else{
+ 				var linecols = [];//ref: https://www.babylonjs-playground.com/#165IV6#229
+				var lineIndex=0;
+					for (var i = 0; i < path.length; i++) {//REF:https://www.babylonjs-playground.com/#165IV6#232
+					if(lineIndex==0){		      linecols .push( new BABYLON.Color4(1,0.5,0,1)); //linecols .push( new BABYLON.Color4(1,0,0,1));
+				}
+					else if(lineIndex==1){ linecols .push( new BABYLON.Color4(0,0,1,1));}
+										else if(lineIndex==2){ linecols .push( new BABYLON.Color4(1,0,1,1));lineIndex=-1;} lineIndex+=1;
+
+			  }
+	 linesMesh = BABYLON.MeshBuilder.CreateLines("lines", {points: path, colors: linecols}, scene); 
+ }
+
+		Who= getRandomIntInclusive(0,1);// start peep
+		
+		var actTimer = 0;
+//setTimeout(function(){ aiAction(); }, 1500);
+         	scene.registerBeforeRender(function () { 
+			
+			if(actTimer >=100){if(!isEndgame){aiAction();victoryCheck();}actTimer=0;} actTimer+=1;
+
+				
+         	});
+        
+		
+	var checkCapturesTestD=function (object)
+			{
+		
+					 	 				var allCapt= scene.meshes.filter(function( g) {
+  return g.id.indexOf("sphere_")  >-1 ; 
+});
+		
+
+				var prevObj;
+				var prevObjbis;
+				
+				 var nextObj;
+				var nextObjbis;
+	
+   for (var i = 0; i < allCapt.length  ; i++) {  
+
+ if(object.id == allCapt[i].id  ){
+ prevObj=allCapt[i-1];
+ prevObjbis=allCapt[i-2];
+ 
+  nextObj=allCapt[i+1];
+ nextObjbis=allCapt[i+2];
+
+ break;
+ }}
+ 
+ 
+ 					if(typeof prevObj  !== "undefined"  &&typeof prevObjbis !== "undefined" & typeof prevObj["MarkedId"] !== "undefined"  &&typeof prevObjbis["MarkedId"] !== "undefined"){
+					
+					
+ 						if(object["MarkedId"] === prevObjbis["MarkedId"] && prevObj["MarkedId"] !== object["MarkedId"]   ){
+
+						var ColMat=  new BABYLON.StandardMaterial("bNonNeutralmat"+ (Math.random() * 10000).toString(), scene);  
+
+							 if(object["MarkedId"]==0) { prevObj["MarkedId"] =0;ColMat.diffuseColor = new BABYLON.Color3(1,1,1);prevObj.material= ColMat; } 
+					else if(object["MarkedId"]==1){ prevObj["MarkedId"] =1;ColMat.diffuseColor = new BABYLON.Color3(0, 0,0); prevObj.material= ColMat; }
+						 }
+						 
+ 						  } 
+						  
+						  
+						  
+						  
+						  if(typeof nextObj   !== "undefined"  &&typeof nextObjbis !== "undefined" & typeof nextObj["MarkedId"] !== "undefined"  &&typeof nextObjbis["MarkedId"] !== "undefined"){
+					
+					
+ 						if(object["MarkedId"] === nextObjbis["MarkedId"] && nextObj["MarkedId"] !== object["MarkedId"]   ){
+ 												var ColMat=  new BABYLON.StandardMaterial("bNonNeutralmat"+ (Math.random() * 10000).toString(), scene);  
+
+							 if(object["MarkedId"]==0) { nextObj["MarkedId"] =0;ColMat.diffuseColor = new BABYLON.Color3(1,1,1);nextObj.material= ColMat; } 
+					else if(object["MarkedId"]==1){ nextObj["MarkedId"] =1;ColMat.diffuseColor = new BABYLON.Color3(0, 0,0); nextObj.material= ColMat; }
+						 }
+						 
+ 						  }
+						
+} 
+		 
+		
+		var checkCapturesTestC=function ( )
+			{
+		
+					 	 				var allCaptures= scene.meshes.filter(function( g) {
+  return g.id.indexOf("sphere_")  >-1 ; 
+});
+				 	
+ var colorTiles=[];
+  for (var i = 2; i < allCaptures.length-2; i++) { // skip 1 & last
+
+if(typeof allCaptures[i]["MarkedId"] !== "undefined"   )
+						{
+					
+ if(typeof allCaptures[i-1]["MarkedId"] !== "undefined"  &&  allCaptures[i-1]["MarkedId"] !== allCaptures[i]["MarkedId"] && typeof allCaptures[i+1]["MarkedId"] !== "undefined"  &&  allCaptures[i+1]["MarkedId"] !== allCaptures[i]["MarkedId"] )
+						{
+												var ColMat=  new BABYLON.StandardMaterial("bNonNeutralmat", scene);  
+
+							 if(allCaptures[i]["MarkedId"]==1) { allCaptures[i]["MarkedId"] =1;ColMat.diffuseColor = new BABYLON.Color3(0.5, 0, 0.5);allCaptures[i].material= ColMat; } 
+					else if(allCaptures[i]["MarkedId"]==0){ allCaptures[i]["MarkedId"] =0;ColMat.diffuseColor = new BABYLON.Color3(0, .5, 0.5);  allCaptures[i].material= ColMat; }
+						/*
+							for (var z = i-1; z > 2; z--) {
+								
+							 if(typeof allCaptures[z]["MarkedId"] === "undefined")  
+						{ colorTiles=[]; 						 console.log("");
+
+						 break;
+						} else if(  allCaptures[z]["MarkedId"] == allCaptures[i]["MarkedId"] ){ 
+						
+							for (var y = 0; y < colorTiles.length ; y++) {
+						console.log(colorTiles[y]+""+colorTiles.length)
+						var ColMat=  new BABYLON.StandardMaterial("bNonNeutralmat", scene);  
+					 if(colorTiles[y]["MarkedId"]==1) { colorTiles[y]["MarkedId"] =1;ColMat.diffuseColor = new BABYLON.Color3(0.5, 0, 0.5);colorTiles[y].material= ColMat; } 
+					else if(colorTiles[y]["MarkedId"]==0){ colorTiles[y]["MarkedId"] =0;ColMat.diffuseColor = new BABYLON.Color3(0, .5, 0.5);  colorTiles[y].material= ColMat; }
+						  }colorTiles=[];
+						break;
+						} else{colorTiles.push(allCaptures[z]); }
+							}						
+ 
+						for (var z = i+1; z < allCaptures.length-2; z++) {
+													 if(typeof allCaptures[z]["MarkedId"] === "undefined")  
+						{ colorTiles=[]; 
+						 break;
+						} else if(  allCaptures[z]["MarkedId"] == allCaptures[i]["MarkedId"] ){ 
+						
+							for (var y = 0; y < colorTiles.length ; y++) {
+ 
+						var ColMat=  new BABYLON.StandardMaterial("bNonNeutralmat", scene);  
+					 if(colorTiles[y]["MarkedId"]==1) { colorTiles[y]["MarkedId"] =1;ColMat.diffuseColor = new BABYLON.Color3(0.5, 0, 0.5);colorTiles[y].material= ColMat; } 
+					else if(colorTiles[y]["MarkedId"]==0){ colorTiles[y]["MarkedId"] =0;ColMat.diffuseColor = new BABYLON.Color3(0, .5, 0.5);  colorTiles[y].material= ColMat; }
+						 }colorTiles=[];
+						break;
+						} else{colorTiles.push(allCaptures[z]); }
+
+						}*/
+						 
+						}
+						 }
+						
+} 
+		}
+		var checkCapturesTestB=function ( )// NOTE: THIS CAN SHOW WRONG RESULTS. BETTER TO EXTRACT THE FIRST 1 LAST SPHERE AND THEN THE SECOND AND SECOND LAST AS COMPARISON. 
+			{
+			 	 				var allCaptures= scene.meshes.filter(function( g) {
+  return g.id.indexOf("sphere_")  >-1 &&   typeof g["MarkedId"] !== "undefined"; 
+});
+
+ 			 			for (var i = 0; i < allCaptures.length; i++) {
+						
+						for (var f = 0; f < allCaptures[i]["pathIds"].length; f++) {
+						
+						for (var b = 0; b < allCaptures.length; b++) {
+						if(allCaptures[i]["pathIds"]  == allCaptures[b]["pathIds"]       )
+						{
+						
+						continue ;
+						}
+						 for (var c = 0; c < allCaptures[b]["pathIds"].length; c++) {
+var ColMat=  new BABYLON.StandardMaterial("bNonNeutralmat"+ (Math.random() * 10000).toString(), scene);
+
+						if((allCaptures[i]["pathIds"][f] ==0 && allCaptures[b]["pathIds"][c] ==1) ||  (allCaptures[i]["pathIds"][f] ==path.length-1 && allCaptures[b]["pathIds"][c] ==path.length-2) )
+						{
+						if(typeof allCaptures[i]["MarkedId"] !== "undefined" &&typeof allCaptures[b]["MarkedId"] !== "undefined" &&allCaptures[i]["MarkedId"] !=   allCaptures[b]["MarkedId"] )
+						{
+												if(allCaptures[i]["MarkedId"]==1) { allCaptures[i]["MarkedId"] =1;ColMat.diffuseColor = new BABYLON.Color3(1,1,1);allCaptures[i].material= ColMat; } 
+					else if(allCaptures[i]["MarkedId"]==0){ allCaptures[i]["MarkedId"] =0;ColMat.diffuseColor = new BABYLON.Color3(0,0,0);  allCaptures[i].material= ColMat; }
+
+											continue ;
+
+						}
+						
+						
+						}
+						
+						}
+						}
+}
+
+}
+ }			
+			
+			var checkCaptures=function (whonow, listA, listB)
+			{
+			
+		
+
+	filteredCaptures=listA;
+		filteredCapturesOthers=listB;
+
+
+
+ 			 			for (var i = 0; i < filteredCaptures.length; i++) {
+  
+									var linkedCounters = filteredCaptures[i]["pathIds"].length  
+
+									for (var f = 0; f < filteredCaptures[i]["pathIds"].length; f++) {
+										 console.log(linkedCounters+"--"+filteredCaptures[i]["pathIds"][f])
+
+										 var sphereLower= filteredCapturesOthers.filter(function( g) {
+													  return g["pathIds"].indexOf(filteredCaptures[i]["pathIds"][f]-1) >-1 && typeof g["MarkedId"] !== "undefined" &&   g.position !==   filteredCaptures[i].position;
+													});
+										var sphereHigher= filteredCapturesOthers.filter(function( g) {
+													  return g["pathIds"].indexOf(filteredCaptures[i]["pathIds"][f]+1) >-1 && typeof g["MarkedId"] !== "undefined" &&   g.position !==   filteredCaptures[i].position;
+													});	
+
+												  console.log(sphereLower)
+												  console.log(sphereHigher)
+
+														if(filteredCaptures[i][f]==0 && typeof sphereHigher[0]["MarkedId"] !== "undefined" && filteredCaptures[i]["MarkedId"] != sphereHigher[0]["MarkedId"])
+														{
+																									linkedCounters-=1;
+
+														}
+														else 	if(filteredCaptures[i][f]==path.length-1 && typeof sphereLower[0]["MarkedId"] !== "undefined" && filteredCaptures[i]["MarkedId"] != sphereLower[0]["MarkedId"])
+														{
+																									linkedCounters-=1;
+
+														}
+ 											/*if(sphereHigher.length >0 && sphereLower.length <1  ) // last entry
+											{
+											if( typeof sphereHigher[0]["MarkedId"] !== "undefined" && filteredCaptures[i]["MarkedId"] != sphereHigher[0]["MarkedId"])  
+											{
+											linkedCounters-=1;
+											}
+											}
+											else  if(sphereHigher.length <1 && sphereLower.length >0  ) // first entry
+											{
+											if( typeof sphereLower[0]["MarkedId"] !== "undefined" && filteredCaptures[i]["MarkedId"] != sphereLower[0]["MarkedId"]           )
+											{
+											 linkedCounters-=1;
+											}
+											} */
+											else
+											{
+											if(sphereHigher.length >0 && sphereLower.length >0&& ((typeof sphereLower[0]["MarkedId"] !== "undefined" && filteredCaptures[i]["MarkedId"] != sphereLower[0]["MarkedId"]) &&typeof sphereHigher[0]["MarkedId"] !== "undefined" && filteredCaptures[i]["MarkedId"] != sphereHigher[0]["MarkedId"]) )
+											{linkedCounters-=1;}
+											}
+
+							
+
+ 			 }
+
+			 if(linkedCounters<=0)
+					{var ColMat=  new BABYLON.StandardMaterial("bNonNeutralmat", scene);
+					 console.log(linkedCounters)
+					 console.log(">"+filteredCaptures[i]["MarkedId"])
+						if(filteredCaptures[i]["MarkedId"]!=0) { filteredCaptures[i]["MarkedId"] =1;ColMat.diffuseColor = new BABYLON.Color3(1,1,1);filteredCaptures[i].material= ColMat; } 
+					else if(filteredCaptures[i]["MarkedId"]!=1){ filteredCaptures[i]["MarkedId"] =0;ColMat.diffuseColor = new BABYLON.Color3(0, 0,0);  filteredCaptures[i].material= ColMat; }
+					
+					//return false;
+ 					} 
+}
+			}
+			
+			
+		
+			
+			var victoryCheck=function()
+			{
+						 	 				var allCaptures= scene.meshes.filter(function( g) {
+  return g.id.indexOf("sphere_")  >-1 ;  
+});
+
+var lastValisUndefined= false;
+  isEndgame=true;
+
+var p1Count=0;
+var p2Count=0;
+ 			 			for (var i = 0; i < allCaptures.length; i++) {
+						
+
+						
+						if(typeof allCaptures[i]["MarkedId"] ==="undefined" && lastValisUndefined ==false)
+						{
+						lastValisUndefined=true;
+						}
+						else if(typeof allCaptures[i]["MarkedId"] ==="undefined" && lastValisUndefined  ) // max. one empty space  in between possible.
+						{
+						isEndgame=false;
+						}
+						
+						else if(  allCaptures[i]["MarkedId"] ===0)
+						{
+						p1Count+=1; lastValisUndefined=false;
+						}
+						else if(  allCaptures[i]["MarkedId"] ===1)
+						{
+						p2Count+=1;
+						lastValisUndefined=false;
+						}
+
+			}
+						console.log(p1Count+"--"+p2Count)
+
+			if(isEndgame)
+			{
+			if(p1Count > p2Count){console.log("Player one wins.");}
+			else if(p1Count > p2Count){console.log("Player two wins.");}
+			 else if(p1Count == p2Count){console.log("Draw. No winner.");}
+			 
+			 if(aiCount ==2){setTimeout(function(){/*location.reload();*/ }, 5500);}
+ 			
+			}
+			}
+			
+			var isAllowedToDrop=function(object)
+			{
+						 	 				var allCaptures= scene.meshes.filter(function( g) {
+  return g.id.indexOf("sphere_")  >-1 ; 
+});
+
+for (var i = 0; i < allCaptures.length; i++) {
+
+if(object.id == allCaptures[i].id &&typeof allCaptures[i-1]  !== "undefined"  && typeof allCaptures[i+1] !== "undefined" ){ 
+ if(typeof allCaptures[i-1]["MarkedId"] !== "undefined"  &&  allCaptures[i-1]["MarkedId"] !== allCaptures[i]["MarkedId"] && typeof allCaptures[i+1]["MarkedId"] !== "undefined"  &&  allCaptures[i+1]["MarkedId"] !== allCaptures[i]["MarkedId"] )
+						{
+						return false;
+						}
+						
+						}}
+			return true;
+			}
+			
+			var executeAction = function(obj)
+			{
+			if(isAllowedToDrop(obj)){
+	 obj["MarkedId"]=Who;
+	 
+
+	 		 var ColMat=  new BABYLON.StandardMaterial("bNonNeutralmat"+ (Math.random() * 10000).toString(), scene);
+		         	
+					
+					if(Who==0) {Who=1;ColMat.diffuseColor = new BABYLON.Color3(1, 1, 1);//(0.5, 0, 0.5);
+					} 
+					else if(Who==1){Who=0;ColMat.diffuseColor = new BABYLON.Color3(0, 0, 0 );//(0, .5, 0.5);
+					}
+					
+					obj.material= ColMat
+					
+					
+ 	 				var filteredCaptures= scene.meshes.filter(function( g) {
+  return g.id.indexOf("sphere_")  >-1 && g["MarkedId"] == Who && typeof g["MarkedId"] !== "undefined"; 
+});
+			var filteredCapturesOthers= scene.meshes.filter(function( g) {
+  return g.id.indexOf("sphere_")  >-1 && g["MarkedId"] != Who && typeof g["MarkedId"] !== "undefined"; 
+});		
+ //checkCaptures(Who,filteredCaptures,filteredCapturesOthers);
+
+
+checkCapturesTestD(obj);
+ checkCapturesTestB();
+ 
+}  
+//setTimeout(function(){ aiAction(); }, 1500);
+ 
+
+			}
+			
+			
+				var aiAction=function()
+			{
+			
+			if(!isAiGreenLight){return;} 
+			if ((aiCount==1 && Who==1) || aiCount ==2)
+			{isAiGreenLight=false;
+				 	 				var allCaptures= scene.meshes.filter(function( g) {
+				return g.id.indexOf("sphere_")  >-1 &&   typeof g["MarkedId"] === "undefined"; 
+			})
+			
+			if(allCaptures.length >0){
+
+			executeAction(allCaptures[getRandomIntInclusive(0,allCaptures.length-1)]); isAiGreenLight=true;
+
+			} else{isAiGreenLight=true;}
+			
+			}
+			}
+			
+			
+			
+	 scene.onPointerDown = function (evt, pickResult) {
+	 
+	 	if ((aiCount==1 && Who==0) || aiCount ==0)
+			{
+	 if(pickResult.pickedMesh != null && pickResult.pickedMesh.id.indexOf("sphere_") >-1 && typeof pickResult.pickedMesh.MarkedId === "undefined" ){
+	 
+	 executeAction(pickResult.pickedMesh);
+	 
+	 
+ }
+		}
+		}
+		
+		
+            return scene;
+        };
+        
+                var engine;
+                var scene;
+                initFunction = async function() {               
+                    var asyncEngineCreation = async function() {
+                        try {
+                        return createDefaultEngine();
+                        } catch(e) {
+                        console.log("the available createEngine function failed. Creating the default engine instead");
+                        return createDefaultEngine();
+                        }
+                    }
+
+                    engine = await asyncEngineCreation();
+        if (!engine) throw 'engine should not be null.';
+        scene = createScene();};
+        initFunction().then(() => {sceneToRender = scene        
+            engine.runRenderLoop(function () {
+                if (sceneToRender && sceneToRender.activeCamera) {
+                    sceneToRender.render();
+                }
+            });
+        });
+
+		
+		
+	
+		
+		
+		
+		
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>

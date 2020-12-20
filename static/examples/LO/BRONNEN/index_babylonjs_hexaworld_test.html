@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Babylon.js sample code</title>
+
+        <!-- Babylon.js -->
+        <script src="https://code.jquery.com/pep/0.4.2/pep.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/ammo.js"></script>
+        <script src="https://preview.babylonjs.com/cannon.js"></script>
+        <script src="https://preview.babylonjs.com/Oimo.js"></script>
+        <script src="https://preview.babylonjs.com/earcut.min.js"></script>
+        <script src="https://preview.babylonjs.com/babylon.js"></script>
+        <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+        <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+
+        var engine = null;
+        var scene = null;
+        var sceneToRender = null;
+        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
+        // You have to create a function called createScene. This function must return a BABYLON.Scene object
+        // You can reference the following variables: scene, canvas
+        // You must at least define a camera
+        // More info here: https://github.com/BabylonJS/Babylon.js/wiki/The-Playground
+        
+ 			var Who=0;
+			
+        function createPlanetMesh(scale, degree, scene) {
+            var material = new BABYLON.StandardMaterial("mat", scene);
+            var sdIco = generateSubdividedIcosahedron(scale, degree);
+        
+		  var vertexData = new BABYLON.VertexData();
+            var indices = [];
+            var colors = [];
+            var positions = [];
+        
+            for (var i = 0; i < sdIco.nodes.length; ++i) {
+                var node = sdIco.nodes[i];
+                var faceIndex = node.f[0];
+                for (var j = 1; j < node.f.length - 1; ++j) {
+                    faceIndex = findNextFaceIndex(sdIco, i, faceIndex);
+                    var k = node.f.indexOf(faceIndex);
+                    node.f[k] = node.f[j];
+                    node.f[j] = faceIndex;
+                }
+            }
+        
+		console.log(sdIco.nodes.length);
+            // Generate dual polyhedron position and face indices
+            for (var n = 0; n < sdIco.nodes.length; n++) {
+                var relativeZeroIndex = positions.length / 3;
+        
+                var color = new BABYLON.Color3(0, Math.random() * 0.5, Math.random() * 1);
+        
+                // Get all the centroids of the faces adjacent to this vertex
+                for (var f = 0; f < sdIco.nodes[n].f.length; f++) {
+                   var nodes = sdIco.faces[sdIco.nodes[n].f[f]].n;
+                    var centroid = sdIco.faces[sdIco.nodes[n].f[f]].centroid;
+					
+					//outcomment this for lower resources///
+                   positions.push(centroid.x);
+                    positions.push(centroid.y);
+                    positions.push(centroid.z);
+                    colors.push(color.r);
+                    colors.push(color.g);
+                    colors.push(color.b);
+                    colors.push(1.0);
+					 // => this part generates the 'planes of the planet'.
+					
+					//added as custom///
+					var sphere =new BABYLON.MeshBuilder.CreateSphere("sphere_"+ (Math.random() * 10000).toString(), {diameter: degree }, scene); //diam = degree instead of 1 (default)
+ 					 sphere.position  =  new BABYLON.Vector3(centroid.x,centroid.y,centroid.z); 
+						        		var spheremat = new BABYLON.StandardMaterial("spheremat_"+ (Math.random() * 10000).toString(), scene);
+        		 		 	spheremat.emissiveColor = new BABYLON.Color3(0.4, 0.4, 0.5); 
+				 sphere.material=spheremat
+				 sphere.isPickable=true;
+ 
+						///
+                }
+        
+                for (var i = relativeZeroIndex; i < (positions.length / 3) - 2; i++) {
+                    indices.push(relativeZeroIndex);
+                    indices.push(i + 1);
+                    indices.push(i + 2);
+                }
+            }
+        
+            var mesh = new BABYLON.Mesh("planet", scene);
+            mesh.useVertexColors = true;
+        
+        
+            vertexData.indices = indices;
+            vertexData.positions = positions;
+            vertexData.colors = colors;
+        
+            var normals = [];
+            BABYLON.VertexData.ComputeNormals(positions, indices, normals);
+            vertexData.normals = normals;
+        
+            vertexData.applyToMesh(mesh, false);
+        
+            //mesh.convertToFlatShadedMesh();
+        
+            mesh.material = material;
+            return mesh;
+        }
+        
+        function generateIcosahedron() {
+            var phi = (1.0 + Math.sqrt(5.0)) / 2.0;
+            var du = 1.0 / Math.sqrt(phi * phi + 1.0);
+            var dv = phi * du;
+        
+            nodes =
+            [
+              { p: new BABYLON.Vector3(0, +dv, +du), e: [], f: [] },
+              { p: new BABYLON.Vector3(0, +dv, -du), e: [], f: [] },
+              { p: new BABYLON.Vector3(0, -dv, +du), e: [], f: [] },
+              { p: new BABYLON.Vector3(0, -dv, -du), e: [], f: [] },
+              { p: new BABYLON.Vector3(+du, 0, +dv), e: [], f: [] },
+              { p: new BABYLON.Vector3(-du, 0, +dv), e: [], f: [] },
+              { p: new BABYLON.Vector3(+du, 0, -dv), e: [], f: [] },
+              { p: new BABYLON.Vector3(-du, 0, -dv), e: [], f: [] },
+              { p: new BABYLON.Vector3(+dv, +du, 0), e: [], f: [] },
+              { p: new BABYLON.Vector3(+dv, -du, 0), e: [], f: [] },
+              { p: new BABYLON.Vector3(-dv, +du, 0), e: [], f: [] },
+              { p: new BABYLON.Vector3(-dv, -du, 0), e: [], f: [] },
+            ];
+        
+            edges =
+            [
+              { n: [0, 1, ], f: [], },
+              { n: [0, 4, ], f: [], },
+              { n: [0, 5, ], f: [], },
+              { n: [0, 8, ], f: [], },
+              { n: [0, 10, ], f: [], },
+              { n: [1, 6, ], f: [], },
+              { n: [1, 7, ], f: [], },
+              { n: [1, 8, ], f: [], },
+              { n: [1, 10, ], f: [], },
+              { n: [2, 3, ], f: [], },
+              { n: [2, 4, ], f: [], },
+              { n: [2, 5, ], f: [], },
+              { n: [2, 9, ], f: [], },
+              { n: [2, 11, ], f: [], },
+              { n: [3, 6, ], f: [], },
+              { n: [3, 7, ], f: [], },
+              { n: [3, 9, ], f: [], },
+              { n: [3, 11, ], f: [], },
+              { n: [4, 5, ], f: [], },
+              { n: [4, 8, ], f: [], },
+              { n: [4, 9, ], f: [], },
+              { n: [5, 10, ], f: [], },
+              { n: [5, 11, ], f: [], },
+              { n: [6, 7, ], f: [], },
+              { n: [6, 8, ], f: [], },
+              { n: [6, 9, ], f: [], },
+              { n: [7, 10, ], f: [], },
+              { n: [7, 11, ], f: [], },
+              { n: [8, 9, ], f: [], },
+              { n: [10, 11, ], f: [], },
+            ];
+        
+            faces =
+            [
+              { n: [0, 1, 8], e: [0, 7, 3], },
+              { n: [0, 4, 5], e: [1, 18, 2], },
+              { n: [0, 5, 10], e: [2, 21, 4], },
+              { n: [0, 8, 4], e: [3, 19, 1], },
+              { n: [0, 10, 1], e: [4, 8, 0], },
+              { n: [1, 6, 8], e: [5, 24, 7], },
+              { n: [1, 7, 6], e: [6, 23, 5], },
+              { n: [1, 10, 7], e: [8, 26, 6], },
+              { n: [2, 3, 11], e: [9, 17, 13], },
+              { n: [2, 4, 9], e: [10, 20, 12], },
+              { n: [2, 5, 4], e: [11, 18, 10], },
+              { n: [2, 9, 3], e: [12, 16, 9], },
+              { n: [2, 11, 5], e: [13, 22, 11], },
+              { n: [3, 6, 7], e: [14, 23, 15], },
+              { n: [3, 7, 11], e: [15, 27, 17], },
+              { n: [3, 9, 6], e: [16, 25, 14], },
+              { n: [4, 8, 9], e: [19, 28, 20], },
+              { n: [5, 11, 10], e: [22, 29, 21], },
+              { n: [6, 9, 8], e: [25, 28, 24], },
+              { n: [7, 10, 11], e: [26, 29, 27], },
+            ];
+        
+            for (var i = 0; i < edges.length; ++i)
+                for (var j = 0; j < edges[i].n.length; ++j)
+                    nodes[j].e.push(i);
+        
+            for (var i = 0; i < faces.length; ++i)
+                for (var j = 0; j < faces[i].n.length; ++j)
+                    nodes[j].f.push(i);
+        
+            for (var i = 0; i < faces.length; ++i)
+                for (var j = 0; j < faces[i].e.length; ++j)
+                    edges[j].f.push(i);
+        
+            return { nodes: nodes, edges: edges, faces: faces };
+        }
+        
+        function generateSubdividedIcosahedron(scale, degree) {
+            var icosahedron = generateIcosahedron();
+        
+            var nodes = [];
+            for (var i = 0; i < icosahedron.nodes.length; ++i) {
+                nodes.push({ p: icosahedron.nodes[i].p, e: [], f: [] });
+            }
+        
+            var edges = [];
+            for (var i = 0; i < icosahedron.edges.length; ++i) {
+                var edge = icosahedron.edges[i];
+                edge.subdivided_n = [];
+                edge.subdivided_e = [];
+                var n0 = icosahedron.nodes[edge.n[0]];
+                var n1 = icosahedron.nodes[edge.n[1]];
+                var p0 = n0.p;
+                var p1 = n1.p;
+                var delta = p1.subtract(p0);
+                nodes[edge.n[0]].e.push(edges.length);
+                var priorNodeIndex = edge.n[0];
+                for (var s = 1; s < degree; ++s) {
+                    var edgeIndex = edges.length;
+                    var nodeIndex = nodes.length;
+                    edge.subdivided_e.push(edgeIndex);
+                    edge.subdivided_n.push(nodeIndex);
+                    edges.push({ n: [priorNodeIndex, nodeIndex], f: [] });
+                    priorNodeIndex = nodeIndex;
+                    nodes.push({ p: BABYLON.Vector3.Lerp(p0, p1, s / degree), e: [edgeIndex, edgeIndex + 1], f: [] });
+                }
+                edge.subdivided_e.push(edges.length);
+                nodes[edge.n[1]].e.push(edges.length);
+                edges.push({ n: [priorNodeIndex, edge.n[1]], f: [] });
+            }
+        
+            var faces = [];
+            for (var i = 0; i < icosahedron.faces.length; ++i) {
+                var face = icosahedron.faces[i];
+                var edge0 = icosahedron.edges[face.e[0]];
+                var edge1 = icosahedron.edges[face.e[1]];
+                var edge2 = icosahedron.edges[face.e[2]];
+                var point0 = icosahedron.nodes[face.n[0]].p;
+                var point1 = icosahedron.nodes[face.n[1]].p;
+                var point2 = icosahedron.nodes[face.n[2]].p;
+                var delta = point1.subtract(point0);
+        
+                var getEdgeNode0 = (face.n[0] === edge0.n[0])
+        			? function (k) { return edge0.subdivided_n[k]; }
+        			: function (k) { return edge0.subdivided_n[degree - 2 - k]; };
+                var getEdgeNode1 = (face.n[1] === edge1.n[0])
+        			? function (k) { return edge1.subdivided_n[k]; }
+        			: function (k) { return edge1.subdivided_n[degree - 2 - k]; };
+                var getEdgeNode2 = (face.n[0] === edge2.n[0])
+        			? function (k) { return edge2.subdivided_n[k]; }
+        			: function (k) { return edge2.subdivided_n[degree - 2 - k]; };
+        
+                var faceNodes = [];
+                faceNodes.push(face.n[0]);
+                for (var j = 0; j < edge0.subdivided_n.length; ++j)
+                    faceNodes.push(getEdgeNode0(j));
+                faceNodes.push(face.n[1]);
+                for (var s = 1; s < degree; ++s) {
+                    faceNodes.push(getEdgeNode2(s - 1));
+                    var p0 = nodes[getEdgeNode2(s - 1)].p;
+                    var p1 = nodes[getEdgeNode1(s - 1)].p;
+                    for (var t = 1; t < degree - s; ++t) {
+                        faceNodes.push(nodes.length);
+                        nodes.push({ p: BABYLON.Vector3.Lerp(p0, p1, t / (degree - s)), e: [], f: [], });
+                    }
+                    faceNodes.push(getEdgeNode1(s - 1));
+                }
+                faceNodes.push(face.n[2]);
+        
+                var getEdgeEdge0 = (face.n[0] === edge0.n[0])
+        			? function (k) { return edge0.subdivided_e[k]; }
+        			: function (k) { return edge0.subdivided_e[degree - 1 - k]; };
+                var getEdgeEdge1 = (face.n[1] === edge1.n[0])
+        			? function (k) { return edge1.subdivided_e[k]; }
+        			: function (k) { return edge1.subdivided_e[degree - 1 - k]; };
+                var getEdgeEdge2 = (face.n[0] === edge2.n[0])
+        			? function (k) { return edge2.subdivided_e[k]; }
+        			: function (k) { return edge2.subdivided_e[degree - 1 - k]; };
+        
+                var faceEdges0 = [];
+                for (var j = 0; j < degree; ++j)
+                    faceEdges0.push(getEdgeEdge0(j));
+                var nodeIndex = degree + 1;
+                for (var s = 1; s < degree; ++s) {
+                    for (var t = 0; t < degree - s; ++t) {
+                        faceEdges0.push(edges.length);
+                        var edge = { n: [faceNodes[nodeIndex], faceNodes[nodeIndex + 1], ], f: [], };
+                        nodes[edge.n[0]].e.push(edges.length);
+                        nodes[edge.n[1]].e.push(edges.length);
+                        edges.push(edge);
+                        ++nodeIndex;
+                    }
+                    ++nodeIndex;
+                }
+        
+                var faceEdges1 = [];
+                nodeIndex = 1;
+                for (var s = 0; s < degree; ++s) {
+                    for (var t = 1; t < degree - s; ++t) {
+                        faceEdges1.push(edges.length);
+                        var edge = { n: [faceNodes[nodeIndex], faceNodes[nodeIndex + degree - s], ], f: [], };
+                        nodes[edge.n[0]].e.push(edges.length);
+                        nodes[edge.n[1]].e.push(edges.length);
+                        edges.push(edge);
+                        ++nodeIndex;
+                    }
+                    faceEdges1.push(getEdgeEdge1(s));
+                    nodeIndex += 2;
+                }
+        
+                var faceEdges2 = [];
+                nodeIndex = 1;
+                for (var s = 0; s < degree; ++s) {
+                    faceEdges2.push(getEdgeEdge2(s));
+                    for (var t = 1; t < degree - s; ++t) {
+                        faceEdges2.push(edges.length);
+                        var edge = { n: [faceNodes[nodeIndex], faceNodes[nodeIndex + degree - s + 1], ], f: [], };
+                        nodes[edge.n[0]].e.push(edges.length);
+                        nodes[edge.n[1]].e.push(edges.length);
+                        edges.push(edge);
+                        ++nodeIndex;
+                    }
+                    nodeIndex += 2;
+                }
+        
+                nodeIndex = 0;
+                edgeIndex = 0;
+                for (var s = 0; s < degree; ++s) {
+                    for (t = 1; t < degree - s + 1; ++t) {
+                        var subFace = {
+                            n: [faceNodes[nodeIndex], faceNodes[nodeIndex + 1], faceNodes[nodeIndex + degree - s + 1], ],
+                            e: [faceEdges0[edgeIndex], faceEdges1[edgeIndex], faceEdges2[edgeIndex], ],
+                        };
+                        nodes[subFace.n[0]].f.push(faces.length);
+                        nodes[subFace.n[1]].f.push(faces.length);
+                        nodes[subFace.n[2]].f.push(faces.length);
+                        edges[subFace.e[0]].f.push(faces.length);
+                        edges[subFace.e[1]].f.push(faces.length);
+                        edges[subFace.e[2]].f.push(faces.length);
+                        faces.push(subFace);
+                        ++nodeIndex;
+                        ++edgeIndex;
+                    }
+                    ++nodeIndex;
+                }
+        
+                nodeIndex = 1;
+                edgeIndex = 0;
+                for (var s = 1; s < degree; ++s) {
+                    for (t = 1; t < degree - s + 1; ++t) {
+                        var subFace = {
+                            n: [faceNodes[nodeIndex], faceNodes[nodeIndex + degree - s + 2], faceNodes[nodeIndex + degree - s + 1], ],
+                            e: [faceEdges2[edgeIndex + 1], faceEdges0[edgeIndex + degree - s + 1], faceEdges1[edgeIndex], ],
+                        };
+                        nodes[subFace.n[0]].f.push(faces.length);
+                        nodes[subFace.n[1]].f.push(faces.length);
+                        nodes[subFace.n[2]].f.push(faces.length);
+                        edges[subFace.e[0]].f.push(faces.length);
+                        edges[subFace.e[1]].f.push(faces.length);
+                        edges[subFace.e[2]].f.push(faces.length);
+                        faces.push(subFace);
+                        ++nodeIndex;
+                        ++edgeIndex;
+                    }
+                    nodeIndex += 2;
+                    edgeIndex += 1;
+                }
+            }
+        
+            //Project all of our points onto the unit sphere
+            nodes.map(function (n) {
+                n.p.normalize().scaleInPlace(scale);
+            });
+        
+            faces.map(function (f) {
+                f.centroid = calculateFaceCentroid(nodes[f.n[0]].p, nodes[f.n[1]].p, nodes[f.n[2]].p)
+            });
+        
+            return { nodes: nodes, edges: edges, faces: faces };
+        }
+        
+        function calculateFaceCentroid(pa, pb, pc) {
+            var vabHalf = pb.subtract(pa).scale(1.0 / 2.0);
+            var pabHalf = pa.add(vabHalf);
+            var centroid = pc.subtract(pabHalf).scale(1.0 / 3.0).add(pabHalf);
+            return centroid;
+        }
+        
+        function getEdgeOppositeFaceIndex(edge, faceIndex) {
+            if (edge.f[0] === faceIndex) return edge.f[1];
+            if (edge.f[1] === faceIndex) return edge.f[0];
+            throw "Given face is not part of given edge.";
+        }
+        
+        function findNextFaceIndex(mesh, nodeIndex, faceIndex) {
+            var node = mesh.nodes[nodeIndex];
+            var face = mesh.faces[faceIndex];
+            var nodeFaceIndex = face.n.indexOf(nodeIndex);
+            var edge = mesh.edges[face.e[(nodeFaceIndex + 2) % 3]];
+            return getEdgeOppositeFaceIndex(edge, faceIndex);
+        }
+        
+        var createScene = function () {
+        
+                var scene = new BABYLON.Scene(engine);
+                scene.clearColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+        
+                // Camera
+                var camera = new BABYLON.ArcRotateCamera("camera1", 0, 0, 0, new BABYLON.Vector3(0, 0, -0), scene);
+                camera.setPosition(new BABYLON.Vector3(0, 0, 180));
+                camera.attachControl(canvas, true);
+        
+                // Sun & Moon
+                var sun = new BABYLON.HemisphericLight("sun", new BABYLON.Vector3(0, 0, 1), scene);
+                sun.intensity = 0.6;
+                var moon = new BABYLON.HemisphericLight("moon", new BABYLON.Vector3(0, 0, -1), scene);
+                moon.intensity = 0.2;
+        
+                var start = new Date();
+                var polygon = createPlanetMesh(20, 3, scene); //This line renders the Icosahedron planet   40 => size (more planecount, better bigger size), 5=> planecount (more, is more to do), scene
+        
+                console.log("Computation done in: " + (new Date() - start) + " ms");
+        
+                camera.attachControl(canvas);
+        
+        		//  Particle parameters
+        		var gravity = -0.05;                // gravity
+        		var radius = 4;                     // explosion radius
+        		var speed = 6;           			// particle max speed
+        		var digested = false;
+        		// SPS : the particles !
+        		var sps = new BABYLON.SolidParticleSystem("sps", scene, { isPickable: true });
+        
+        		sps.digest(polygon, { facetNb: 4 });
+        		digested = true;
+        		polygon.dispose();
+        		var s = sps.buildMesh();
+        		//s.material = mat;
+        		for (var i = 0; i < sps.nbParticles; i++) {
+        			sps.particles[i].color.r = 0;
+        			sps.particles[i].color.g = Math.random() * .5;
+        			sps.particles[i].color.b = Math.random();
+        		}
+        		sps.setParticles();
+        		sps.refreshVisibleSize();
+        		sps.computeParticleColor = false;
+        		sps.computeParticleTexture = false;
+        
+        
+        		// SPS tmp internal vars to avoid memory re-allocations
+        		sps.vars.target = BABYLON.Vector3.Zero();                                               // the target point where to set the explosion center
+        		sps.vars.tmp = BABYLON.Vector3.Zero();                                                  // tmp vector3
+        		sps.vars.justClicked = false;                                                           // flag to compute or not the initial velocities
+        		sps.vars.radius = radius;
+        		sps.vars.minY = -100;
+        
+        		// ground
+        		var gmat = new BABYLON.StandardMaterial("gm", scene);
+        		var ground = BABYLON.MeshBuilder.CreateGround('g', { width: 1500, height: 1500 }, scene);
+        		ground.isPickable = false;
+        		ground.position.y = sps.vars.minY;
+        		ground.material = gmat;
+        		gmat.diffuseColor = new BABYLON.Color3(0.4, 0.4, 0.5);
+        		gmat.freeze();
+        
+        		// SPS behavior : this function is called by setParticles() for each particle
+        		sps.updateParticle = function (p) {
+        			// just after the click, set once the initial velocity
+        			if (sps.vars.justClicked) {
+        				// let's give them an initial velocity according to their distance from the explosion center
+        				p.position.subtractToRef(sps.vars.target, sps.vars.tmp);
+        				var len = sps.vars.tmp.length();
+        				var scl = (len < 0.001) ? 1.0 : sps.vars.radius / len;
+        				sps.vars.tmp.normalize();
+        				p.velocity.x += sps.vars.tmp.x * scl * speed * (1 + Math.random() * .3);
+        				p.velocity.y += sps.vars.tmp.y * scl * speed * (1 + Math.random() * .3);
+        				p.velocity.z += sps.vars.tmp.z * scl * speed * (1 + Math.random() * .3);
+        				p.rand = Math.random() / 100;
+        				if (p.idx == sps.nbParticles - 1) {
+        					sps.vars.justClicked = false;  // last particle initialized
+        				}
+        			}
+        
+        			// move the particle
+        			if (boom && !sps.vars.justClicked) {
+        
+        				if (p.position.y < sps.vars.minY) {
+        					p.position.y = sps.vars.minY;
+        					p.velocity.y = 0;
+        					p.velocity.x = 0;
+        					p.velocity.z = 0;
+        				} else {
+        					p.velocity.y += gravity;
+        					p.position.x += p.velocity.x;
+        					p.position.y += p.velocity.y;
+        					p.position.z += p.velocity.z;
+        
+        					// rotate
+        					p.rotation.x += (p.velocity.z) * p.rand;
+        					p.rotation.y += (p.velocity.x) * p.rand;
+        					p.rotation.z += (p.velocity.y) * p.rand;
+        				}
+        			}
+        		};
+        
+        
+        
+        		// Boom trigger
+        		var boom = false;
+        		scene.onPointerDown = function (evt, pickResult) {
+        			if (digested) {
+        				var faceId = pickResult.faceId;
+        				if (faceId == -1  ) { return; }
+
+						if(  pickResult.pickedMesh.material !== null){
+				 pickResult.pickedMesh.material.dispose();
+  
+  
+  					var sphere =new BABYLON.MeshBuilder.CreateSphere("sphere_"+ (Math.random() * 10000).toString(), {diameter: 4 }, scene);    
+ 					 sphere.position  =  new BABYLON.Vector3(pickResult.pickedMesh.position.x,pickResult.pickedMesh.position.y,pickResult.pickedMesh.position.z); 
+						        		var spheremat = new BABYLON.StandardMaterial("spheremat_"+ (Math.random() * 10000).toString(), scene);
+        		 		if(Who==1){spheremat.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.0);} else if(Who==0){	spheremat.emissiveColor = new BABYLON.Color3(0.0, 0.4, 0.5); }
+				 sphere.material=spheremat
+				 sphere.isPickable=true;  
+ 
+ 			  	 pickResult.pickedMesh.dispose();
+				 
+				 if(Who ==0){Who =1}else if(Who ==1) {Who=0}
+						}
+ 												return;
+
+        				var idx = sps.pickedParticles[faceId].idx;
+        				var p = sps.particles[idx];
+        				boom = true;
+						
+						
+						
+        				// set the target (explosion center) at the distance "radius" from the picked particle on the camera-particle axis
+        				camera.position.subtractToRef(p.position, sps.vars.target);
+        				sps.vars.target.normalize();
+        				sps.vars.target.scaleInPlace(radius);
+        				sps.vars.target.addInPlace(p.position);
+        				sps.vars.justClicked = true;
+        			}
+        		}
+        
+            // Animation
+            //scene.debugLayer.show();
+        	
+        	    scene.registerBeforeRender(function() {
+                if (digested) {
+                    sps.setParticles();
+                }
+            });
+        		return scene;
+        };
+                var engine;
+                var scene;
+                initFunction = async function() {               
+                    var asyncEngineCreation = async function() {
+                        try {
+                        return createDefaultEngine();
+                        } catch(e) {
+                        console.log("the available createEngine function failed. Creating the default engine instead");
+                        return createDefaultEngine();
+                        }
+                    }
+
+                    engine = await asyncEngineCreation();
+        if (!engine) throw 'engine should not be null.';
+        scene = createScene();};
+        initFunction().then(() => {sceneToRender = scene        
+            engine.runRenderLoop(function () {
+                if (sceneToRender && sceneToRender.activeCamera) {
+                    sceneToRender.render();
+                }
+            });
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
