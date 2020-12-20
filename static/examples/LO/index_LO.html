@@ -290,8 +290,7 @@ a:active {
 					var textPathShape="BRDLFU";// instead of path counts set U= y plus,  D= y min, L =x min, R= x plus, F = z plus, B = z min  IMPORTANT: WATCH FOR OVERLAPPING, ex. B, F B will hide the previous B value.
 var aiCount = 2;
 			var isAiGreenLight=true;
-			var aiActionTries=0;
-
+ 
 
  var isEndgame=false;	
  var isPlayerForfeit= false;
@@ -782,8 +781,12 @@ checkCapturesOneInBetween(obj);
 			if (!isEndgame && ((aiCount==1 && Who==1) || aiCount ==2))
 			{
 					$('#guide').html("AI Player "+(Who+1).toString()+" is thinking...");	} else{	$('#guide').html("");}
-}     
-
+}     else{
+if ((aiCount==1 && Who==0) || aiCount ==0)
+			{
+			$('#divSelectedItem').html("Placing a sphere here is not allowed.");	  $("#info").append( $('#divSelectedItem').html()+"<br>");	
+}
+}
   
 }
 			}
@@ -906,6 +909,7 @@ var holdActive = false;
 		 $(document).on('click', "#btnLaunchSinglePlayer",function (event) {  
    document.getElementById("modalStart").style.display = "none";
 	 $('#divSettingC').Blink(100, 5);
+$("#info").html("");
 
         Reset(path);
      
