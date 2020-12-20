@@ -44,6 +44,9 @@ var isTurnBased= false;
 var isWithFogOfWar= false;
 var isWithWeatherEffect= false;
 
+		 var confirmMove  ;
+var confirmTaken ;
+
 /******/
 (function(modules) { // webpackBootstrap
     /******/ // The module cache
@@ -160,6 +163,9 @@ var isWithWeatherEffect= false;
 				this.isPawnP1Defeated=false;
 				this.isPawnP2Defeated=false;
 				var isEndgameNotificationGiven=false;
+
+   confirmMove =  new BABYLON.Sound("confirmMove", "static/sounds/confirm.wav", this.scene, null, { loop: false, autoplay: false,   spatialSound: false  });
+  confirmTaken = new BABYLON.Sound("confirmTaken", "static/sounds/piece_taken.wav", this.scene, null, { loop: false, autoplay: false,   spatialSound: false  });
 
 			this.winningWho=1;
 				 self.defaultSinglePlayerGame(false,isWithMines);
@@ -660,11 +666,15 @@ var isWithWeatherEffect= false;
 				var dblClickTimeout;
 				var isShiftSel=true;
                 this.scene.onPointerDown = function(evt, pickResult) {  
+				
 										dblClickCounter+=1;
 										var dblClickTimeout=setTimeout(function(){ dblClickCounter=0; }, 200); 
 					 if (evt.button === 2 || dblClickCounter >= 2) {//https://www.html5gamedevs.com/topic/33340-gui-left-right-click-possible/
                     dblClickCounter=0;
 					clearTimeout(dblClickTimeout);
+					
+									confirmMove.play();
+
 						//cam follow
 						var selCount=0;
 					  _this.cores.filter(function(el) {
@@ -1609,7 +1619,9 @@ if(isWithRainFall){
             Core.prototype.explode = function() {
 				this.deselect();
                 this.mesh.dispose();
-				 this.planeSprite.dispose();
+				 this.planeSprite.dispose(); 									
+				 confirmTaken.play();
+
 
             };
             return Core;
