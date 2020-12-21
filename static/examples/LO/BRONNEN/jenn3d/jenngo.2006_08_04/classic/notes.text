@@ -1,0 +1,8 @@
+good boards:
+
+5 2 2 3 2 3 # free (3,3,5)-polytope
+3 2 2 4 2 3 # free (3,4,3)-polytope
+4 2 2 3 2 3 # free (3,3,4)-polytope
+3 2 2 2 5 2 # free (3,5)-polyhedron
+18 2 2 2 2 18 # (18,18)-torus
+

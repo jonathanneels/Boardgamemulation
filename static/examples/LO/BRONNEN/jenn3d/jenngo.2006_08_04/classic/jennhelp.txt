@@ -1,0 +1,46 @@
+Jenn: a collection of symmetric go boards in projective 3-space
+
+Files:
+jenn.exe
+glut32.dll (needs to be in same directory)
+
+System requirements:
+a pretty good 3d graphics card
+
+Mouse buttons:
+left on empty vertex plays black stone
+right on empty vertex plays white stone
+either button on played vertex removes stone
+
+left-dragging off of vertex rotates projection
+right-dragging off of vertex translates projection
+
+Colors:
+Solid black or white line connects within a group (black-black or white-white edge)
+Blue line denotes a liberty (black-empty or white-empty edge)
+Red line denotes an attack (blck-white edge)
+
+Command line: (my counting may be wrong)
+for the hardy, the first 6 arguments are the off-diagnol elements of the
+cartan matrix generating the reflection group of  the graph.  further arguments
+mod the group out by some subset of the generators as forming a vertex-
+invariant subgroup.
+
+>jenn
+  (defaults as >jenn 2 2 3 5 2 3 0 2 3)
+  a 300-pt go board
+>jenn 3 3 3 2 2 2
+  a 96-pt go board
+>jenn 3 3 3 2 2 2 1
+  a 48-pt go board
+>jenn 3 3 3 2 2 2 0
+  a 44-pt go board
+>jenn (2n) 2 2 2 2 (2n) 1 2
+  where (2n) is any even number: a 2*n^2 klein-patch go board
+>jenn 5 3 2 2 2 2
+  a 120-pt go board
+>jenn 2 2 3 5 2 3 0 3
+  a 1200-pt beauty, my favorite
+
+fritz obermeyer
+frits_nuts@yahoo.com
