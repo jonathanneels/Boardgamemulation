@@ -133,11 +133,29 @@ a:active {
   background-color: transparent;
   text-decoration: underline;
 }
+
+
+ .noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+ 
+}
+
+#glcanvas { /*REF:https://forum.babylonjs.com/t/remove-border-of-rendering-canvas/16074*/
+  outline: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+}
+
  </style>
 
 </head>
 
-<body id="body">
+<body id="body" class="noselect">
     <div class="settings">
         <div class="setting" id="divSettingA"  ><p> RESTART</p>
         </div>

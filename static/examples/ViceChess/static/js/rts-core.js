@@ -2554,8 +2554,8 @@ span.onclick = function() {
   document.getElementById("modalHelp").style.display = "none";
 }
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target === document.getElementById("glcanvas")) {
+window.onclick = function(event) {   
+  if (event.target === document.getElementById("glcanvas") ||  event.target === document.getElementById("divGoldCount") || event.target === document.getElementById("guide") || event.target === document.getElementById("info") || event.target === document.getElementById("guide") || event.target === document.getElementById("divSelectedItem")) {
     document.getElementById("modalHelp").style.display = "none";
   }
 }
