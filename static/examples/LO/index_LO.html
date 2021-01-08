@@ -7,13 +7,11 @@
         <title>LO - game</title>
 
         <!-- Babylon.js -->
-        <script src="https://preview.babylonjs.com/babylon.js"></script>
-        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
-        <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+        <script src="./lib/babylon.js"></script>
+        <script src="./lib/babylon.gui.min.js"></script>
+        <script src="./lib/babylon.inspector.bundle.js"></script>
 <script
-  src="https://code.jquery.com/jquery-3.5.1.js"
-  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-  crossorigin="anonymous"></script>
+  src="./lib/jquery-3.5.1.js"></script>
 
         <style>
     html, body {
@@ -842,7 +840,9 @@ var holdActive = false;
 }
 	 
 	 
- }
+ } else  if(pickResult.pickedMesh != null && pickResult.pickedMesh.id.indexOf("sphere_") >-1  ){//click on orb, even if occupied
+
+	                 camera.setTarget(pickResult.pickedMesh.position);}
 		 
 		}
 		
