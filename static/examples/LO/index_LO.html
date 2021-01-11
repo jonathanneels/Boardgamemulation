@@ -364,8 +364,25 @@ $.fn.Blink = function (interval = 100, iterate = 1) {//https://stackoverflow.com
 			if ((aiCount==1 && Who==1) || aiCount ==2)
 			{isAiGreenLight=false;
  
-				 	 				var allCaptures= scene.meshes.filter(function( g) {
-				return g.id.indexOf("sphere_")  >-1 &&   typeof g["MarkedId"] === "undefined"; 
+ 	
+			
+  	var allSpheres= scene.meshes.filter(function( g) {
+				return g.id.indexOf("sphere_")  >-1  ; 
+			});
+			var secondSphere= allSpheres.filter(function( g) { // strong start try A (guaranteed 2 fields)
+				return g.id.indexOf("sphere_")  >-1  ; 
+			})[1];
+			
+			if(isAllowedToDrop(secondSphere) &&   typeof secondSphere["MarkedId"] === "undefined"  ){executeAction(secondSphere); isAiGreenLight=true;return;} 
+			
+			var beforeLastSphere= allSpheres.filter(function( g) { // strong start try B (guaranteed 2 fields)
+				return g.id.indexOf("sphere_")  >-1  ; 
+			})[allSpheres.length-2];
+						if(isAllowedToDrop(beforeLastSphere) &&   typeof beforeLastSphere["MarkedId"] === "undefined"  ){executeAction(beforeLastSphere); isAiGreenLight=true;return;} 
+
+
+				 	 				var allCaptures= allSpheres.filter(function( g) {
+				return    typeof g["MarkedId"] === "undefined"; 
 			})
 			
 			if(allCaptures.length >0){
