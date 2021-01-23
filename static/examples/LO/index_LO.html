@@ -174,6 +174,7 @@ a:active {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
 }
+#lblMouseScrollSpeed{margin-top:7px;position : absolute;}
 
         </style>
     </head>
@@ -227,6 +228,12 @@ a:active {
 <hr></span>
 	<u> Singleplayer & pass-and-play </u><br><br>
  <div class="InlineButtons" id="btnLaunchSinglePlayer" onclick="" onclick=""  ><p> LAUNCH</p> </div>
+   	  <label class="container" id="lblMouseScrollSpeed">
+  <input type="checkbox" id="chMouseScrollSpeed"  onclick="  ">
+<abbr title="On some devices the middle mouse button zooms too fast. This is a solution to it."> Low zoom speed? </abbr>
+  <span class="checkmark"></span>
+</label>
+
 	<br><br><hr>
 	<u> Settings</u><br>	
 	<input id="radVSAI" type="radio" name="radVersus" onclick="$('#spanAIAdd').show();" checked /><label for="radVSAI" >VS AI</label><br>
@@ -353,6 +360,10 @@ $.fn.Blink = function (interval = 100, iterate = 1) {//https://stackoverflow.com
             var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2, .8, 50, BABYLON.Vector3.Zero(), scene);
             camera.attachControl(canvas, true);
         
+				        if (camera.inputs.attached['mousewheel'] && $("#chMouseScrollSpeed").prop("checked"))
+	{
+ 		 camera.inputs.attached.mousewheel.wheelPrecision = 100; // default: 3
+ 	}
         	var light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
         	light.groundColor = new BABYLON.Color3(.5, .5, .5);
         
@@ -533,6 +544,13 @@ if(!isClassicStyle){nMat.alpha = 0.2;}else{nMat.alpha = 0.5;}
 }
 		var Reset=function (path)
 		{
+		
+				        if (camera.inputs.attached['mousewheel'] && $("#chMouseScrollSpeed").prop("checked"))
+	{
+ 		 camera.inputs.attached.mousewheel.wheelPrecision = 100; // default: 3
+ 	}
+	else{camera.inputs.attached.mousewheel.wheelPrecision = 3; }
+	
 				  actTimer = -100000;
 	//	  sphereColorTimer=-100000;
 
@@ -599,6 +617,9 @@ placedIds=[];
 { $("head").append('<style>abbr[title]:hover::after,abbr[title]:focus::after {  content: attr(title);   position: absolute;  left: 65px;'+
   'bottom: -20px;  width: auto;  white-space: nowrap;    background-color: #1e1e1e;  color: #fff;  border-radius: 3px;'+  
   'box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);  z-index:1; font-size: 12px;  padding: 3px 5px;  border:1px  solid white;}        </style>'); 
+ 
+ $("#lblMouseScrollSpeed").hide();
+
 }
  
  if(typeof $("#lblAdminCode").html() != "undefined") // let page load and then.

@@ -1,0 +1,5 @@
+Ways to design the board in real life; 
+
+1. A carton circle with (ex.) 2x 12 holes (inner circle and outer circle), 2x 12 marbles (black & white), 20 carton strokes (as line connections). 
+2. 2 carton circles; 1x 12 holes as outer circle, and a second one as the inner circle. The Inner circle contains a certain twistable pattern. 2x 12 marbles (black & white)
+3. multiple circles stacked on each other (each has 12 holes), and the line thread is a single line (rope) that connects the used holes. 2x 12 marbles (black & white).
