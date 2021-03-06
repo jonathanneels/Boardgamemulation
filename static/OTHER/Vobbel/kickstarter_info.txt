@@ -18,6 +18,7 @@ Vobbelschaak (schaak met rechtgeplaatste Vobbels).
 HoloVice (een interpratie van een welgekend intergalactisch arena spel).
 Vice Queeste (Abstract kerkerspel met RPG-elementen)
 Mimir (Een meesterlijk denkspel)
+Squark (Een strategisch pokerspel)
 
 waarom deze kickstarter?
 Het concept Vobbel promoten (en toekomstige offline en online spelen). Het is de volgende stap voor sociaal gamen!
@@ -27,7 +28,7 @@ Het concept Vobbel promoten (en toekomstige offline en online spelen). Het is de
 * Enkele Vobbel voor alle doeleinden.
 * 6 pak Vobbel (1 kleur) voor spelen als V en Shamans
 * 8 pak Vobbel (2 kleuren and 2 zeros) voor teamspel V,HoloVice, tic-tac-toe...
-* 24 pak Vobbel (2 kleuren 2x11, 2x zeros) voor spelen als Gabbac, (vobbel)schaak, Vice Queeste ...
+* 24 pak Vobbel (2 kleuren 2x11, 2x zeros) voor spelen als Gabbac, (vobbel)schaak, Vice Queeste, Squark ...
 
 2 print types:
 * Gelamineerd karton (dun 'als een [ruilspel]kaart')
@@ -73,6 +74,7 @@ Vicechess (chess with straight place Vice).
 HoloVice (an interpretation on a well-known intergalactic arena game).
 ViceQuest (Abstract dungeon game with RPG-elements).
 Mimir (A thinking game like no other).
+Squark (strategic pokergame).
 
 Why this kickstarter?
 Promoting the concept of the Vice (and future offline and online games). It's the next step of social gaming!
@@ -80,7 +82,7 @@ Promoting the concept of the Vice (and future offline and online games). It's th
 * Single Vice for all purposes
 * 6 pack Vice (1 color) for playing games like V and Shamans
 * 8 pack Vice (2 colors and 2 zeros) for playing team game V, HoloVice,tic-tac-toe, ...
-* 24 pack Vice (2 colors 2x11, 2x zeros) for playing Gabbac, (Vice)chess, ViceQuest, ...
+* 24 pack Vice (2 colors 2x11, 2x zeros) for playing Gabbac, (Vice)chess, ViceQuest, Squark...
 
 2 print styles:
 * Laminated cardboard (thin 'like a [trading]card')
